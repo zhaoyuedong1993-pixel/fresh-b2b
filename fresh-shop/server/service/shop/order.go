@@ -607,3 +607,13 @@ sum(case settlement_type when 2 then total else 0 end) as settlement_paid
 
 	return resp, err
 }
+
+// ConfirmOrder 确认订单
+func (orderService *OrderService) ConfirmOrder(orderId uint) error {
+	return global.DB.Table("shop_order").Where("id = ?", orderId).Update("order_status", 1).Error
+}
+
+// UpdateOrderStatus 更新订单状态
+func (orderService *OrderService) UpdateOrderStatus(orderId uint, status int) error {
+	return global.DB.Table("shop_order").Where("id = ?", orderId).Update("order_status", status).Error
+}

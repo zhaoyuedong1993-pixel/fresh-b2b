@@ -22,6 +22,8 @@ func (s *OrderRouter) InitOrderRouter(Router *gin.RouterGroup) {
 		orderRouter.DELETE("deleteOrderByIds", orderApi.DeleteOrderByIds) // 批量删除 Order
 		orderRouter.PUT("updateOrder", orderApi.UpdateOrder)              // 更新 Order
 		orderRouter.POST("batchSettlement", orderApi.BatchSettlement)     // 更新 Order
+		orderRouter.POST("confirmOrder", orderApi.ConfirmOrder)           // 确认订单
+		orderRouter.PUT("updateOrderStatus", orderApi.UpdateOrderStatus) // 更新订单状态
 	}
 	{
 		orderRouterWithoutRecord.GET("findOrder", orderApi.FindOrder)                             // 根据ID获取Order

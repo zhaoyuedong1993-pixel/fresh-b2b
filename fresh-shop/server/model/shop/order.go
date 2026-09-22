@@ -41,6 +41,11 @@ type Order struct {
 	User            system.SysUser `json:"user"`                                      // 订单售后
 	OrderDelivery   OrderDelivery  `json:"delivery" gorm:"foreignKey:order_id"`       // 订单发货信息
 	PointGoodsId    int            `json:"pointGoodsId" form:"pointGoodsId" gorm:"-"` // 积分商品id 下单用
+
+	// 多租户扩展字段
+	OrderStatus  *int    `json:"orderStatus" gorm:"column:order_status;default:0;comment:订单状态: 0待确认 1已确认 2已完成 3已取消;"` // 新增
+	CompanyID    uint    `json:"companyId" gorm:"column:company_id;index;comment:公司ID;"`                                              // 新增
+	DeliveryDate string  `json:"deliveryDate" gorm:"column:delivery_date;comment:配送日期;"`                                            // 新增
 }
 
 // TableName Order 表名

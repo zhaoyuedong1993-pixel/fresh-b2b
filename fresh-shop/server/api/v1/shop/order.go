@@ -363,3 +363,50 @@ func (orderApi *OrderApi) GetUserOrderList(c *gin.Context) {
 		}, "获取成功", c)
 	}
 }
+
+// ConfirmOrder 确认订单(管理员)
+// @Tags Order
+// @Summary 确认订单
+// @Security ApiKeyAuth
+// @accept application/json
+// @Produce application/json
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"订单已确认"}"
+// @Router /order/confirmOrder [post]
+func (orderApi *OrderApi) ConfirmOrder(c *gin.Context) {
+	var req struct {
+		ID uint `json:"id" binding:"required"`
+	}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+	if err := orderService.ConfirmOrder(req.ID); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+	response.OkWithMessage("订单已确认", c)
+}
+
+// UpdateOrderStatus 更新订单状态
+// @Tags Order
+// @Summary 更新订单状态
+// @Security ApiKeyAuth
+// @accept application/json
+// @Produce application/json
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"状态更新成功"}"
+// @Router /order/updateOrderStatus [put]
+func (orderApi *OrderApi) UpdateOrderStatus(c *gin.Context) {
+	var req struct {
+		ID     uint `json:"id" binding:"required"`
+		Status int  `json:"status" binding:"required"` // 0待确认 1已确认 2已完成 3已取消
+	}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+	if err := orderService.UpdateOrderStatus(req.ID, req.Status); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+	response.OkWithMessage("状态更新成功", c)
+}
