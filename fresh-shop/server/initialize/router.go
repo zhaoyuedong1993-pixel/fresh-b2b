@@ -51,7 +51,7 @@ func Routers() *gin.Engine {
 		systemRouter.InitInitRouter(PublicGroup) // 自动初始化相关
 	}
 	PrivateGroup := Router.Group(global.Config.System.RouterPrefix)
-	PrivateGroup.Use(middleware.JWTAuth()).Use(middleware.CasbinHandler())
+	PrivateGroup.Use(middleware.JWTAuth()).Use(middleware.CasbinHandler()).Use(middleware.TenantInject())
 	{
 		systemRouter.InitApiRouter(PrivateGroup)                    // 注册功能api路由
 		systemRouter.InitJwtRouter(PrivateGroup)                    // jwt相关路由
@@ -83,6 +83,7 @@ func Routers() *gin.Engine {
 		businessRouter := router.RouterGroupApp.Business
 		businessRouter.InitBannerRouter(PrivateGroup)
 		businessRouter.InitUserDeliveryRouter(PrivateGroup)
+		businessRouter.InitBusinessRouter(PrivateGroup) // 业务路由(定价、账单)
 
 		// 不进行路由鉴权的路由
 		{

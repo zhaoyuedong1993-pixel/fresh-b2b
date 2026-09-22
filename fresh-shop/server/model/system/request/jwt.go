@@ -20,4 +20,6 @@ type BaseClaims struct {
 	AuthorityId uint
 	OpenId      string
 	AuditStatus int8
+	CompanyID   uint `json:"company_id"` // 公司ID
+	UserType    uint `json:"user_type"` // 用户类型: 1超管 2公司管理员 3商户
 }
