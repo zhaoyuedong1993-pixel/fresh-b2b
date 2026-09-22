@@ -170,6 +170,7 @@ export default {
             ],
             severList: [
                 [
+                    { name: '我的账单', icon: 'point_shop.png', handle: this.toBill, isLogin: true},
                     { name: '会员信息', icon: 'point_shop.png', handle: this.toMemberInformation, isLogin: true},
                     { name: '积分兑换', icon: 'point_shop.png', handle: this.toPointGoods, isLogin: true},
                     // { name: '积分明细', icon: 'finance.png', handle: this.showPhone },
@@ -283,6 +284,11 @@ export default {
                 },
                 fail: (error) => {
                 }
+            })
+        },
+        toBill() {
+            uni.navigateTo({
+                url: '/pages/bill/list'
             })
         },
         // 点击退出登录
