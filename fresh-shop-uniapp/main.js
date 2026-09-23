@@ -1,5 +1,4 @@
 import App from './App'
-import store from './store'
 
 // #ifndef VUE3
 import Vue from 'vue'
@@ -45,16 +44,13 @@ try {
 
 Vue.use(uView);
 Vue.use(pageWrapper)
-Vue.use(store)
 
 Vue.prototype.$message = toast.message
 
 const app = new Vue({
-	...App,
-	store
+	...App
 })
 app.$mount()
-
 // #endif
 
 // #ifdef VUE3

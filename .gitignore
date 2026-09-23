@@ -1,5 +1,7 @@
 /fresh-shop/server/config.dev.yaml
 /fresh-shop/server/config.yaml.local
+/fresh-shop/server/*.log
+/fresh-shop/server/main
 /fresh-shop-uniapp/.idea/
 /fresh-shop-uniapp/unpackage/
 /.idea/

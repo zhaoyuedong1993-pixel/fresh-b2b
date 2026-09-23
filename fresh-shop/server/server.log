@@ -516,3 +516,864 @@
 	默认前端文件运行地址:http://127.0.0.1:8080
 2026/09/23 21:44:52 12990 :48888
 [GIN] 2026/09/23 - 21:44:53 | 200 |      85.417µs |             ::1 | GET      "/health"
+
+2026/09/23 22:17:52 [32m/Users/zhaoyuedong/go/pkg/mod/gorm.io/driver/mysql@v1.3.3/migrator.go:228
+[0m[33m[18.989ms] [34;1m[rows:-][0m SELECT DATABASE()
+
+2026/09/23 22:17:52 [32m/Users/zhaoyuedong/go/pkg/mod/gorm.io/driver/mysql@v1.3.3/migrator.go:231
+[0m[33m[16.526ms] [34;1m[rows:1][0m SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'fresh_shop%' ORDER BY SCHEMA_NAME='fresh_shop' DESC limit 1
+
+2026/09/23 22:17:52 [32m/Users/zhaoyuedong/go/pkg/mod/github.com/casbin/gorm-adapter/v3@v3.7.3/adapter.go:381
+[0m[33m[3.105ms] [34;1m[rows:-][0m SELECT count(*) FROM information_schema.tables WHERE table_schema = 'fresh_shop' AND table_name = 'casbin_rule' AND table_type = 'BASE TABLE'
+
+2026/09/23 22:17:52 [32m/Users/zhaoyuedong/go/pkg/mod/gorm.io/driver/mysql@v1.3.3/migrator.go:228
+[0m[33m[0.129ms] [34;1m[rows:-][0m SELECT DATABASE()
+
+2026/09/23 22:17:52 [32m/Users/zhaoyuedong/go/pkg/mod/gorm.io/driver/mysql@v1.3.3/migrator.go:231
+[0m[33m[0.714ms] [34;1m[rows:1][0m SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'fresh_shop%' ORDER BY SCHEMA_NAME='fresh_shop' DESC limit 1
+
+2026/09/23 22:17:52 [32m/Users/zhaoyuedong/go/pkg/mod/gorm.io/driver/mysql@v1.3.3/migrator.go:148
+[0m[33m[0.608ms] [34;1m[rows:-][0m SELECT * FROM `casbin_rule` LIMIT 1
+
+2026/09/23 22:17:52 [32m/Users/zhaoyuedong/go/pkg/mod/gorm.io/driver/mysql@v1.3.3/migrator.go:166
+[0m[33m[1.834ms] [34;1m[rows:-][0m SELECT column_name, column_default, is_nullable = 'YES', data_type, character_maximum_length, column_type, column_key, extra, column_comment, numeric_precision, numeric_scale , datetime_precision FROM information_schema.columns WHERE table_schema = 'fresh_shop' AND table_name = 'casbin_rule' ORDER BY ORDINAL_POSITION
+
+2026/09/23 22:17:52 [32m/Users/zhaoyuedong/go/pkg/mod/gorm.io/driver/mysql@v1.3.3/migrator.go:228
+[0m[33m[0.079ms] [34;1m[rows:-][0m SELECT DATABASE()
+
+2026/09/23 22:17:52 [32m/Users/zhaoyuedong/go/pkg/mod/gorm.io/driver/mysql@v1.3.3/migrator.go:231
+[0m[33m[0.324ms] [34;1m[rows:1][0m SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'fresh_shop%' ORDER BY SCHEMA_NAME='fresh_shop' DESC limit 1
+
+2026/09/23 22:17:52 [32m/Users/zhaoyuedong/go/pkg/mod/github.com/casbin/gorm-adapter/v3@v3.7.3/adapter.go:387
+[0m[33m[0.934ms] [34;1m[rows:-][0m SELECT count(*) FROM information_schema.statistics WHERE table_schema = 'fresh_shop' AND table_name = 'casbin_rule' AND index_name = 'idx_casbin_rule'
+
+2026/09/23 22:17:52 [32m/Users/zhaoyuedong/go/pkg/mod/github.com/casbin/gorm-adapter/v3@v3.7.3/adapter.go:432
+[0m[33m[1.658ms] [34;1m[rows:747][0m SELECT * FROM `casbin_rule` ORDER BY ID
+
+2026/09/23 22:17:52 [32m/Users/zhaoyuedong/go/pkg/mod/github.com/casbin/gorm-adapter/v3@v3.7.3/adapter.go:432
+[0m[33m[1.356ms] [34;1m[rows:747][0m SELECT * FROM `casbin_rule` ORDER BY ID
+
+2026/09/23 22:17:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:30
+[0m[33m[0.474ms] [34;1m[rows:25][0m SELECT * FROM `sys_authority_menus` WHERE sys_authority_authority_id = 999
+
+2026/09/23 22:17:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:41
+[0m[33m[0.641ms] [34;1m[rows:2][0m SELECT * FROM `sys_base_menu_parameters` WHERE `sys_base_menu_parameters`.`sys_base_menu_id` IN (37,42,1,52,53,36,44,7,11,38,39,45,46,47,24) AND `sys_base_menu_parameters`.`deleted_at` IS NULL
+
+2026/09/23 22:17:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:41
+[0m[33m[2.308ms] [34;1m[rows:15][0m SELECT * FROM `sys_base_menus` WHERE id in ('1','7','11','12','13','24','30','32','33','35','36','37','38','39','40','42','43','44','45','46','47','50','51','52','53') AND `sys_base_menus`.`deleted_at` IS NULL ORDER BY sort
+
+2026/09/23 22:17:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:55
+[0m[33m[0.347ms] [34;1m[rows:0][0m SELECT * FROM `sys_authority_btns` WHERE authority_id = 999
+[GIN] 2026/09/23 - 22:17:52 | 200 |   51.859709ms |       127.0.0.1 | POST     "/menu/getMenu"
+
+2026/09/23 22:17:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:379
+[0m[33m[0.484ms] [34;1m[rows:2][0m SELECT * FROM `sys_user_authority` WHERE `sys_user_authority`.`sys_user_id` = 1
+
+2026/09/23 22:17:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:379
+[0m[33m[0.313ms] [34;1m[rows:2][0m SELECT * FROM `sys_authorities` WHERE `sys_authorities`.`authority_id` IN (888,999)
+
+2026/09/23 22:17:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:379
+[0m[33m[0.153ms] [34;1m[rows:1][0m SELECT * FROM `sys_authorities` WHERE `sys_authorities`.`authority_id` = 999
+
+2026/09/23 22:17:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:379
+[0m[33m[1.558ms] [34;1m[rows:1][0m SELECT * FROM `sys_users` WHERE uuid = 'f0f71391-6d0e-418c-a601-af3dde923073' AND `sys_users`.`deleted_at` IS NULL ORDER BY `sys_users`.`id` LIMIT 1
+
+2026/09/23 22:17:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:227
+[0m[33m[0.174ms] [34;1m[rows:25][0m SELECT `sys_base_menu_id` FROM `sys_authority_menus` WHERE sys_authority_authority_id = 999
+
+2026/09/23 22:17:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:232
+[0m[33m[0.345ms] [34;1m[rows:1][0m SELECT * FROM `sys_base_menus` WHERE (name = 'dashboard' and id in ('1','7','11','12','13','24','30','32','33','35','36','37','38','39','40','42','43','44','45','46','47','50','51','52','53')) AND `sys_base_menus`.`deleted_at` IS NULL ORDER BY `sys_base_menus`.`id` LIMIT 1
+
+2026/09/23 22:17:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/common/account.go:161
+[0m[33m[0.338ms] [34;1m[rows:1][0m SELECT * FROM `user_account_group` WHERE `user_account_group`.`id` = 2 AND `user_account_group`.`deleted_at` IS NULL
+
+2026/09/23 22:17:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/common/account.go:161
+[0m[33m[0.984ms] [34;1m[rows:1][0m SELECT * FROM `user_account` WHERE (user_id = 1 and group_id = 2) AND `user_account`.`deleted_at` IS NULL ORDER BY `user_account`.`id` LIMIT 1
+[GIN] 2026/09/23 - 22:17:52 | 200 |     3.48975ms |       127.0.0.1 | GET      "/user/getUserInfo"
+
+2026/09/23 22:17:58 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/business/banner.go:60
+[0m[33m[0.635ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_banner` WHERE `shop_banner`.`deleted_at` IS NULL
+
+2026/09/23 22:17:58 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/business/banner.go:65
+[0m[33m[0.258ms] [34;1m[rows:5][0m SELECT * FROM `shop_banner` WHERE `shop_banner`.`deleted_at` IS NULL ORDER BY sort asc LIMIT 10
+[GIN] 2026/09/23 - 22:17:58 | 200 |    1.296792ms |       127.0.0.1 | GET      "/banner/getBannerList?page=1&pageSize=10"
+
+2026/09/23 22:17:58 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_dictionary.go:90
+[0m[33m[0.448ms] [34;1m[rows:2][0m SELECT * FROM `sys_dictionary_details` WHERE `sys_dictionary_details`.`sys_dictionary_id` = 10 AND status = true AND `sys_dictionary_details`.`deleted_at` IS NULL
+
+2026/09/23 22:17:58 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_dictionary.go:90
+[0m[33m[5.117ms] [34;1m[rows:1][0m SELECT * FROM `sys_dictionaries` WHERE ((type = 'banner_type' OR id = 0) and status = true) AND `sys_dictionaries`.`deleted_at` IS NULL ORDER BY `sys_dictionaries`.`id` LIMIT 1
+[GIN] 2026/09/23 - 22:17:58 | 200 |    5.969584ms |       127.0.0.1 | GET      "/sysDictionary/findSysDictionary?type=banner_type"
+
+2026/09/23 22:18:02 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_dictionary.go:90
+[0m[33m[0.611ms] [34;1m[rows:2][0m SELECT * FROM `sys_dictionary_details` WHERE `sys_dictionary_details`.`sys_dictionary_id` = 7 AND status = true AND `sys_dictionary_details`.`deleted_at` IS NULL
+
+2026/09/23 22:18:02 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_dictionary.go:90
+[0m[33m[1.427ms] [34;1m[rows:1][0m SELECT * FROM `sys_dictionaries` WHERE ((type = 'status' OR id = 0) and status = true) AND `sys_dictionaries`.`deleted_at` IS NULL ORDER BY `sys_dictionaries`.`id` LIMIT 1
+[GIN] 2026/09/23 - 22:18:02 | 200 |    1.557166ms |       127.0.0.1 | GET      "/sysDictionary/findSysDictionary?type=status"
+
+2026/09/23 22:18:02 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/business/user_delivery.go:69
+[0m[33m[0.398ms] [34;1m[rows:1][0m SELECT count(*) FROM `user_delivery` WHERE `user_delivery`.`deleted_at` IS NULL
+
+2026/09/23 22:18:02 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/business/user_delivery.go:84
+[0m[33m[0.109ms] [34;1m[rows:0][0m SELECT * FROM `user_delivery` WHERE `user_delivery`.`deleted_at` IS NULL LIMIT 10
+[GIN] 2026/09/23 - 22:18:02 | 200 |    3.186709ms |       127.0.0.1 | GET      "/userDelivery/getUserDeliveryList?page=1&pageSize=10"
+
+2026/09/23 22:18:04 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:63
+[0m[33m[0.778ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_category` WHERE `shop_category`.`deleted_at` IS NULL
+
+2026/09/23 22:18:04 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_dictionary.go:90
+[0m[33m[0.657ms] [34;1m[rows:2][0m SELECT * FROM `sys_dictionary_details` WHERE `sys_dictionary_details`.`sys_dictionary_id` = 11 AND status = true AND `sys_dictionary_details`.`deleted_at` IS NULL
+
+2026/09/23 22:18:04 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_dictionary.go:90
+[0m[33m[1.406ms] [34;1m[rows:1][0m SELECT * FROM `sys_dictionaries` WHERE ((type = 'whether' OR id = 0) and status = true) AND `sys_dictionaries`.`deleted_at` IS NULL ORDER BY `sys_dictionaries`.`id` LIMIT 1
+[GIN] 2026/09/23 - 22:18:04 | 200 |      1.6205ms |       127.0.0.1 | GET      "/sysDictionary/findSysDictionary?type=whether"
+
+2026/09/23 22:18:04 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:68
+[0m[33m[0.732ms] [34;1m[rows:0][0m SELECT * FROM `shop_brand_category` WHERE `shop_brand_category`.`category_id` IN (37,38)
+
+2026/09/23 22:18:04 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:68
+[0m[33m[1.282ms] [34;1m[rows:2][0m SELECT * FROM `shop_category` WHERE `shop_category`.`deleted_at` IS NULL ORDER BY sort asc LIMIT 20
+[GIN] 2026/09/23 - 22:18:04 | 200 |    2.436292ms |       127.0.0.1 | GET      "/category/getCategoryList?page=1&pageSize=20"
+
+2026/09/23 22:18:04 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/brand.go:96
+[0m[33m[0.732ms] [34;1m[rows:98][0m SELECT * FROM `shop_brand` WHERE `shop_brand`.`deleted_at` IS NULL
+[GIN] 2026/09/23 - 22:18:04 | 200 |    1.156292ms |       127.0.0.1 | GET      "/brand/getBrandListAll"
+[fresh_shop/server]2026/09/23 - 22:18:47.494	[31merror[0m	/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/utils/clamis.go:15	从Gin的Context中获取从jwt解析信息失败, 请检查请求头是否存在x-token且claims是否为规定结构
+
+2026/09/23 22:18:47 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1267
+[0m[33m[3.332ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_goods` WHERE category_id = 38 AND `shop_goods`.`deleted_at` IS NULL
+
+2026/09/23 22:18:47 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.414ms] [34;1m[rows:1][0m SELECT * FROM `shop_brand` WHERE `shop_brand`.`id` IN (2,0) AND `shop_brand`.`deleted_at` IS NULL
+
+2026/09/23 22:18:47 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.451ms] [34;1m[rows:1][0m SELECT * FROM `shop_category` WHERE `shop_category`.`id` = 38 AND `shop_category`.`deleted_at` IS NULL
+
+2026/09/23 22:18:47 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[1.339ms] [34;1m[rows:20][0m SELECT * FROM `shop_goods_description` WHERE `shop_goods_description`.`goods_id` IN (725,724,723,722,721,720,719,718,717,716,715,714,713,712,711,710,709,708,707,706) AND `shop_goods_description`.`deleted_at` IS NULL
+
+2026/09/23 22:18:47 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[1.002ms] [34;1m[rows:6][0m SELECT * FROM `shop_goods_image` WHERE `shop_goods_image`.`goods_id` IN (725,724,723,722,721,720,719,718,717,716,715,714,713,712,711,710,709,708,707,706) AND `shop_goods_image`.`deleted_at` IS NULL
+
+2026/09/23 22:18:47 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[5.253ms] [34;1m[rows:20][0m SELECT * FROM `shop_goods` WHERE category_id = 38 AND `shop_goods`.`deleted_at` IS NULL ORDER BY sort asc, created_at desc,sort asc LIMIT 20
+[GIN] 2026/09/23 - 22:18:47 | 200 |     11.2655ms |             ::1 | GET      "/goods/getGoodsList?categoryId=38&page=1&pageSize=20"
+
+2026/09/23 22:18:49 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:63
+[0m[33m[0.321ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_category` WHERE `shop_category`.`deleted_at` IS NULL
+[GIN] 2026/09/23 - 22:18:49 | 200 |      29.541µs |             ::1 | GET      "/cart/getCartList"
+
+2026/09/23 22:18:49 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:68
+[0m[33m[0.259ms] [34;1m[rows:0][0m SELECT * FROM `shop_brand_category` WHERE `shop_brand_category`.`category_id` IN (37,38)
+
+2026/09/23 22:18:49 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:68
+[0m[33m[0.625ms] [34;1m[rows:2][0m SELECT * FROM `shop_category` WHERE `shop_category`.`deleted_at` IS NULL ORDER BY sort asc 
+[GIN] 2026/09/23 - 22:18:49 | 200 |    1.107208ms |             ::1 | GET      "/category/getCategoryList"
+[GIN] 2026/09/23 - 22:18:49 | 200 |      16.291µs |             ::1 | GET      "/cart/getCartList"
+[fresh_shop/server]2026/09/23 - 22:18:49.970	[31merror[0m	/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/utils/clamis.go:15	从Gin的Context中获取从jwt解析信息失败, 请检查请求头是否存在x-token且claims是否为规定结构
+
+2026/09/23 22:18:49 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1267
+[0m[33m[0.763ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_goods` WHERE category_id = 37 AND `shop_goods`.`deleted_at` IS NULL
+
+2026/09/23 22:18:49 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.912ms] [34;1m[rows:0][0m SELECT * FROM `shop_goods` WHERE category_id = 37 AND `shop_goods`.`deleted_at` IS NULL ORDER BY sort asc, created_at desc,sort asc LIMIT 20
+[GIN] 2026/09/23 - 22:18:49 | 200 |     1.92275ms |             ::1 | GET      "/goods/getGoodsList?categoryId=37&page=1&pageSize=20"
+[fresh_shop/server]2026/09/23 - 22:18:51.587	[31merror[0m	/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/utils/clamis.go:15	从Gin的Context中获取从jwt解析信息失败, 请检查请求头是否存在x-token且claims是否为规定结构
+
+2026/09/23 22:18:51 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1267
+[0m[33m[1.051ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_goods` WHERE category_id = 38 AND `shop_goods`.`deleted_at` IS NULL
+
+2026/09/23 22:18:51 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.586ms] [34;1m[rows:1][0m SELECT * FROM `shop_brand` WHERE `shop_brand`.`id` IN (2,0) AND `shop_brand`.`deleted_at` IS NULL
+
+2026/09/23 22:18:51 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.611ms] [34;1m[rows:1][0m SELECT * FROM `shop_category` WHERE `shop_category`.`id` = 38 AND `shop_category`.`deleted_at` IS NULL
+
+2026/09/23 22:18:51 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.642ms] [34;1m[rows:20][0m SELECT * FROM `shop_goods_description` WHERE `shop_goods_description`.`goods_id` IN (725,724,723,722,721,720,719,718,717,716,715,714,713,712,711,710,709,708,707,706) AND `shop_goods_description`.`deleted_at` IS NULL
+
+2026/09/23 22:18:51 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[1.329ms] [34;1m[rows:6][0m SELECT * FROM `shop_goods_image` WHERE `shop_goods_image`.`goods_id` IN (725,724,723,722,721,720,719,718,717,716,715,714,713,712,711,710,709,708,707,706) AND `shop_goods_image`.`deleted_at` IS NULL
+
+2026/09/23 22:18:51 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[5.670ms] [34;1m[rows:20][0m SELECT * FROM `shop_goods` WHERE category_id = 38 AND `shop_goods`.`deleted_at` IS NULL ORDER BY sort asc, created_at desc,sort asc LIMIT 20
+[GIN] 2026/09/23 - 22:18:51 | 200 |      7.4725ms |             ::1 | GET      "/goods/getGoodsList?categoryId=38&page=1&pageSize=20"
+[fresh_shop/server]2026/09/23 - 22:18:54.421	[31merror[0m	/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/utils/clamis.go:15	从Gin的Context中获取从jwt解析信息失败, 请检查请求头是否存在x-token且claims是否为规定结构
+
+2026/09/23 22:18:54 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1267
+[0m[33m[0.974ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_goods` WHERE category_id = 38 AND `shop_goods`.`deleted_at` IS NULL
+
+2026/09/23 22:18:54 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.352ms] [34;1m[rows:0][0m SELECT * FROM `shop_brand` WHERE `shop_brand`.`id` = 0 AND `shop_brand`.`deleted_at` IS NULL
+
+2026/09/23 22:18:54 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.369ms] [34;1m[rows:1][0m SELECT * FROM `shop_category` WHERE `shop_category`.`id` = 38 AND `shop_category`.`deleted_at` IS NULL
+
+2026/09/23 22:18:54 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.630ms] [34;1m[rows:20][0m SELECT * FROM `shop_goods_description` WHERE `shop_goods_description`.`goods_id` IN (705,704,703,702,701,700,699,698,697,696,695,694,693,692,691,690,689,688,687,686) AND `shop_goods_description`.`deleted_at` IS NULL
+
+2026/09/23 22:18:54 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.589ms] [34;1m[rows:0][0m SELECT * FROM `shop_goods_image` WHERE `shop_goods_image`.`goods_id` IN (705,704,703,702,701,700,699,698,697,696,695,694,693,692,691,690,689,688,687,686) AND `shop_goods_image`.`deleted_at` IS NULL
+
+2026/09/23 22:18:54 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[4.132ms] [34;1m[rows:20][0m SELECT * FROM `shop_goods` WHERE category_id = 38 AND `shop_goods`.`deleted_at` IS NULL ORDER BY sort asc, created_at desc,sort asc LIMIT 20 OFFSET 20
+[GIN] 2026/09/23 - 22:18:54 | 200 |    6.792625ms |             ::1 | GET      "/goods/getGoodsList?categoryId=38&page=2&pageSize=20"
+[fresh_shop/server]2026/09/23 - 22:18:55.867	[31merror[0m	/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/utils/clamis.go:15	从Gin的Context中获取从jwt解析信息失败, 请检查请求头是否存在x-token且claims是否为规定结构
+
+2026/09/23 22:18:55 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1267
+[0m[33m[0.673ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_goods` WHERE category_id = 38 AND `shop_goods`.`deleted_at` IS NULL
+
+2026/09/23 22:18:55 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.306ms] [34;1m[rows:1][0m SELECT * FROM `shop_brand` WHERE `shop_brand`.`id` IN (0,1) AND `shop_brand`.`deleted_at` IS NULL
+
+2026/09/23 22:18:55 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.292ms] [34;1m[rows:1][0m SELECT * FROM `shop_category` WHERE `shop_category`.`id` = 38 AND `shop_category`.`deleted_at` IS NULL
+
+2026/09/23 22:18:55 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.551ms] [34;1m[rows:20][0m SELECT * FROM `shop_goods_description` WHERE `shop_goods_description`.`goods_id` IN (685,684,683,682,681,680,679,678,677,676,675,674,673,672,671,670,669,668,667,666) AND `shop_goods_description`.`deleted_at` IS NULL
+
+2026/09/23 22:18:55 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.640ms] [34;1m[rows:16][0m SELECT * FROM `shop_goods_image` WHERE `shop_goods_image`.`goods_id` IN (685,684,683,682,681,680,679,678,677,676,675,674,673,672,671,670,669,668,667,666) AND `shop_goods_image`.`deleted_at` IS NULL
+
+2026/09/23 22:18:55 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[3.403ms] [34;1m[rows:20][0m SELECT * FROM `shop_goods` WHERE category_id = 38 AND `shop_goods`.`deleted_at` IS NULL ORDER BY sort asc, created_at desc,sort asc LIMIT 20 OFFSET 40
+[GIN] 2026/09/23 - 22:18:55 | 200 |     4.48275ms |             ::1 | GET      "/goods/getGoodsList?categoryId=38&page=3&pageSize=20"
+[fresh_shop/server]2026/09/23 - 22:18:57.486	[31merror[0m	/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/utils/clamis.go:15	从Gin的Context中获取从jwt解析信息失败, 请检查请求头是否存在x-token且claims是否为规定结构
+
+2026/09/23 22:18:57 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1267
+[0m[33m[0.840ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_goods` WHERE category_id = 38 AND `shop_goods`.`deleted_at` IS NULL
+
+2026/09/23 22:18:57 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.249ms] [34;1m[rows:0][0m SELECT * FROM `shop_brand` WHERE `shop_brand`.`id` = 0 AND `shop_brand`.`deleted_at` IS NULL
+
+2026/09/23 22:18:57 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.242ms] [34;1m[rows:1][0m SELECT * FROM `shop_category` WHERE `shop_category`.`id` = 38 AND `shop_category`.`deleted_at` IS NULL
+
+2026/09/23 22:18:57 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.521ms] [34;1m[rows:20][0m SELECT * FROM `shop_goods_description` WHERE `shop_goods_description`.`goods_id` IN (665,664,663,662,661,660,659,658,657,656,655,654,653,652,651,650,649,648,647,646) AND `shop_goods_description`.`deleted_at` IS NULL
+
+2026/09/23 22:18:57 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.648ms] [34;1m[rows:19][0m SELECT * FROM `shop_goods_image` WHERE `shop_goods_image`.`goods_id` IN (665,664,663,662,661,660,659,658,657,656,655,654,653,652,651,650,649,648,647,646) AND `shop_goods_image`.`deleted_at` IS NULL
+
+2026/09/23 22:18:57 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[3.602ms] [34;1m[rows:20][0m SELECT * FROM `shop_goods` WHERE category_id = 38 AND `shop_goods`.`deleted_at` IS NULL ORDER BY sort asc, created_at desc,sort asc LIMIT 20 OFFSET 60
+[GIN] 2026/09/23 - 22:18:57 | 200 |     4.77575ms |             ::1 | GET      "/goods/getGoodsList?categoryId=38&page=4&pageSize=20"
+[fresh_shop/server]2026/09/23 - 22:19:15.269	[31merror[0m	/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/utils/clamis.go:15	从Gin的Context中获取从jwt解析信息失败, 请检查请求头是否存在x-token且claims是否为规定结构
+
+2026/09/23 22:19:15 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1267
+[0m[33m[3.145ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_goods` WHERE category_id = 37 AND `shop_goods`.`deleted_at` IS NULL
+
+2026/09/23 22:19:15 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[1.457ms] [34;1m[rows:0][0m SELECT * FROM `shop_goods` WHERE category_id = 37 AND `shop_goods`.`deleted_at` IS NULL ORDER BY sort asc, created_at desc,sort asc LIMIT 20
+[GIN] 2026/09/23 - 22:19:15 | 200 |    6.456959ms |             ::1 | GET      "/goods/getGoodsList?categoryId=37&page=1&pageSize=20"
+[fresh_shop/server]2026/09/23 - 22:19:17.252	[31merror[0m	/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/utils/clamis.go:15	从Gin的Context中获取从jwt解析信息失败, 请检查请求头是否存在x-token且claims是否为规定结构
+
+2026/09/23 22:19:17 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1267
+[0m[33m[1.089ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_goods` WHERE category_id = 38 AND `shop_goods`.`deleted_at` IS NULL
+
+2026/09/23 22:19:17 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.585ms] [34;1m[rows:1][0m SELECT * FROM `shop_brand` WHERE `shop_brand`.`id` IN (2,0) AND `shop_brand`.`deleted_at` IS NULL
+
+2026/09/23 22:19:17 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.614ms] [34;1m[rows:1][0m SELECT * FROM `shop_category` WHERE `shop_category`.`id` = 38 AND `shop_category`.`deleted_at` IS NULL
+
+2026/09/23 22:19:17 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.725ms] [34;1m[rows:20][0m SELECT * FROM `shop_goods_description` WHERE `shop_goods_description`.`goods_id` IN (725,724,723,722,721,720,719,718,717,716,715,714,713,712,711,710,709,708,707,706) AND `shop_goods_description`.`deleted_at` IS NULL
+
+2026/09/23 22:19:17 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.840ms] [34;1m[rows:6][0m SELECT * FROM `shop_goods_image` WHERE `shop_goods_image`.`goods_id` IN (725,724,723,722,721,720,719,718,717,716,715,714,713,712,711,710,709,708,707,706) AND `shop_goods_image`.`deleted_at` IS NULL
+
+2026/09/23 22:19:17 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[5.574ms] [34;1m[rows:20][0m SELECT * FROM `shop_goods` WHERE category_id = 38 AND `shop_goods`.`deleted_at` IS NULL ORDER BY sort asc, created_at desc,sort asc LIMIT 20
+[GIN] 2026/09/23 - 22:19:17 | 200 |      7.3225ms |             ::1 | GET      "/goods/getGoodsList?categoryId=38&page=1&pageSize=20"
+
+2026/09/23 22:22:11 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:30
+[0m[33m[1.356ms] [34;1m[rows:25][0m SELECT * FROM `sys_authority_menus` WHERE sys_authority_authority_id = 999
+
+2026/09/23 22:22:11 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:41
+[0m[33m[0.605ms] [34;1m[rows:2][0m SELECT * FROM `sys_base_menu_parameters` WHERE `sys_base_menu_parameters`.`sys_base_menu_id` IN (37,42,1,52,53,36,44,7,11,38,39,45,46,47,24) AND `sys_base_menu_parameters`.`deleted_at` IS NULL
+
+2026/09/23 22:22:11 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:41
+[0m[33m[1.580ms] [34;1m[rows:15][0m SELECT * FROM `sys_base_menus` WHERE id in ('1','7','11','12','13','24','30','32','33','35','36','37','38','39','40','42','43','44','45','46','47','50','51','52','53') AND `sys_base_menus`.`deleted_at` IS NULL ORDER BY sort
+
+2026/09/23 22:22:11 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:55
+[0m[33m[0.290ms] [34;1m[rows:0][0m SELECT * FROM `sys_authority_btns` WHERE authority_id = 999
+[GIN] 2026/09/23 - 22:22:11 | 200 |    4.170083ms |       127.0.0.1 | POST     "/menu/getMenu"
+
+2026/09/23 22:22:11 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:379
+[0m[33m[0.371ms] [34;1m[rows:2][0m SELECT * FROM `sys_user_authority` WHERE `sys_user_authority`.`sys_user_id` = 1
+
+2026/09/23 22:22:11 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:379
+[0m[33m[0.390ms] [34;1m[rows:2][0m SELECT * FROM `sys_authorities` WHERE `sys_authorities`.`authority_id` IN (888,999)
+
+2026/09/23 22:22:11 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:379
+[0m[33m[0.270ms] [34;1m[rows:1][0m SELECT * FROM `sys_authorities` WHERE `sys_authorities`.`authority_id` = 999
+
+2026/09/23 22:22:11 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:379
+[0m[33m[1.699ms] [34;1m[rows:1][0m SELECT * FROM `sys_users` WHERE uuid = 'f0f71391-6d0e-418c-a601-af3dde923073' AND `sys_users`.`deleted_at` IS NULL ORDER BY `sys_users`.`id` LIMIT 1
+
+2026/09/23 22:22:11 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:227
+[0m[33m[0.355ms] [34;1m[rows:25][0m SELECT `sys_base_menu_id` FROM `sys_authority_menus` WHERE sys_authority_authority_id = 999
+
+2026/09/23 22:22:11 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:232
+[0m[33m[0.733ms] [34;1m[rows:1][0m SELECT * FROM `sys_base_menus` WHERE (name = 'dashboard' and id in ('1','7','11','12','13','24','30','32','33','35','36','37','38','39','40','42','43','44','45','46','47','50','51','52','53')) AND `sys_base_menus`.`deleted_at` IS NULL ORDER BY `sys_base_menus`.`id` LIMIT 1
+
+2026/09/23 22:22:11 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/common/account.go:161
+[0m[33m[0.335ms] [34;1m[rows:1][0m SELECT * FROM `user_account_group` WHERE `user_account_group`.`id` = 2 AND `user_account_group`.`deleted_at` IS NULL
+
+2026/09/23 22:22:11 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/common/account.go:161
+[0m[33m[0.883ms] [34;1m[rows:1][0m SELECT * FROM `user_account` WHERE (user_id = 1 and group_id = 2) AND `user_account`.`deleted_at` IS NULL ORDER BY `user_account`.`id` LIMIT 1
+[GIN] 2026/09/23 - 22:22:11 | 200 |    3.820959ms |       127.0.0.1 | GET      "/user/getUserInfo"
+
+2026/09/23 22:22:11 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:63
+[0m[33m[0.489ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_category` WHERE `shop_category`.`deleted_at` IS NULL
+
+2026/09/23 22:22:11 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:68
+[0m[33m[1.988ms] [34;1m[rows:0][0m SELECT * FROM `shop_brand_category` WHERE `shop_brand_category`.`category_id` IN (37,38)
+
+2026/09/23 22:22:11 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:68
+[0m[33m[2.222ms] [34;1m[rows:2][0m SELECT * FROM `shop_category` WHERE `shop_category`.`deleted_at` IS NULL ORDER BY sort asc LIMIT 20
+[GIN] 2026/09/23 - 22:22:11 | 200 |    2.806416ms |       127.0.0.1 | GET      "/category/getCategoryList?page=1&pageSize=20"
+
+2026/09/23 22:22:11 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_dictionary.go:90
+[0m[33m[2.063ms] [34;1m[rows:2][0m SELECT * FROM `sys_dictionary_details` WHERE `sys_dictionary_details`.`sys_dictionary_id` = 11 AND status = true AND `sys_dictionary_details`.`deleted_at` IS NULL
+
+2026/09/23 22:22:11 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_dictionary.go:90
+[0m[33m[2.757ms] [34;1m[rows:1][0m SELECT * FROM `sys_dictionaries` WHERE ((type = 'whether' OR id = 0) and status = true) AND `sys_dictionaries`.`deleted_at` IS NULL ORDER BY `sys_dictionaries`.`id` LIMIT 1
+[GIN] 2026/09/23 - 22:22:11 | 200 |    2.848583ms |       127.0.0.1 | GET      "/sysDictionary/findSysDictionary?type=whether"
+
+2026/09/23 22:22:11 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/brand.go:96
+[0m[33m[0.787ms] [34;1m[rows:98][0m SELECT * FROM `shop_brand` WHERE `shop_brand`.`deleted_at` IS NULL
+[GIN] 2026/09/23 - 22:22:11 | 200 |    1.017167ms |       127.0.0.1 | GET      "/brand/getBrandListAll"
+
+2026/09/23 22:22:26 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/business/user_delivery.go:69
+[0m[33m[0.365ms] [34;1m[rows:1][0m SELECT count(*) FROM `user_delivery` WHERE `user_delivery`.`deleted_at` IS NULL
+
+2026/09/23 22:22:26 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/business/user_delivery.go:84
+[0m[33m[0.289ms] [34;1m[rows:0][0m SELECT * FROM `user_delivery` WHERE `user_delivery`.`deleted_at` IS NULL LIMIT 10
+[GIN] 2026/09/23 - 22:22:26 | 200 |      984.25µs |       127.0.0.1 | GET      "/userDelivery/getUserDeliveryList?page=1&pageSize=10"
+
+2026/09/23 22:22:26 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_dictionary.go:90
+[0m[33m[0.324ms] [34;1m[rows:2][0m SELECT * FROM `sys_dictionary_details` WHERE `sys_dictionary_details`.`sys_dictionary_id` = 7 AND status = true AND `sys_dictionary_details`.`deleted_at` IS NULL
+
+2026/09/23 22:22:26 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_dictionary.go:90
+[0m[33m[0.808ms] [34;1m[rows:1][0m SELECT * FROM `sys_dictionaries` WHERE ((type = 'status' OR id = 0) and status = true) AND `sys_dictionaries`.`deleted_at` IS NULL ORDER BY `sys_dictionaries`.`id` LIMIT 1
+[GIN] 2026/09/23 - 22:22:26 | 200 |     911.458µs |       127.0.0.1 | GET      "/sysDictionary/findSysDictionary?type=status"
+
+2026/09/23 22:22:27 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/business/banner.go:60
+[0m[33m[0.423ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_banner` WHERE `shop_banner`.`deleted_at` IS NULL
+
+2026/09/23 22:22:27 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/business/banner.go:65
+[0m[33m[0.210ms] [34;1m[rows:5][0m SELECT * FROM `shop_banner` WHERE `shop_banner`.`deleted_at` IS NULL ORDER BY sort asc LIMIT 10
+[GIN] 2026/09/23 - 22:22:27 | 200 |     812.125µs |       127.0.0.1 | GET      "/banner/getBannerList?page=1&pageSize=10"
+
+2026/09/23 22:22:27 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_dictionary.go:90
+[0m[33m[0.533ms] [34;1m[rows:2][0m SELECT * FROM `sys_dictionary_details` WHERE `sys_dictionary_details`.`sys_dictionary_id` = 10 AND status = true AND `sys_dictionary_details`.`deleted_at` IS NULL
+
+2026/09/23 22:22:27 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_dictionary.go:90
+[0m[33m[1.103ms] [34;1m[rows:1][0m SELECT * FROM `sys_dictionaries` WHERE ((type = 'banner_type' OR id = 0) and status = true) AND `sys_dictionaries`.`deleted_at` IS NULL ORDER BY `sys_dictionaries`.`id` LIMIT 1
+[GIN] 2026/09/23 - 22:22:27 | 200 |    1.232208ms |       127.0.0.1 | GET      "/sysDictionary/findSysDictionary?type=banner_type"
+
+2026/09/23 22:35:23 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
+[0m[33m[0.369ms] [34;1m[rows:2][0m SELECT * FROM `sys_user_authority` WHERE `sys_user_authority`.`sys_user_id` = 1
+
+2026/09/23 22:35:23 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
+[0m[33m[0.326ms] [34;1m[rows:2][0m SELECT * FROM `sys_authorities` WHERE `sys_authorities`.`authority_id` IN (888,999)
+
+2026/09/23 22:35:23 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
+[0m[33m[0.205ms] [34;1m[rows:1][0m SELECT * FROM `sys_authorities` WHERE `sys_authorities`.`authority_id` = 999
+
+2026/09/23 22:35:23 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
+[0m[33m[3.658ms] [34;1m[rows:1][0m SELECT * FROM `sys_users` WHERE username = 'admin' AND `sys_users`.`deleted_at` IS NULL ORDER BY `sys_users`.`id` LIMIT 1
+
+2026/09/23 22:35:23 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:227
+[0m[33m[1.033ms] [34;1m[rows:25][0m SELECT `sys_base_menu_id` FROM `sys_authority_menus` WHERE sys_authority_authority_id = 999
+
+2026/09/23 22:35:23 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:232
+[0m[33m[0.612ms] [34;1m[rows:1][0m SELECT * FROM `sys_base_menus` WHERE (name = 'dashboard' and id in ('1','7','11','12','13','24','30','32','33','35','36','37','38','39','40','42','43','44','45','46','47','50','51','52','53')) AND `sys_base_menus`.`deleted_at` IS NULL ORDER BY `sys_base_menus`.`id` LIMIT 1
+
+2026/09/23 22:35:23 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
+[0m[33m[0.639ms] [34;1m[rows:0][0m INSERT INTO `sys_authorities` (`created_at`,`updated_at`,`deleted_at`,`authority_name`,`parent_id`,`default_router`,`authority_id`) VALUES ('2023-03-11 13:26:08.401','2024-08-22 12:18:17.445',NULL,'管理员',0,'dashboard',999) ON DUPLICATE KEY UPDATE `authority_id`=VALUES(`authority_id`)
+
+2026/09/23 22:35:23 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
+[0m[33m[0.392ms] [34;1m[rows:0][0m INSERT INTO `sys_authorities` (`created_at`,`updated_at`,`deleted_at`,`authority_name`,`parent_id`,`default_router`,`authority_id`) VALUES ('2023-03-09 12:33:14.697','2024-08-22 12:18:03.059',NULL,'超级管理员',0,'dashboard',888),('2023-03-11 13:26:08.401','2024-08-22 12:18:17.445',NULL,'管理员',0,'dashboard',999) ON DUPLICATE KEY UPDATE `authority_id`=`authority_id`
+
+2026/09/23 22:35:23 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
+[0m[33m[0.337ms] [34;1m[rows:0][0m INSERT INTO `sys_user_authority` (`sys_user_id`,`sys_authority_authority_id`) VALUES (1,888),(1,999) ON DUPLICATE KEY UPDATE `sys_user_id`=`sys_user_id`
+
+2026/09/23 22:35:23 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
+[0m[33m[5.045ms] [34;1m[rows:1][0m UPDATE `sys_users` SET `created_at`='2023-03-09 12:33:18.717',`updated_at`='2026-09-23 22:35:23.924',`deleted_at`=NULL,`uuid`='f0f71391-6d0e-418c-a601-af3dde923073',`open_id`='',`username`='admin',`invitation_code`='',`password`='$2a$10$2VQCknWrjxY6cRkV46veWeVbSoghkOJo0TEul6fhh6xH0ZnEjMBeq',`safe_password`='',`nick_name`='Admin',`sex`=0,`side_mode`='dark',`header_img`='https://minio.kl.do/picture/images/avatar/face.png',`base_color`='#fff',`active_color`='#1890ff',`authority_id`=999,`phone`='17611111111',`email`='333333333@qq.com',`enable`=1,`login_ip`='::1',`login_time`='2026-09-23 22:35:23.923',`origin_contact_name`='',`change_contact_name`='',`origin_customer_name`='',`change_customer_name`='',`audit_status`=0,`audit_remark`='',`apply_time`='2023-05-28 21:35:11' WHERE `sys_users`.`deleted_at` IS NULL AND `id` = 1
+[GIN] 2026/09/23 - 22:35:23 | 200 |   68.529709ms |             ::1 | POST     "/base/login"
+
+2026/09/23 22:35:23 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:30
+[0m[33m[0.491ms] [34;1m[rows:25][0m SELECT * FROM `sys_authority_menus` WHERE sys_authority_authority_id = 999
+
+2026/09/23 22:35:23 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:41
+[0m[33m[0.425ms] [34;1m[rows:2][0m SELECT * FROM `sys_base_menu_parameters` WHERE `sys_base_menu_parameters`.`sys_base_menu_id` IN (37,42,1,52,53,36,44,7,11,38,39,45,46,47,24) AND `sys_base_menu_parameters`.`deleted_at` IS NULL
+
+2026/09/23 22:35:23 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:41
+[0m[33m[1.090ms] [34;1m[rows:15][0m SELECT * FROM `sys_base_menus` WHERE id in ('1','7','11','12','13','24','30','32','33','35','36','37','38','39','40','42','43','44','45','46','47','50','51','52','53') AND `sys_base_menus`.`deleted_at` IS NULL ORDER BY sort
+
+2026/09/23 22:35:23 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:55
+[0m[33m[0.220ms] [34;1m[rows:0][0m SELECT * FROM `sys_authority_btns` WHERE authority_id = 999
+[GIN] 2026/09/23 - 22:35:23 | 200 |    2.026334ms |             ::1 | POST     "/menu/getMenu"
+
+2026/09/23 22:35:45 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
+[0m[33m[0.331ms] [34;1m[rows:2][0m SELECT * FROM `sys_user_authority` WHERE `sys_user_authority`.`sys_user_id` = 1
+
+2026/09/23 22:35:45 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
+[0m[33m[0.359ms] [34;1m[rows:2][0m SELECT * FROM `sys_authorities` WHERE `sys_authorities`.`authority_id` IN (888,999)
+
+2026/09/23 22:35:45 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
+[0m[33m[0.195ms] [34;1m[rows:1][0m SELECT * FROM `sys_authorities` WHERE `sys_authorities`.`authority_id` = 999
+
+2026/09/23 22:35:45 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
+[0m[33m[2.322ms] [34;1m[rows:1][0m SELECT * FROM `sys_users` WHERE username = 'admin' AND `sys_users`.`deleted_at` IS NULL ORDER BY `sys_users`.`id` LIMIT 1
+
+2026/09/23 22:35:45 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:227
+[0m[33m[0.636ms] [34;1m[rows:25][0m SELECT `sys_base_menu_id` FROM `sys_authority_menus` WHERE sys_authority_authority_id = 999
+
+2026/09/23 22:35:45 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:232
+[0m[33m[0.796ms] [34;1m[rows:1][0m SELECT * FROM `sys_base_menus` WHERE (name = 'dashboard' and id in ('1','7','11','12','13','24','30','32','33','35','36','37','38','39','40','42','43','44','45','46','47','50','51','52','53')) AND `sys_base_menus`.`deleted_at` IS NULL ORDER BY `sys_base_menus`.`id` LIMIT 1
+
+2026/09/23 22:35:45 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
+[0m[33m[0.379ms] [34;1m[rows:0][0m INSERT INTO `sys_authorities` (`created_at`,`updated_at`,`deleted_at`,`authority_name`,`parent_id`,`default_router`,`authority_id`) VALUES ('2023-03-11 13:26:08.401','2024-08-22 12:18:17.445',NULL,'管理员',0,'dashboard',999) ON DUPLICATE KEY UPDATE `authority_id`=VALUES(`authority_id`)
+
+2026/09/23 22:35:45 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
+[0m[33m[0.377ms] [34;1m[rows:0][0m INSERT INTO `sys_authorities` (`created_at`,`updated_at`,`deleted_at`,`authority_name`,`parent_id`,`default_router`,`authority_id`) VALUES ('2023-03-09 12:33:14.697','2024-08-22 12:18:03.059',NULL,'超级管理员',0,'dashboard',888),('2023-03-11 13:26:08.401','2024-08-22 12:18:17.445',NULL,'管理员',0,'dashboard',999) ON DUPLICATE KEY UPDATE `authority_id`=`authority_id`
+
+2026/09/23 22:35:45 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
+[0m[33m[0.314ms] [34;1m[rows:0][0m INSERT INTO `sys_user_authority` (`sys_user_id`,`sys_authority_authority_id`) VALUES (1,888),(1,999) ON DUPLICATE KEY UPDATE `sys_user_id`=`sys_user_id`
+
+2026/09/23 22:35:45 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
+[0m[33m[3.304ms] [34;1m[rows:1][0m UPDATE `sys_users` SET `created_at`='2023-03-09 12:33:18.717',`updated_at`='2026-09-23 22:35:45.309',`deleted_at`=NULL,`uuid`='f0f71391-6d0e-418c-a601-af3dde923073',`open_id`='',`username`='admin',`invitation_code`='',`password`='$2a$10$2VQCknWrjxY6cRkV46veWeVbSoghkOJo0TEul6fhh6xH0ZnEjMBeq',`safe_password`='',`nick_name`='Admin',`sex`=0,`side_mode`='dark',`header_img`='https://minio.kl.do/picture/images/avatar/face.png',`base_color`='#fff',`active_color`='#1890ff',`authority_id`=999,`phone`='17611111111',`email`='333333333@qq.com',`enable`=1,`login_ip`='::1',`login_time`='2026-09-23 22:35:45.308',`origin_contact_name`='',`change_contact_name`='',`origin_customer_name`='',`change_customer_name`='',`audit_status`=0,`audit_remark`='',`apply_time`='2023-05-28 21:35:11' WHERE `sys_users`.`deleted_at` IS NULL AND `id` = 1
+[GIN] 2026/09/23 - 22:35:45 | 200 |   65.510292ms |             ::1 | POST     "/base/login"
+
+2026/09/23 22:35:45 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:30
+[0m[33m[0.831ms] [34;1m[rows:25][0m SELECT * FROM `sys_authority_menus` WHERE sys_authority_authority_id = 999
+
+2026/09/23 22:35:45 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:41
+[0m[33m[0.244ms] [34;1m[rows:2][0m SELECT * FROM `sys_base_menu_parameters` WHERE `sys_base_menu_parameters`.`sys_base_menu_id` IN (37,42,1,52,53,36,44,7,11,38,39,45,46,47,24) AND `sys_base_menu_parameters`.`deleted_at` IS NULL
+
+2026/09/23 22:35:45 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:41
+[0m[33m[0.931ms] [34;1m[rows:15][0m SELECT * FROM `sys_base_menus` WHERE id in ('1','7','11','12','13','24','30','32','33','35','36','37','38','39','40','42','43','44','45','46','47','50','51','52','53') AND `sys_base_menus`.`deleted_at` IS NULL ORDER BY sort
+
+2026/09/23 22:35:45 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:55
+[0m[33m[0.251ms] [34;1m[rows:0][0m SELECT * FROM `sys_authority_btns` WHERE authority_id = 999
+[GIN] 2026/09/23 - 22:35:45 | 200 |    2.154417ms |             ::1 | POST     "/menu/getMenu"
+
+2026/09/23 22:36:21 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:30
+[0m[33m[0.428ms] [34;1m[rows:25][0m SELECT * FROM `sys_authority_menus` WHERE sys_authority_authority_id = 999
+
+2026/09/23 22:36:21 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:41
+[0m[33m[0.418ms] [34;1m[rows:2][0m SELECT * FROM `sys_base_menu_parameters` WHERE `sys_base_menu_parameters`.`sys_base_menu_id` IN (37,42,1,52,53,36,44,7,11,38,39,45,46,47,24) AND `sys_base_menu_parameters`.`deleted_at` IS NULL
+
+2026/09/23 22:36:21 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:41
+[0m[33m[1.253ms] [34;1m[rows:15][0m SELECT * FROM `sys_base_menus` WHERE id in ('1','7','11','12','13','24','30','32','33','35','36','37','38','39','40','42','43','44','45','46','47','50','51','52','53') AND `sys_base_menus`.`deleted_at` IS NULL ORDER BY sort
+
+2026/09/23 22:36:21 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:55
+[0m[33m[0.193ms] [34;1m[rows:0][0m SELECT * FROM `sys_authority_btns` WHERE authority_id = 999
+[GIN] 2026/09/23 - 22:36:21 | 200 |    2.257834ms |       127.0.0.1 | POST     "/menu/getMenu"
+
+2026/09/23 22:36:21 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:379
+[0m[33m[0.341ms] [34;1m[rows:2][0m SELECT * FROM `sys_user_authority` WHERE `sys_user_authority`.`sys_user_id` = 1
+
+2026/09/23 22:36:21 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:379
+[0m[33m[0.448ms] [34;1m[rows:2][0m SELECT * FROM `sys_authorities` WHERE `sys_authorities`.`authority_id` IN (888,999)
+
+2026/09/23 22:36:21 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:379
+[0m[33m[0.345ms] [34;1m[rows:1][0m SELECT * FROM `sys_authorities` WHERE `sys_authorities`.`authority_id` = 999
+
+2026/09/23 22:36:21 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:379
+[0m[33m[2.144ms] [34;1m[rows:1][0m SELECT * FROM `sys_users` WHERE uuid = 'f0f71391-6d0e-418c-a601-af3dde923073' AND `sys_users`.`deleted_at` IS NULL ORDER BY `sys_users`.`id` LIMIT 1
+
+2026/09/23 22:36:21 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:227
+[0m[33m[0.282ms] [34;1m[rows:25][0m SELECT `sys_base_menu_id` FROM `sys_authority_menus` WHERE sys_authority_authority_id = 999
+
+2026/09/23 22:36:21 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:232
+[0m[33m[0.466ms] [34;1m[rows:1][0m SELECT * FROM `sys_base_menus` WHERE (name = 'dashboard' and id in ('1','7','11','12','13','24','30','32','33','35','36','37','38','39','40','42','43','44','45','46','47','50','51','52','53')) AND `sys_base_menus`.`deleted_at` IS NULL ORDER BY `sys_base_menus`.`id` LIMIT 1
+
+2026/09/23 22:36:21 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/common/account.go:161
+[0m[33m[0.284ms] [34;1m[rows:1][0m SELECT * FROM `user_account_group` WHERE `user_account_group`.`id` = 2 AND `user_account_group`.`deleted_at` IS NULL
+
+2026/09/23 22:36:21 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/common/account.go:161
+[0m[33m[0.725ms] [34;1m[rows:1][0m SELECT * FROM `user_account` WHERE (user_id = 1 and group_id = 2) AND `user_account`.`deleted_at` IS NULL ORDER BY `user_account`.`id` LIMIT 1
+[GIN] 2026/09/23 - 22:36:21 | 200 |    3.985708ms |       127.0.0.1 | GET      "/user/getUserInfo"
+
+2026/09/23 22:48:24 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:30
+[0m[33m[3.549ms] [34;1m[rows:25][0m SELECT * FROM `sys_authority_menus` WHERE sys_authority_authority_id = 999
+
+2026/09/23 22:48:24 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:41
+[0m[33m[0.976ms] [34;1m[rows:2][0m SELECT * FROM `sys_base_menu_parameters` WHERE `sys_base_menu_parameters`.`sys_base_menu_id` IN (37,42,1,52,53,36,44,7,11,38,39,45,46,47,24) AND `sys_base_menu_parameters`.`deleted_at` IS NULL
+
+2026/09/23 22:48:24 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:41
+[0m[33m[2.569ms] [34;1m[rows:15][0m SELECT * FROM `sys_base_menus` WHERE id in ('1','7','11','12','13','24','30','32','33','35','36','37','38','39','40','42','43','44','45','46','47','50','51','52','53') AND `sys_base_menus`.`deleted_at` IS NULL ORDER BY sort
+
+2026/09/23 22:48:24 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:55
+[0m[33m[0.262ms] [34;1m[rows:0][0m SELECT * FROM `sys_authority_btns` WHERE authority_id = 999
+[GIN] 2026/09/23 - 22:48:24 | 200 |    7.132334ms |       127.0.0.1 | POST     "/menu/getMenu"
+
+2026/09/23 22:48:24 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:379
+[0m[33m[0.464ms] [34;1m[rows:2][0m SELECT * FROM `sys_user_authority` WHERE `sys_user_authority`.`sys_user_id` = 1
+
+2026/09/23 22:48:24 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:379
+[0m[33m[0.327ms] [34;1m[rows:2][0m SELECT * FROM `sys_authorities` WHERE `sys_authorities`.`authority_id` IN (888,999)
+
+2026/09/23 22:48:24 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:379
+[0m[33m[0.217ms] [34;1m[rows:1][0m SELECT * FROM `sys_authorities` WHERE `sys_authorities`.`authority_id` = 999
+
+2026/09/23 22:48:24 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:379
+[0m[33m[5.693ms] [34;1m[rows:1][0m SELECT * FROM `sys_users` WHERE uuid = 'f0f71391-6d0e-418c-a601-af3dde923073' AND `sys_users`.`deleted_at` IS NULL ORDER BY `sys_users`.`id` LIMIT 1
+
+2026/09/23 22:48:24 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:227
+[0m[33m[0.191ms] [34;1m[rows:25][0m SELECT `sys_base_menu_id` FROM `sys_authority_menus` WHERE sys_authority_authority_id = 999
+
+2026/09/23 22:48:24 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:232
+[0m[33m[0.329ms] [34;1m[rows:1][0m SELECT * FROM `sys_base_menus` WHERE (name = 'dashboard' and id in ('1','7','11','12','13','24','30','32','33','35','36','37','38','39','40','42','43','44','45','46','47','50','51','52','53')) AND `sys_base_menus`.`deleted_at` IS NULL ORDER BY `sys_base_menus`.`id` LIMIT 1
+
+2026/09/23 22:48:24 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/common/account.go:161
+[0m[33m[0.193ms] [34;1m[rows:1][0m SELECT * FROM `user_account_group` WHERE `user_account_group`.`id` = 2 AND `user_account_group`.`deleted_at` IS NULL
+
+2026/09/23 22:48:24 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/common/account.go:161
+[0m[33m[0.512ms] [34;1m[rows:1][0m SELECT * FROM `user_account` WHERE (user_id = 1 and group_id = 2) AND `user_account`.`deleted_at` IS NULL ORDER BY `user_account`.`id` LIMIT 1
+[GIN] 2026/09/23 - 22:48:24 | 200 |       6.893ms |       127.0.0.1 | GET      "/user/getUserInfo"
+
+2026/09/23 22:49:34 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:30
+[0m[33m[1.961ms] [34;1m[rows:25][0m SELECT * FROM `sys_authority_menus` WHERE sys_authority_authority_id = 999
+
+2026/09/23 22:49:34 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:41
+[0m[33m[0.435ms] [34;1m[rows:2][0m SELECT * FROM `sys_base_menu_parameters` WHERE `sys_base_menu_parameters`.`sys_base_menu_id` IN (37,42,1,52,53,36,44,7,11,38,39,45,46,47,24) AND `sys_base_menu_parameters`.`deleted_at` IS NULL
+
+2026/09/23 22:49:34 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:41
+[0m[33m[2.589ms] [34;1m[rows:15][0m SELECT * FROM `sys_base_menus` WHERE id in ('1','7','11','12','13','24','30','32','33','35','36','37','38','39','40','42','43','44','45','46','47','50','51','52','53') AND `sys_base_menus`.`deleted_at` IS NULL ORDER BY sort
+
+2026/09/23 22:49:34 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:55
+[0m[33m[0.340ms] [34;1m[rows:0][0m SELECT * FROM `sys_authority_btns` WHERE authority_id = 999
+[GIN] 2026/09/23 - 22:49:34 | 200 |   10.217625ms |       127.0.0.1 | POST     "/menu/getMenu"
+
+2026/09/23 22:49:34 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:379
+[0m[33m[0.262ms] [34;1m[rows:2][0m SELECT * FROM `sys_user_authority` WHERE `sys_user_authority`.`sys_user_id` = 1
+
+2026/09/23 22:49:34 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:379
+[0m[33m[0.474ms] [34;1m[rows:2][0m SELECT * FROM `sys_authorities` WHERE `sys_authorities`.`authority_id` IN (888,999)
+
+2026/09/23 22:49:34 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:379
+[0m[33m[0.152ms] [34;1m[rows:1][0m SELECT * FROM `sys_authorities` WHERE `sys_authorities`.`authority_id` = 999
+
+2026/09/23 22:49:34 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:379
+[0m[33m[2.410ms] [34;1m[rows:1][0m SELECT * FROM `sys_users` WHERE uuid = 'f0f71391-6d0e-418c-a601-af3dde923073' AND `sys_users`.`deleted_at` IS NULL ORDER BY `sys_users`.`id` LIMIT 1
+
+2026/09/23 22:49:34 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:227
+[0m[33m[0.214ms] [34;1m[rows:25][0m SELECT `sys_base_menu_id` FROM `sys_authority_menus` WHERE sys_authority_authority_id = 999
+
+2026/09/23 22:49:34 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:232
+[0m[33m[0.535ms] [34;1m[rows:1][0m SELECT * FROM `sys_base_menus` WHERE (name = 'dashboard' and id in ('1','7','11','12','13','24','30','32','33','35','36','37','38','39','40','42','43','44','45','46','47','50','51','52','53')) AND `sys_base_menus`.`deleted_at` IS NULL ORDER BY `sys_base_menus`.`id` LIMIT 1
+
+2026/09/23 22:49:34 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/common/account.go:161
+[0m[33m[0.519ms] [34;1m[rows:1][0m SELECT * FROM `user_account_group` WHERE `user_account_group`.`id` = 2 AND `user_account_group`.`deleted_at` IS NULL
+
+2026/09/23 22:49:34 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/common/account.go:161
+[0m[33m[1.043ms] [34;1m[rows:1][0m SELECT * FROM `user_account` WHERE (user_id = 1 and group_id = 2) AND `user_account`.`deleted_at` IS NULL ORDER BY `user_account`.`id` LIMIT 1
+[GIN] 2026/09/23 - 22:49:34 | 200 |    4.691917ms |       127.0.0.1 | GET      "/user/getUserInfo"
+[GIN] 2026/09/23 - 22:49:36 | 404 |         459ns |       127.0.0.1 | GET      "/business/pricing/markup-rate"
+
+2026/09/23 22:49:36 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:63
+[0m[33m[0.489ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_category` WHERE `shop_category`.`deleted_at` IS NULL
+
+2026/09/23 22:49:36 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1267
+[0m[33m[0.695ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_goods` WHERE `shop_goods`.`deleted_at` IS NULL
+
+2026/09/23 22:49:36 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:68
+[0m[33m[0.222ms] [34;1m[rows:0][0m SELECT * FROM `shop_brand_category` WHERE `shop_brand_category`.`category_id` IN (37,38)
+
+2026/09/23 22:49:36 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:68
+[0m[33m[0.510ms] [34;1m[rows:2][0m SELECT * FROM `shop_category` WHERE `shop_category`.`deleted_at` IS NULL ORDER BY sort asc 
+[GIN] 2026/09/23 - 22:49:36 | 200 |    1.766458ms |       127.0.0.1 | GET      "/category/getCategoryList"
+
+2026/09/23 22:49:36 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.350ms] [34;1m[rows:1][0m SELECT * FROM `shop_brand` WHERE `shop_brand`.`id` IN (2,0) AND `shop_brand`.`deleted_at` IS NULL
+
+2026/09/23 22:49:36 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.380ms] [34;1m[rows:1][0m SELECT * FROM `shop_category` WHERE `shop_category`.`id` = 38 AND `shop_category`.`deleted_at` IS NULL
+
+2026/09/23 22:49:36 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[1.242ms] [34;1m[rows:20][0m SELECT * FROM `shop_goods_description` WHERE `shop_goods_description`.`goods_id` IN (725,724,723,722,721,720,719,718,717,716,715,714,713,712,711,710,709,708,707,706) AND `shop_goods_description`.`deleted_at` IS NULL
+
+2026/09/23 22:49:36 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.807ms] [34;1m[rows:6][0m SELECT * FROM `shop_goods_image` WHERE `shop_goods_image`.`goods_id` IN (725,724,723,722,721,720,719,718,717,716,715,714,713,712,711,710,709,708,707,706) AND `shop_goods_image`.`deleted_at` IS NULL
+
+2026/09/23 22:49:36 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[4.411ms] [34;1m[rows:20][0m SELECT * FROM `shop_goods` WHERE `shop_goods`.`deleted_at` IS NULL ORDER BY sort asc, created_at desc,sort asc LIMIT 20
+
+2026/09/23 22:49:36 [31;1m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1277 [35;1mrecord not found
+[0m[33m[0.716ms] [34;1m[rows:0][0m SELECT * FROM `shop_cart` WHERE (user_id = 1 and goods_id = 725) AND `shop_cart`.`deleted_at` IS NULL ORDER BY `shop_cart`.`id` LIMIT 1
+
+2026/09/23 22:49:36 [31;1m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1277 [35;1mrecord not found
+[0m[33m[0.163ms] [34;1m[rows:0][0m SELECT * FROM `shop_cart` WHERE (user_id = 1 and goods_id = 724) AND `shop_cart`.`deleted_at` IS NULL ORDER BY `shop_cart`.`id` LIMIT 1
+
+2026/09/23 22:49:36 [31;1m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1277 [35;1mrecord not found
+[0m[33m[0.177ms] [34;1m[rows:0][0m SELECT * FROM `shop_cart` WHERE (user_id = 1 and goods_id = 723) AND `shop_cart`.`deleted_at` IS NULL ORDER BY `shop_cart`.`id` LIMIT 1
+
+2026/09/23 22:49:36 [31;1m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1277 [35;1mrecord not found
+[0m[33m[0.205ms] [34;1m[rows:0][0m SELECT * FROM `shop_cart` WHERE (user_id = 1 and goods_id = 722) AND `shop_cart`.`deleted_at` IS NULL ORDER BY `shop_cart`.`id` LIMIT 1
+
+2026/09/23 22:49:36 [31;1m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1277 [35;1mrecord not found
+[0m[33m[0.167ms] [34;1m[rows:0][0m SELECT * FROM `shop_cart` WHERE (user_id = 1 and goods_id = 721) AND `shop_cart`.`deleted_at` IS NULL ORDER BY `shop_cart`.`id` LIMIT 1
+
+2026/09/23 22:49:36 [31;1m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1277 [35;1mrecord not found
+[0m[33m[0.168ms] [34;1m[rows:0][0m SELECT * FROM `shop_cart` WHERE (user_id = 1 and goods_id = 720) AND `shop_cart`.`deleted_at` IS NULL ORDER BY `shop_cart`.`id` LIMIT 1
+
+2026/09/23 22:49:36 [31;1m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1277 [35;1mrecord not found
+[0m[33m[0.144ms] [34;1m[rows:0][0m SELECT * FROM `shop_cart` WHERE (user_id = 1 and goods_id = 719) AND `shop_cart`.`deleted_at` IS NULL ORDER BY `shop_cart`.`id` LIMIT 1
+
+2026/09/23 22:49:36 [31;1m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1277 [35;1mrecord not found
+[0m[33m[0.167ms] [34;1m[rows:0][0m SELECT * FROM `shop_cart` WHERE (user_id = 1 and goods_id = 718) AND `shop_cart`.`deleted_at` IS NULL ORDER BY `shop_cart`.`id` LIMIT 1
+
+2026/09/23 22:49:36 [31;1m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1277 [35;1mrecord not found
+[0m[33m[0.289ms] [34;1m[rows:0][0m SELECT * FROM `shop_cart` WHERE (user_id = 1 and goods_id = 717) AND `shop_cart`.`deleted_at` IS NULL ORDER BY `shop_cart`.`id` LIMIT 1
+
+2026/09/23 22:49:36 [31;1m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1277 [35;1mrecord not found
+[0m[33m[0.227ms] [34;1m[rows:0][0m SELECT * FROM `shop_cart` WHERE (user_id = 1 and goods_id = 716) AND `shop_cart`.`deleted_at` IS NULL ORDER BY `shop_cart`.`id` LIMIT 1
+
+2026/09/23 22:49:36 [31;1m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1277 [35;1mrecord not found
+[0m[33m[0.144ms] [34;1m[rows:0][0m SELECT * FROM `shop_cart` WHERE (user_id = 1 and goods_id = 715) AND `shop_cart`.`deleted_at` IS NULL ORDER BY `shop_cart`.`id` LIMIT 1
+
+2026/09/23 22:49:36 [31;1m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1277 [35;1mrecord not found
+[0m[33m[0.162ms] [34;1m[rows:0][0m SELECT * FROM `shop_cart` WHERE (user_id = 1 and goods_id = 714) AND `shop_cart`.`deleted_at` IS NULL ORDER BY `shop_cart`.`id` LIMIT 1
+
+2026/09/23 22:49:36 [31;1m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1277 [35;1mrecord not found
+[0m[33m[0.182ms] [34;1m[rows:0][0m SELECT * FROM `shop_cart` WHERE (user_id = 1 and goods_id = 713) AND `shop_cart`.`deleted_at` IS NULL ORDER BY `shop_cart`.`id` LIMIT 1
+
+2026/09/23 22:49:36 [31;1m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1277 [35;1mrecord not found
+[0m[33m[0.185ms] [34;1m[rows:0][0m SELECT * FROM `shop_cart` WHERE (user_id = 1 and goods_id = 712) AND `shop_cart`.`deleted_at` IS NULL ORDER BY `shop_cart`.`id` LIMIT 1
+
+2026/09/23 22:49:36 [31;1m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1277 [35;1mrecord not found
+[0m[33m[0.196ms] [34;1m[rows:0][0m SELECT * FROM `shop_cart` WHERE (user_id = 1 and goods_id = 711) AND `shop_cart`.`deleted_at` IS NULL ORDER BY `shop_cart`.`id` LIMIT 1
+
+2026/09/23 22:49:36 [31;1m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1277 [35;1mrecord not found
+[0m[33m[0.195ms] [34;1m[rows:0][0m SELECT * FROM `shop_cart` WHERE (user_id = 1 and goods_id = 710) AND `shop_cart`.`deleted_at` IS NULL ORDER BY `shop_cart`.`id` LIMIT 1
+
+2026/09/23 22:49:36 [31;1m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1277 [35;1mrecord not found
+[0m[33m[0.195ms] [34;1m[rows:0][0m SELECT * FROM `shop_cart` WHERE (user_id = 1 and goods_id = 709) AND `shop_cart`.`deleted_at` IS NULL ORDER BY `shop_cart`.`id` LIMIT 1
+
+2026/09/23 22:49:36 [31;1m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1277 [35;1mrecord not found
+[0m[33m[0.196ms] [34;1m[rows:0][0m SELECT * FROM `shop_cart` WHERE (user_id = 1 and goods_id = 708) AND `shop_cart`.`deleted_at` IS NULL ORDER BY `shop_cart`.`id` LIMIT 1
+
+2026/09/23 22:49:36 [31;1m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1277 [35;1mrecord not found
+[0m[33m[0.174ms] [34;1m[rows:0][0m SELECT * FROM `shop_cart` WHERE (user_id = 1 and goods_id = 707) AND `shop_cart`.`deleted_at` IS NULL ORDER BY `shop_cart`.`id` LIMIT 1
+
+2026/09/23 22:49:36 [31;1m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1277 [35;1mrecord not found
+[0m[33m[0.161ms] [34;1m[rows:0][0m SELECT * FROM `shop_cart` WHERE (user_id = 1 and goods_id = 706) AND `shop_cart`.`deleted_at` IS NULL ORDER BY `shop_cart`.`id` LIMIT 1
+[GIN] 2026/09/23 - 22:49:36 | 200 |   10.963917ms |       127.0.0.1 | GET      "/goods/getGoodsList?page=1&pageSize=20&name="
+[GIN] 2026/09/23 - 22:51:18 | 200 |     464.334µs |             ::1 | GET      "/cart/getCartList"
+[GIN] 2026/09/23 - 22:51:18 | 200 |      88.583µs |             ::1 | GET      "/cart/getCartList"
+
+2026/09/23 22:51:18 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:63
+[0m[33m[18.022ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_category` WHERE `shop_category`.`deleted_at` IS NULL
+
+2026/09/23 22:51:18 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:68
+[0m[33m[21.346ms] [34;1m[rows:0][0m SELECT * FROM `shop_brand_category` WHERE `shop_brand_category`.`category_id` IN (37,38)
+
+2026/09/23 22:51:18 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:68
+[0m[33m[21.879ms] [34;1m[rows:2][0m SELECT * FROM `shop_category` WHERE `shop_category`.`deleted_at` IS NULL ORDER BY sort asc 
+[GIN] 2026/09/23 - 22:51:18 | 200 |   40.232292ms |             ::1 | GET      "/category/getCategoryList"
+[fresh_shop/server]2026/09/23 - 22:51:18.536	[31merror[0m	/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/utils/clamis.go:15	从Gin的Context中获取从jwt解析信息失败, 请检查请求头是否存在x-token且claims是否为规定结构
+
+2026/09/23 22:51:18 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1267
+[0m[33m[0.929ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_goods` WHERE category_id = 37 AND `shop_goods`.`deleted_at` IS NULL
+
+2026/09/23 22:51:18 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[1.562ms] [34;1m[rows:0][0m SELECT * FROM `shop_goods` WHERE category_id = 37 AND `shop_goods`.`deleted_at` IS NULL ORDER BY sort asc, created_at desc,sort asc LIMIT 20
+[GIN] 2026/09/23 - 22:51:18 | 200 |    3.242125ms |             ::1 | GET      "/goods/getGoodsList?categoryId=37&page=1&pageSize=20"
+
+2026/09/23 22:51:21 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/business/banner.go:60
+[0m[33m[0.463ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_banner` WHERE `shop_banner`.`deleted_at` IS NULL
+
+2026/09/23 22:51:21 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/business/banner.go:65
+[0m[33m[0.183ms] [34;1m[rows:5][0m SELECT * FROM `shop_banner` WHERE `shop_banner`.`deleted_at` IS NULL ORDER BY sort asc 
+
+2026/09/23 22:51:21 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:63
+[0m[33m[0.320ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_category` WHERE is_first = 1 AND `shop_category`.`deleted_at` IS NULL
+[GIN] 2026/09/23 - 22:51:21 | 200 |    1.060125ms |             ::1 | GET      "/banner/getBannerList"
+
+2026/09/23 22:51:21 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:68
+[0m[33m[0.268ms] [34;1m[rows:0][0m SELECT * FROM `shop_brand_category` WHERE `shop_brand_category`.`category_id` IN (37,38)
+
+2026/09/23 22:51:21 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:68
+[0m[33m[0.541ms] [34;1m[rows:2][0m SELECT * FROM `shop_category` WHERE is_first = 1 AND `shop_category`.`deleted_at` IS NULL ORDER BY sort asc LIMIT 4
+[GIN] 2026/09/23 - 22:51:21 | 200 |     937.292µs |             ::1 | GET      "/category/getCategoryList?page=1&pageSize=4&isFirst=1"
+[fresh_shop/server]2026/09/23 - 22:51:21.743	[31merror[0m	/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/utils/clamis.go:15	从Gin的Context中获取从jwt解析信息失败, 请检查请求头是否存在x-token且claims是否为规定结构
+[fresh_shop/server]2026/09/23 - 22:51:21.743	[31merror[0m	/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/utils/clamis.go:15	从Gin的Context中获取从jwt解析信息失败, 请检查请求头是否存在x-token且claims是否为规定结构
+
+2026/09/23 22:51:21 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1267
+[0m[33m[0.499ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_goods` WHERE goods_area = 0 AND status = 1 AND is_hot = 1 AND `shop_goods`.`deleted_at` IS NULL
+
+2026/09/23 22:51:21 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1267
+[0m[33m[0.446ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_goods` WHERE goods_area = 0 AND status = 1 AND is_new = 1 AND `shop_goods`.`deleted_at` IS NULL
+
+2026/09/23 22:51:21 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.258ms] [34;1m[rows:2][0m SELECT * FROM `shop_brand` WHERE `shop_brand`.`id` IN (2,0,1) AND `shop_brand`.`deleted_at` IS NULL
+
+2026/09/23 22:51:21 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.548ms] [34;1m[rows:2][0m SELECT * FROM `shop_brand` WHERE `shop_brand`.`id` IN (2,0,1) AND `shop_brand`.`deleted_at` IS NULL
+
+2026/09/23 22:51:21 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.265ms] [34;1m[rows:1][0m SELECT * FROM `shop_category` WHERE `shop_category`.`id` = 38 AND `shop_category`.`deleted_at` IS NULL
+
+2026/09/23 22:51:21 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.271ms] [34;1m[rows:1][0m SELECT * FROM `shop_category` WHERE `shop_category`.`id` = 38 AND `shop_category`.`deleted_at` IS NULL
+
+2026/09/23 22:51:21 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.614ms] [34;1m[rows:12][0m SELECT * FROM `shop_goods_description` WHERE `shop_goods_description`.`goods_id` IN (725,713,712,711,710,674,672,671,670,669,665,664) AND `shop_goods_description`.`deleted_at` IS NULL
+
+2026/09/23 22:51:21 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.825ms] [34;1m[rows:12][0m SELECT * FROM `shop_goods_description` WHERE `shop_goods_description`.`goods_id` IN (725,713,712,711,710,674,672,671,670,669,665,664) AND `shop_goods_description`.`deleted_at` IS NULL
+
+2026/09/23 22:51:21 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.689ms] [34;1m[rows:17][0m SELECT * FROM `shop_goods_image` WHERE `shop_goods_image`.`goods_id` IN (725,713,712,711,710,674,672,671,670,669,665,664) AND `shop_goods_image`.`deleted_at` IS NULL
+
+2026/09/23 22:51:21 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[3.494ms] [34;1m[rows:12][0m SELECT * FROM `shop_goods` WHERE goods_area = 0 AND status = 1 AND is_hot = 1 AND `shop_goods`.`deleted_at` IS NULL ORDER BY sort asc, created_at desc,sort asc LIMIT 12
+[GIN] 2026/09/23 - 22:51:21 | 200 |    4.304666ms |             ::1 | GET      "/goods/getGoodsList?goodsArea=0&isHot=1&page=1&pageSize=12&status=1"
+
+2026/09/23 22:51:21 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.981ms] [34;1m[rows:17][0m SELECT * FROM `shop_goods_image` WHERE `shop_goods_image`.`goods_id` IN (725,713,712,711,710,674,672,671,670,669,665,664) AND `shop_goods_image`.`deleted_at` IS NULL
+
+2026/09/23 22:51:21 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[3.659ms] [34;1m[rows:12][0m SELECT * FROM `shop_goods` WHERE goods_area = 0 AND status = 1 AND is_new = 1 AND `shop_goods`.`deleted_at` IS NULL ORDER BY sort asc, created_at desc,sort asc LIMIT 12
+[GIN] 2026/09/23 - 22:51:21 | 200 |    4.390042ms |             ::1 | GET      "/goods/getGoodsList?goodsArea=0&isNew=1&page=1&pageSize=12&status=1"
+
+2026/09/23 22:51:25 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/business/banner.go:60
+[0m[33m[0.452ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_banner` WHERE `shop_banner`.`deleted_at` IS NULL
+
+2026/09/23 22:51:25 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/business/banner.go:65
+[0m[33m[0.391ms] [34;1m[rows:5][0m SELECT * FROM `shop_banner` WHERE `shop_banner`.`deleted_at` IS NULL ORDER BY sort asc 
+[GIN] 2026/09/23 - 22:51:25 | 200 |     1.32225ms |             ::1 | GET      "/banner/getBannerList"
+
+2026/09/23 22:51:25 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:63
+[0m[33m[0.627ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_category` WHERE is_first = 1 AND `shop_category`.`deleted_at` IS NULL
+[fresh_shop/server]2026/09/23 - 22:51:25.601	[31merror[0m	/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/utils/clamis.go:15	从Gin的Context中获取从jwt解析信息失败, 请检查请求头是否存在x-token且claims是否为规定结构
+
+2026/09/23 22:51:25 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:68
+[0m[33m[0.200ms] [34;1m[rows:0][0m SELECT * FROM `shop_brand_category` WHERE `shop_brand_category`.`category_id` IN (37,38)
+[fresh_shop/server]2026/09/23 - 22:51:25.602	[31merror[0m	/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/utils/clamis.go:15	从Gin的Context中获取从jwt解析信息失败, 请检查请求头是否存在x-token且claims是否为规定结构
+
+2026/09/23 22:51:25 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:68
+[0m[33m[0.558ms] [34;1m[rows:2][0m SELECT * FROM `shop_category` WHERE is_first = 1 AND `shop_category`.`deleted_at` IS NULL ORDER BY sort asc LIMIT 4
+[GIN] 2026/09/23 - 22:51:25 | 200 |    1.301709ms |             ::1 | GET      "/category/getCategoryList?page=1&pageSize=4&isFirst=1"
+
+2026/09/23 22:51:25 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1267
+[0m[33m[0.485ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_goods` WHERE goods_area = 0 AND status = 1 AND is_hot = 1 AND `shop_goods`.`deleted_at` IS NULL
+
+2026/09/23 22:51:25 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1267
+[0m[33m[0.457ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_goods` WHERE goods_area = 0 AND status = 1 AND is_new = 1 AND `shop_goods`.`deleted_at` IS NULL
+
+2026/09/23 22:51:25 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.721ms] [34;1m[rows:2][0m SELECT * FROM `shop_brand` WHERE `shop_brand`.`id` IN (2,0,1) AND `shop_brand`.`deleted_at` IS NULL
+
+2026/09/23 22:51:25 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[1.057ms] [34;1m[rows:2][0m SELECT * FROM `shop_brand` WHERE `shop_brand`.`id` IN (2,0,1) AND `shop_brand`.`deleted_at` IS NULL
+
+2026/09/23 22:51:25 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.250ms] [34;1m[rows:1][0m SELECT * FROM `shop_category` WHERE `shop_category`.`id` = 38 AND `shop_category`.`deleted_at` IS NULL
+
+2026/09/23 22:51:25 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.229ms] [34;1m[rows:1][0m SELECT * FROM `shop_category` WHERE `shop_category`.`id` = 38 AND `shop_category`.`deleted_at` IS NULL
+
+2026/09/23 22:51:25 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.597ms] [34;1m[rows:12][0m SELECT * FROM `shop_goods_description` WHERE `shop_goods_description`.`goods_id` IN (725,713,712,711,710,674,672,671,670,669,665,664) AND `shop_goods_description`.`deleted_at` IS NULL
+
+2026/09/23 22:51:25 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.654ms] [34;1m[rows:12][0m SELECT * FROM `shop_goods_description` WHERE `shop_goods_description`.`goods_id` IN (725,713,712,711,710,674,672,671,670,669,665,664) AND `shop_goods_description`.`deleted_at` IS NULL
+
+2026/09/23 22:51:25 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.614ms] [34;1m[rows:17][0m SELECT * FROM `shop_goods_image` WHERE `shop_goods_image`.`goods_id` IN (725,713,712,711,710,674,672,671,670,669,665,664) AND `shop_goods_image`.`deleted_at` IS NULL
+
+2026/09/23 22:51:25 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[3.548ms] [34;1m[rows:12][0m SELECT * FROM `shop_goods` WHERE goods_area = 0 AND status = 1 AND is_new = 1 AND `shop_goods`.`deleted_at` IS NULL ORDER BY sort asc, created_at desc,sort asc LIMIT 12
+[GIN] 2026/09/23 - 22:51:25 | 200 |    4.250292ms |             ::1 | GET      "/goods/getGoodsList?goodsArea=0&isNew=1&page=1&pageSize=12&status=1"
+
+2026/09/23 22:51:25 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.816ms] [34;1m[rows:17][0m SELECT * FROM `shop_goods_image` WHERE `shop_goods_image`.`goods_id` IN (725,713,712,711,710,674,672,671,670,669,665,664) AND `shop_goods_image`.`deleted_at` IS NULL
+
+2026/09/23 22:51:25 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[4.138ms] [34;1m[rows:12][0m SELECT * FROM `shop_goods` WHERE goods_area = 0 AND status = 1 AND is_hot = 1 AND `shop_goods`.`deleted_at` IS NULL ORDER BY sort asc, created_at desc,sort asc LIMIT 12
+[GIN] 2026/09/23 - 22:51:25 | 200 |    5.166708ms |             ::1 | GET      "/goods/getGoodsList?goodsArea=0&isHot=1&page=1&pageSize=12&status=1"
+
+2026/09/23 22:51:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/business/banner.go:60
+[0m[33m[0.988ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_banner` WHERE `shop_banner`.`deleted_at` IS NULL
+
+2026/09/23 22:51:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:63
+[0m[33m[1.882ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_category` WHERE is_first = 1 AND `shop_category`.`deleted_at` IS NULL
+[fresh_shop/server]2026/09/23 - 22:51:52.399	[31merror[0m	/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/utils/clamis.go:15	从Gin的Context中获取从jwt解析信息失败, 请检查请求头是否存在x-token且claims是否为规定结构
+[fresh_shop/server]2026/09/23 - 22:51:52.399	[31merror[0m	/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/utils/clamis.go:15	从Gin的Context中获取从jwt解析信息失败, 请检查请求头是否存在x-token且claims是否为规定结构
+
+2026/09/23 22:51:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/business/banner.go:65
+[0m[33m[1.460ms] [34;1m[rows:5][0m SELECT * FROM `shop_banner` WHERE `shop_banner`.`deleted_at` IS NULL ORDER BY sort asc 
+[GIN] 2026/09/23 - 22:51:52 | 200 |    3.946542ms |             ::1 | GET      "/banner/getBannerList"
+
+2026/09/23 22:51:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:68
+[0m[33m[0.536ms] [34;1m[rows:0][0m SELECT * FROM `shop_brand_category` WHERE `shop_brand_category`.`category_id` IN (37,38)
+
+2026/09/23 22:51:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:68
+[0m[33m[4.122ms] [34;1m[rows:2][0m SELECT * FROM `shop_category` WHERE is_first = 1 AND `shop_category`.`deleted_at` IS NULL ORDER BY sort asc LIMIT 4
+[GIN] 2026/09/23 - 22:51:52 | 200 |    6.214958ms |             ::1 | GET      "/category/getCategoryList?page=1&pageSize=4&isFirst=1"
+
+2026/09/23 22:51:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1267
+[0m[33m[5.746ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_goods` WHERE goods_area = 0 AND status = 1 AND is_new = 1 AND `shop_goods`.`deleted_at` IS NULL
+
+2026/09/23 22:51:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1267
+[0m[33m[5.771ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_goods` WHERE goods_area = 0 AND status = 1 AND is_hot = 1 AND `shop_goods`.`deleted_at` IS NULL
+
+2026/09/23 22:51:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.736ms] [34;1m[rows:2][0m SELECT * FROM `shop_brand` WHERE `shop_brand`.`id` IN (2,0,1) AND `shop_brand`.`deleted_at` IS NULL
+
+2026/09/23 22:51:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.863ms] [34;1m[rows:2][0m SELECT * FROM `shop_brand` WHERE `shop_brand`.`id` IN (2,0,1) AND `shop_brand`.`deleted_at` IS NULL
+
+2026/09/23 22:51:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.318ms] [34;1m[rows:1][0m SELECT * FROM `shop_category` WHERE `shop_category`.`id` = 38 AND `shop_category`.`deleted_at` IS NULL
+
+2026/09/23 22:51:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.357ms] [34;1m[rows:1][0m SELECT * FROM `shop_category` WHERE `shop_category`.`id` = 38 AND `shop_category`.`deleted_at` IS NULL
+
+2026/09/23 22:51:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.537ms] [34;1m[rows:12][0m SELECT * FROM `shop_goods_description` WHERE `shop_goods_description`.`goods_id` IN (725,713,712,711,710,674,672,671,670,669,665,664) AND `shop_goods_description`.`deleted_at` IS NULL
+
+2026/09/23 22:51:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.588ms] [34;1m[rows:12][0m SELECT * FROM `shop_goods_description` WHERE `shop_goods_description`.`goods_id` IN (725,713,712,711,710,674,672,671,670,669,665,664) AND `shop_goods_description`.`deleted_at` IS NULL
+
+2026/09/23 22:51:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.646ms] [34;1m[rows:17][0m SELECT * FROM `shop_goods_image` WHERE `shop_goods_image`.`goods_id` IN (725,713,712,711,710,674,672,671,670,669,665,664) AND `shop_goods_image`.`deleted_at` IS NULL
+
+2026/09/23 22:51:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[3.850ms] [34;1m[rows:12][0m SELECT * FROM `shop_goods` WHERE goods_area = 0 AND status = 1 AND is_new = 1 AND `shop_goods`.`deleted_at` IS NULL ORDER BY sort asc, created_at desc,sort asc LIMIT 12
+[GIN] 2026/09/23 - 22:51:52 | 200 |   10.208375ms |             ::1 | GET      "/goods/getGoodsList?goodsArea=0&isNew=1&page=1&pageSize=12&status=1"
+
+2026/09/23 22:51:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.928ms] [34;1m[rows:17][0m SELECT * FROM `shop_goods_image` WHERE `shop_goods_image`.`goods_id` IN (725,713,712,711,710,674,672,671,670,669,665,664) AND `shop_goods_image`.`deleted_at` IS NULL
+
+2026/09/23 22:51:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[4.193ms] [34;1m[rows:12][0m SELECT * FROM `shop_goods` WHERE goods_area = 0 AND status = 1 AND is_hot = 1 AND `shop_goods`.`deleted_at` IS NULL ORDER BY sort asc, created_at desc,sort asc LIMIT 12
+[GIN] 2026/09/23 - 22:51:52 | 200 |   10.842041ms |             ::1 | GET      "/goods/getGoodsList?goodsArea=0&isHot=1&page=1&pageSize=12&status=1"
+[fresh_shop/server]2026/09/23 - 22:52:11.111	[31merror[0m	/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/utils/clamis.go:15	从Gin的Context中获取从jwt解析信息失败, 请检查请求头是否存在x-token且claims是否为规定结构
+
+2026/09/23 22:52:11 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1267
+[0m[33m[1.070ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_goods` WHERE goods_area = 0 AND status = 1 AND is_hot = 1 AND `shop_goods`.`deleted_at` IS NULL
+
+2026/09/23 22:52:11 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.425ms] [34;1m[rows:1][0m SELECT * FROM `shop_brand` WHERE `shop_brand`.`id` IN (0,10) AND `shop_brand`.`deleted_at` IS NULL
+
+2026/09/23 22:52:11 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.375ms] [34;1m[rows:1][0m SELECT * FROM `shop_category` WHERE `shop_category`.`id` = 38 AND `shop_category`.`deleted_at` IS NULL
+
+2026/09/23 22:52:11 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.587ms] [34;1m[rows:12][0m SELECT * FROM `shop_goods_description` WHERE `shop_goods_description`.`goods_id` IN (663,572,555,554,521,520,519,518,517,516,515,513) AND `shop_goods_description`.`deleted_at` IS NULL
+
+2026/09/23 22:52:11 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.636ms] [34;1m[rows:23][0m SELECT * FROM `shop_goods_image` WHERE `shop_goods_image`.`goods_id` IN (663,572,555,554,521,520,519,518,517,516,515,513) AND `shop_goods_image`.`deleted_at` IS NULL
+
+2026/09/23 22:52:11 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[4.312ms] [34;1m[rows:12][0m SELECT * FROM `shop_goods` WHERE goods_area = 0 AND status = 1 AND is_hot = 1 AND `shop_goods`.`deleted_at` IS NULL ORDER BY sort asc, created_at desc,sort asc LIMIT 12 OFFSET 12
+[GIN] 2026/09/23 - 22:52:11 | 200 |    6.563917ms |             ::1 | GET      "/goods/getGoodsList?goodsArea=0&isHot=1&page=2&pageSize=12&status=1"

@@ -1,27 +1,13 @@
 <!--
  * @Author: dalefeng
  * @Date: 2023-03-23 16:56:40
- * @LastEditors:
- * @LastEditTime: 2026-09-23
+ * @LastEditors: dalefeng
+ * @LastEditTime: 2023-04-14 20:56:15
 -->
 <template>
 	<view>
-		<u-tabbar
-			:value="tabsId"
-			@change="tabsChange"
-			:fixed="true"
-			:placeholder="true"
-			:safeAreaInsetBottom="true"
-			activeColor="#4CAF50"
-			inactiveColor="#999"
-		>
-			<u-tabbar-item
-				v-for="(item, key) in tabs"
-				:text="item.text"
-				:icon="item.icon"
-				:key="key"
-				style="z-index: 9999"
-			/>
+		<u-tabbar :value="tabsId" @change="tabsChange" :fixed="true" :placeholder="true" :safeAreaInsetBottom="true">
+			<u-tabbar-item v-for="(item, key) in tabs" :text="item.text" :icon="item.icon" :key="key" style="z-index: 9999"/>
 		</u-tabbar>
 	</view>
 </template>
@@ -49,6 +35,11 @@ export default {
 					url: "/pages/category/category"
 				},
 				{
+					text: "快速下单",
+					icon: "star-fill",
+					url: "/pages/goods/quickPay"
+				},
+				{
 					text: "购物车",
 					icon: "shopping-cart",
 					url: "/pages/cart/cart"
@@ -59,7 +50,8 @@ export default {
 					url: "/pages/my/my"
 				},
 			],
-		}
+
+		};
 	},
 	methods: {
 		tabsChange(index) {
