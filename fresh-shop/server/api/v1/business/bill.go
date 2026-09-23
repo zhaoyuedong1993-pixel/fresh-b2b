@@ -31,10 +31,10 @@ func (api *BillApi) GetBillList(c *gin.Context) {
 	}
 
 	list, total := billService.GetBillList(companyId, req.Page, req.PageSize)
-	response.OkWithDetailed(gin.H{
+	response.OkWithData(gin.H{
 		"list":  list,
 		"total": total,
-	}, "查询成功", c)
+	}, c)
 }
 
 // GenerateBill 生成账单
@@ -79,7 +79,7 @@ func (api *BillApi) GetBillDetail(c *gin.Context) {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
-	response.OkWithData(bill, "查询成功", c)
+	response.OkWithData(bill, c)
 }
 
 // UpdateBillStatus 更新账单状态

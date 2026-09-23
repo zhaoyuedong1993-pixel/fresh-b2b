@@ -14,17 +14,17 @@ func (s *BusinessRouter) InitBusinessRouter(Router *gin.RouterGroup) {
 	// 定价路由
 	pricingRouter := Router.Group("pricing").Use(middleware.OperationRecord())
 	{
-		pricingRouter.POST("batch-cost-price", business.PricingApi{}.BatchUpdateCostPrice)
-		pricingRouter.POST("apply", business.PricingApi{}.ApplyPricing)
-		pricingRouter.GET("markup-rate", business.PricingApi{}.GetMarkupRate)
+		pricingRouter.POST("batch-cost-price", (&business.PricingApi{}).BatchUpdateCostPrice)
+		pricingRouter.POST("apply", (&business.PricingApi{}).ApplyPricing)
+		pricingRouter.GET("markup-rate", (&business.PricingApi{}).GetMarkupRate)
 	}
 
 	// 账单路由
 	billRouter := Router.Group("bill").Use(middleware.OperationRecord())
 	{
-		billRouter.GET("list", business.BillApi{}.GetBillList)
-		billRouter.POST("generate", business.BillApi{}.GenerateBill)
-		billRouter.GET("/:id", business.BillApi{}.GetBillDetail)
-		billRouter.PUT("/:id/status", business.BillApi{}.UpdateBillStatus)
+		billRouter.GET("list", (&business.BillApi{}).GetBillList)
+		billRouter.POST("generate", (&business.BillApi{}).GenerateBill)
+		billRouter.GET("/:id", (&business.BillApi{}).GetBillDetail)
+		billRouter.PUT("/:id/status", (&business.BillApi{}).UpdateBillStatus)
 	}
 }

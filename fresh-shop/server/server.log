@@ -1,0 +1,770 @@
+您正在使用gin模式的GIN_MODE环境名称,config的路径为config.yaml
+[GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.
+
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+无鉴权插件安装==》 &{[0x104a2c1b0 0x104a2c590] / 0x1cd9f018d6c0 false}
+鉴权插件安装==》 &{[0x104a2c1b0 0x104a2c590] / 0x1cd9f018d6c0 false}
+[GIN-debug] POST   /email/emailTest          --> fresh-shop/server/plugin/email/api.(*EmailApi).EmailTest-fm (6 handlers)
+[GIN-debug] POST   /email/sendEmail          --> fresh-shop/server/plugin/email/api.(*EmailApi).SendEmail-fm (6 handlers)
+[GIN-debug] GET    /uploads/file/*filepath   --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (3 handlers)
+[GIN-debug] HEAD   /uploads/file/*filepath   --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (3 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (3 handlers)
+[fresh_shop/server]2026/09/23 - 21:31:19.823	[34minfo[0m	/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/initialize/router.go:39	register swagger handler
+[GIN-debug] GET    /health                   --> fresh-shop/server/initialize.Routers.func1 (3 handlers)
+[GIN-debug] POST   /base/login               --> fresh-shop/server/api/v1/system.(*BaseApi).Login-fm (3 handlers)
+[GIN-debug] POST   /base/loginWx             --> fresh-shop/server/api/v1/system.(*BaseApi).LoginWx-fm (3 handlers)
+[GIN-debug] POST   /base/captcha             --> fresh-shop/server/api/v1/system.(*BaseApi).Captcha-fm (3 handlers)
+[GIN-debug] POST   /init/initdb              --> fresh-shop/server/api/v1/system.(*DBApi).InitDB-fm (3 handlers)
+[GIN-debug] POST   /init/checkdb             --> fresh-shop/server/api/v1/system.(*DBApi).CheckDB-fm (3 handlers)
+[GIN-debug] POST   /api/createApi            --> fresh-shop/server/api/v1/system.(*SystemApiApi).CreateApi-fm (7 handlers)
+[GIN-debug] POST   /api/deleteApi            --> fresh-shop/server/api/v1/system.(*SystemApiApi).DeleteApi-fm (7 handlers)
+[GIN-debug] POST   /api/getApiById           --> fresh-shop/server/api/v1/system.(*SystemApiApi).GetApiById-fm (7 handlers)
+[GIN-debug] POST   /api/updateApi            --> fresh-shop/server/api/v1/system.(*SystemApiApi).UpdateApi-fm (7 handlers)
+[GIN-debug] DELETE /api/deleteApisByIds      --> fresh-shop/server/api/v1/system.(*SystemApiApi).DeleteApisByIds-fm (7 handlers)
+[GIN-debug] POST   /api/getAllApis           --> fresh-shop/server/api/v1/system.(*SystemApiApi).GetAllApis-fm (6 handlers)
+[GIN-debug] POST   /api/getApiList           --> fresh-shop/server/api/v1/system.(*SystemApiApi).GetApiList-fm (6 handlers)
+[GIN-debug] POST   /jwt/jsonInBlacklist      --> fresh-shop/server/api/v1/system.(*JwtApi).JsonInBlacklist-fm (6 handlers)
+[GIN-debug] POST   /user/admin_register      --> fresh-shop/server/api/v1/system.(*BaseApi).Register-fm (7 handlers)
+[GIN-debug] POST   /user/changePassword      --> fresh-shop/server/api/v1/system.(*BaseApi).ChangePassword-fm (7 handlers)
+[GIN-debug] POST   /user/setUserAuthority    --> fresh-shop/server/api/v1/system.(*BaseApi).SetUserAuthority-fm (7 handlers)
+[GIN-debug] DELETE /user/deleteUser          --> fresh-shop/server/api/v1/system.(*BaseApi).DeleteUser-fm (7 handlers)
+[GIN-debug] PUT    /user/setUserInfo         --> fresh-shop/server/api/v1/system.(*BaseApi).SetUserInfo-fm (7 handlers)
+[GIN-debug] PUT    /user/setSelfInfo         --> fresh-shop/server/api/v1/system.(*BaseApi).SetSelfInfo-fm (7 handlers)
+[GIN-debug] POST   /user/setUserAuthorities  --> fresh-shop/server/api/v1/system.(*BaseApi).SetUserAuthorities-fm (7 handlers)
+[GIN-debug] POST   /user/resetPassword       --> fresh-shop/server/api/v1/system.(*BaseApi).ResetPassword-fm (7 handlers)
+[GIN-debug] GET    /user/getAuditStatus      --> fresh-shop/server/api/v1/system.(*BaseApi).GetAuditStatus-fm (6 handlers)
+[GIN-debug] POST   /user/getUserList         --> fresh-shop/server/api/v1/system.(*BaseApi).GetUserList-fm (6 handlers)
+[GIN-debug] GET    /user/getUserInfo         --> fresh-shop/server/api/v1/system.(*BaseApi).GetUserInfo-fm (6 handlers)
+[GIN-debug] POST   /menu/addBaseMenu         --> fresh-shop/server/api/v1/system.(*AuthorityMenuApi).AddBaseMenu-fm (7 handlers)
+[GIN-debug] POST   /menu/addMenuAuthority    --> fresh-shop/server/api/v1/system.(*AuthorityMenuApi).AddMenuAuthority-fm (7 handlers)
+[GIN-debug] POST   /menu/deleteBaseMenu      --> fresh-shop/server/api/v1/system.(*AuthorityMenuApi).DeleteBaseMenu-fm (7 handlers)
+[GIN-debug] POST   /menu/updateBaseMenu      --> fresh-shop/server/api/v1/system.(*AuthorityMenuApi).UpdateBaseMenu-fm (7 handlers)
+[GIN-debug] POST   /menu/getMenu             --> fresh-shop/server/api/v1/system.(*AuthorityMenuApi).GetMenu-fm (6 handlers)
+[GIN-debug] POST   /menu/getMenuList         --> fresh-shop/server/api/v1/system.(*AuthorityMenuApi).GetMenuList-fm (6 handlers)
+[GIN-debug] POST   /menu/getBaseMenuTree     --> fresh-shop/server/api/v1/system.(*AuthorityMenuApi).GetBaseMenuTree-fm (6 handlers)
+[GIN-debug] POST   /menu/getMenuAuthority    --> fresh-shop/server/api/v1/system.(*AuthorityMenuApi).GetMenuAuthority-fm (6 handlers)
+[GIN-debug] POST   /menu/getBaseMenuById     --> fresh-shop/server/api/v1/system.(*AuthorityMenuApi).GetBaseMenuById-fm (6 handlers)
+[GIN-debug] POST   /system/getSystemConfig   --> fresh-shop/server/api/v1/system.(*SystemApi).GetSystemConfig-fm (7 handlers)
+[GIN-debug] POST   /system/setSystemConfig   --> fresh-shop/server/api/v1/system.(*SystemApi).SetSystemConfig-fm (7 handlers)
+[GIN-debug] POST   /system/getServerInfo     --> fresh-shop/server/api/v1/system.(*SystemApi).GetServerInfo-fm (7 handlers)
+[GIN-debug] POST   /system/reloadSystem      --> fresh-shop/server/api/v1/system.(*SystemApi).ReloadSystem-fm (7 handlers)
+[GIN-debug] POST   /casbin/updateCasbin      --> fresh-shop/server/api/v1/system.(*CasbinApi).UpdateCasbin-fm (7 handlers)
+[GIN-debug] POST   /casbin/getPolicyPathByAuthorityId --> fresh-shop/server/api/v1/system.(*CasbinApi).GetPolicyPathByAuthorityId-fm (6 handlers)
+[GIN-debug] GET    /autoCode/getDB           --> fresh-shop/server/api/v1/system.(*AutoCodeApi).GetDB-fm (6 handlers)
+[GIN-debug] GET    /autoCode/getTables       --> fresh-shop/server/api/v1/system.(*AutoCodeApi).GetTables-fm (6 handlers)
+[GIN-debug] GET    /autoCode/getColumn       --> fresh-shop/server/api/v1/system.(*AutoCodeApi).GetColumn-fm (6 handlers)
+[GIN-debug] POST   /autoCode/preview         --> fresh-shop/server/api/v1/system.(*AutoCodeApi).PreviewTemp-fm (6 handlers)
+[GIN-debug] POST   /autoCode/createTemp      --> fresh-shop/server/api/v1/system.(*AutoCodeApi).CreateTemp-fm (6 handlers)
+[GIN-debug] POST   /autoCode/createPackage   --> fresh-shop/server/api/v1/system.(*AutoCodeApi).CreatePackage-fm (6 handlers)
+[GIN-debug] POST   /autoCode/getPackage      --> fresh-shop/server/api/v1/system.(*AutoCodeApi).GetPackage-fm (6 handlers)
+[GIN-debug] POST   /autoCode/delPackage      --> fresh-shop/server/api/v1/system.(*AutoCodeApi).DelPackage-fm (6 handlers)
+[GIN-debug] POST   /autoCode/createPlug      --> fresh-shop/server/api/v1/system.(*AutoCodeApi).AutoPlug-fm (6 handlers)
+[GIN-debug] POST   /autoCode/installPlugin   --> fresh-shop/server/api/v1/system.(*AutoCodeApi).InstallPlugin-fm (6 handlers)
+[GIN-debug] POST   /authority/createAuthority --> fresh-shop/server/api/v1/system.(*AuthorityApi).CreateAuthority-fm (7 handlers)
+[GIN-debug] POST   /authority/deleteAuthority --> fresh-shop/server/api/v1/system.(*AuthorityApi).DeleteAuthority-fm (7 handlers)
+[GIN-debug] PUT    /authority/updateAuthority --> fresh-shop/server/api/v1/system.(*AuthorityApi).UpdateAuthority-fm (7 handlers)
+[GIN-debug] POST   /authority/copyAuthority  --> fresh-shop/server/api/v1/system.(*AuthorityApi).CopyAuthority-fm (7 handlers)
+[GIN-debug] POST   /authority/setDataAuthority --> fresh-shop/server/api/v1/system.(*AuthorityApi).SetDataAuthority-fm (7 handlers)
+[GIN-debug] POST   /authority/getAuthorityList --> fresh-shop/server/api/v1/system.(*AuthorityApi).GetAuthorityList-fm (6 handlers)
+[GIN-debug] POST   /sysDictionary/createSysDictionary --> fresh-shop/server/api/v1/system.(*DictionaryApi).CreateSysDictionary-fm (7 handlers)
+[GIN-debug] DELETE /sysDictionary/deleteSysDictionary --> fresh-shop/server/api/v1/system.(*DictionaryApi).DeleteSysDictionary-fm (7 handlers)
+[GIN-debug] PUT    /sysDictionary/updateSysDictionary --> fresh-shop/server/api/v1/system.(*DictionaryApi).UpdateSysDictionary-fm (7 handlers)
+[GIN-debug] GET    /sysDictionary/findSysDictionary --> fresh-shop/server/api/v1/system.(*DictionaryApi).FindSysDictionary-fm (6 handlers)
+[GIN-debug] GET    /sysDictionary/getSysDictionaryList --> fresh-shop/server/api/v1/system.(*DictionaryApi).GetSysDictionaryList-fm (6 handlers)
+[GIN-debug] POST   /autoCode/getMeta         --> fresh-shop/server/api/v1/system.(*AutoCodeHistoryApi).First-fm (6 handlers)
+[GIN-debug] POST   /autoCode/rollback        --> fresh-shop/server/api/v1/system.(*AutoCodeHistoryApi).RollBack-fm (6 handlers)
+[GIN-debug] POST   /autoCode/delSysHistory   --> fresh-shop/server/api/v1/system.(*AutoCodeHistoryApi).Delete-fm (6 handlers)
+[GIN-debug] POST   /autoCode/getSysHistory   --> fresh-shop/server/api/v1/system.(*AutoCodeHistoryApi).GetList-fm (6 handlers)
+[GIN-debug] POST   /sysOperationRecord/createSysOperationRecord --> fresh-shop/server/api/v1/system.(*OperationRecordApi).CreateSysOperationRecord-fm (6 handlers)
+[GIN-debug] DELETE /sysOperationRecord/deleteSysOperationRecord --> fresh-shop/server/api/v1/system.(*OperationRecordApi).DeleteSysOperationRecord-fm (6 handlers)
+[GIN-debug] DELETE /sysOperationRecord/deleteSysOperationRecordByIds --> fresh-shop/server/api/v1/system.(*OperationRecordApi).DeleteSysOperationRecordByIds-fm (6 handlers)
+[GIN-debug] GET    /sysOperationRecord/findSysOperationRecord --> fresh-shop/server/api/v1/system.(*OperationRecordApi).FindSysOperationRecord-fm (6 handlers)
+[GIN-debug] GET    /sysOperationRecord/getSysOperationRecordList --> fresh-shop/server/api/v1/system.(*OperationRecordApi).GetSysOperationRecordList-fm (6 handlers)
+[GIN-debug] POST   /sysDictionaryDetail/createSysDictionaryDetail --> fresh-shop/server/api/v1/system.(*DictionaryDetailApi).CreateSysDictionaryDetail-fm (7 handlers)
+[GIN-debug] DELETE /sysDictionaryDetail/deleteSysDictionaryDetail --> fresh-shop/server/api/v1/system.(*DictionaryDetailApi).DeleteSysDictionaryDetail-fm (7 handlers)
+[GIN-debug] PUT    /sysDictionaryDetail/updateSysDictionaryDetail --> fresh-shop/server/api/v1/system.(*DictionaryDetailApi).UpdateSysDictionaryDetail-fm (7 handlers)
+[GIN-debug] GET    /sysDictionaryDetail/findSysDictionaryDetail --> fresh-shop/server/api/v1/system.(*DictionaryDetailApi).FindSysDictionaryDetail-fm (6 handlers)
+[GIN-debug] GET    /sysDictionaryDetail/getSysDictionaryDetailList --> fresh-shop/server/api/v1/system.(*DictionaryDetailApi).GetSysDictionaryDetailList-fm (6 handlers)
+[GIN-debug] POST   /authorityBtn/getAuthorityBtn --> fresh-shop/server/api/v1/system.(*AuthorityBtnApi).GetAuthorityBtn-fm (6 handlers)
+[GIN-debug] POST   /authorityBtn/setAuthorityBtn --> fresh-shop/server/api/v1/system.(*AuthorityBtnApi).SetAuthorityBtn-fm (6 handlers)
+[GIN-debug] POST   /authorityBtn/canRemoveAuthorityBtn --> fresh-shop/server/api/v1/system.(*AuthorityBtnApi).CanRemoveAuthorityBtn-fm (6 handlers)
+[GIN-debug] POST   /sysConfig/createSysConfig --> fresh-shop/server/api/v1/system.(*SysConfigApi).CreateSysConfig-fm (7 handlers)
+[GIN-debug] DELETE /sysConfig/deleteSysConfig --> fresh-shop/server/api/v1/system.(*SysConfigApi).DeleteSysConfig-fm (7 handlers)
+[GIN-debug] DELETE /sysConfig/deleteSysConfigByIds --> fresh-shop/server/api/v1/system.(*SysConfigApi).DeleteSysConfigByIds-fm (7 handlers)
+[GIN-debug] PUT    /sysConfig/updateSysConfig --> fresh-shop/server/api/v1/system.(*SysConfigApi).UpdateSysConfig-fm (7 handlers)
+[GIN-debug] GET    /sysConfig/findSysConfig  --> fresh-shop/server/api/v1/system.(*SysConfigApi).FindSysConfig-fm (6 handlers)
+[GIN-debug] GET    /sysConfig/getSysConfigList --> fresh-shop/server/api/v1/system.(*SysConfigApi).GetSysConfigList-fm (6 handlers)
+[GIN-debug] GET    /sysConfig/findSysConfigByName --> fresh-shop/server/api/v1/system.(*SysConfigApi).FindSysConfigByName-fm (3 handlers)
+[GIN-debug] POST   /fileUploadAndDownload/upload --> fresh-shop/server/api/v1/file.(*FileUploadAndDownloadApi).UploadFile-fm (6 handlers)
+[GIN-debug] POST   /fileUploadAndDownload/getFileList --> fresh-shop/server/api/v1/file.(*FileUploadAndDownloadApi).GetFileList-fm (6 handlers)
+[GIN-debug] POST   /fileUploadAndDownload/deleteFile --> fresh-shop/server/api/v1/file.(*FileUploadAndDownloadApi).DeleteFile-fm (6 handlers)
+[GIN-debug] POST   /fileUploadAndDownload/editFileName --> fresh-shop/server/api/v1/file.(*FileUploadAndDownloadApi).EditFileName-fm (6 handlers)
+[GIN-debug] POST   /fileUploadAndDownload/breakpointContinue --> fresh-shop/server/api/v1/file.(*FileUploadAndDownloadApi).BreakpointContinue-fm (6 handlers)
+[GIN-debug] GET    /fileUploadAndDownload/findFile --> fresh-shop/server/api/v1/file.(*FileUploadAndDownloadApi).FindFile-fm (6 handlers)
+[GIN-debug] POST   /fileUploadAndDownload/breakpointContinueFinish --> fresh-shop/server/api/v1/file.(*FileUploadAndDownloadApi).BreakpointContinueFinish-fm (6 handlers)
+[GIN-debug] POST   /fileUploadAndDownload/removeChunk --> fresh-shop/server/api/v1/file.(*FileUploadAndDownloadApi).RemoveChunk-fm (6 handlers)
+[GIN-debug] POST   /userAccountGroup/createAccountGroup --> fresh-shop/server/api/v1/account.(*AccountGroupApi).CreateAccountGroup-fm (7 handlers)
+[GIN-debug] POST   /userAccountGroup/syncAccountGroup --> fresh-shop/server/api/v1/account.(*AccountGroupApi).SyncAccountGroup-fm (7 handlers)
+[GIN-debug] DELETE /userAccountGroup/deleteAccountGroup --> fresh-shop/server/api/v1/account.(*AccountGroupApi).DeleteAccountGroup-fm (7 handlers)
+[GIN-debug] DELETE /userAccountGroup/deleteAccountGroupByIds --> fresh-shop/server/api/v1/account.(*AccountGroupApi).DeleteAccountGroupByIds-fm (7 handlers)
+[GIN-debug] PUT    /userAccountGroup/updateAccountGroup --> fresh-shop/server/api/v1/account.(*AccountGroupApi).UpdateAccountGroup-fm (7 handlers)
+[GIN-debug] GET    /userAccountGroup/findAccountGroup --> fresh-shop/server/api/v1/account.(*AccountGroupApi).FindAccountGroup-fm (6 handlers)
+[GIN-debug] GET    /userAccountGroup/getAccountGroupList --> fresh-shop/server/api/v1/account.(*AccountGroupApi).GetAccountGroupList-fm (6 handlers)
+[GIN-debug] GET    /userAccountGroup/getAccountGroupListAll --> fresh-shop/server/api/v1/account.(*AccountGroupApi).GetAccountGroupListAll-fm (6 handlers)
+[GIN-debug] POST   /account/createAccount    --> fresh-shop/server/api/v1/account.(*AccountApi).CreateAccount-fm (7 handlers)
+[GIN-debug] DELETE /account/deleteAccount    --> fresh-shop/server/api/v1/account.(*AccountApi).DeleteAccount-fm (7 handlers)
+[GIN-debug] DELETE /account/deleteAccountByIds --> fresh-shop/server/api/v1/account.(*AccountApi).DeleteAccountByIds-fm (7 handlers)
+[GIN-debug] PUT    /account/updateAccount    --> fresh-shop/server/api/v1/account.(*AccountApi).UpdateAccount-fm (7 handlers)
+[GIN-debug] GET    /account/findAccount      --> fresh-shop/server/api/v1/account.(*AccountApi).FindAccount-fm (6 handlers)
+[GIN-debug] GET    /account/findUserAccount  --> fresh-shop/server/api/v1/account.(*AccountApi).FindUserAccount-fm (6 handlers)
+[GIN-debug] GET    /account/getAccountList   --> fresh-shop/server/api/v1/account.(*AccountApi).GetAccountList-fm (6 handlers)
+[GIN-debug] POST   /sysRecharge/createSysRecharge --> fresh-shop/server/api/v1/account.(*SysRechargeApi).CreateSysRecharge-fm (7 handlers)
+[GIN-debug] DELETE /sysRecharge/deleteSysRecharge --> fresh-shop/server/api/v1/account.(*SysRechargeApi).DeleteSysRecharge-fm (7 handlers)
+[GIN-debug] DELETE /sysRecharge/deleteSysRechargeByIds --> fresh-shop/server/api/v1/account.(*SysRechargeApi).DeleteSysRechargeByIds-fm (7 handlers)
+[GIN-debug] PUT    /sysRecharge/updateSysRecharge --> fresh-shop/server/api/v1/account.(*SysRechargeApi).UpdateSysRecharge-fm (7 handlers)
+[GIN-debug] GET    /sysRecharge/findSysRecharge --> fresh-shop/server/api/v1/account.(*SysRechargeApi).FindSysRecharge-fm (6 handlers)
+[GIN-debug] GET    /sysRecharge/getSysRechargeList --> fresh-shop/server/api/v1/account.(*SysRechargeApi).GetSysRechargeList-fm (6 handlers)
+[GIN-debug] POST   /userFinanceType/createUserFinanceType --> fresh-shop/server/api/v1/account.(*UserFinanceTypeApi).CreateUserFinanceType-fm (7 handlers)
+[GIN-debug] DELETE /userFinanceType/deleteUserFinanceType --> fresh-shop/server/api/v1/account.(*UserFinanceTypeApi).DeleteUserFinanceType-fm (7 handlers)
+[GIN-debug] DELETE /userFinanceType/deleteUserFinanceTypeByIds --> fresh-shop/server/api/v1/account.(*UserFinanceTypeApi).DeleteUserFinanceTypeByIds-fm (7 handlers)
+[GIN-debug] PUT    /userFinanceType/updateUserFinanceType --> fresh-shop/server/api/v1/account.(*UserFinanceTypeApi).UpdateUserFinanceType-fm (7 handlers)
+[GIN-debug] GET    /userFinanceType/findUserFinanceType --> fresh-shop/server/api/v1/account.(*UserFinanceTypeApi).FindUserFinanceType-fm (6 handlers)
+[GIN-debug] GET    /userFinanceType/getUserFinanceTypeList --> fresh-shop/server/api/v1/account.(*UserFinanceTypeApi).GetUserFinanceTypeList-fm (6 handlers)
+[GIN-debug] GET    /userFinanceType/getUserFinanceTypeListAll --> fresh-shop/server/api/v1/account.(*UserFinanceTypeApi).GetUserFinanceTypeListAll-fm (6 handlers)
+[GIN-debug] POST   /userFinanceCash/createUserFinanceCash --> fresh-shop/server/api/v1/account.(*UserFinanceCashApi).CreateUserFinance-fm (7 handlers)
+[GIN-debug] DELETE /userFinanceCash/deleteUserFinanceCash --> fresh-shop/server/api/v1/account.(*UserFinanceCashApi).DeleteUserFinance-fm (7 handlers)
+[GIN-debug] DELETE /userFinanceCash/deleteUserFinanceCashByIds --> fresh-shop/server/api/v1/account.(*UserFinanceCashApi).DeleteUserFinanceByIds-fm (7 handlers)
+[GIN-debug] PUT    /userFinanceCash/updateUserFinanceCash --> fresh-shop/server/api/v1/account.(*UserFinanceCashApi).UpdateUserFinance-fm (7 handlers)
+[GIN-debug] GET    /userFinanceCash/findUserFinanceCash --> fresh-shop/server/api/v1/account.(*UserFinanceCashApi).FindUserFinance-fm (6 handlers)
+[GIN-debug] GET    /userFinanceCash/getUserFinanceCashList --> fresh-shop/server/api/v1/account.(*UserFinanceCashApi).GetUserFinanceList-fm (6 handlers)
+[GIN-debug] POST   /banner/createBanner      --> fresh-shop/server/api/v1/business.(*BannerApi).CreateBanner-fm (7 handlers)
+[GIN-debug] DELETE /banner/deleteBanner      --> fresh-shop/server/api/v1/business.(*BannerApi).DeleteBanner-fm (7 handlers)
+[GIN-debug] DELETE /banner/deleteBannerByIds --> fresh-shop/server/api/v1/business.(*BannerApi).DeleteBannerByIds-fm (7 handlers)
+[GIN-debug] PUT    /banner/updateBanner      --> fresh-shop/server/api/v1/business.(*BannerApi).UpdateBanner-fm (7 handlers)
+[GIN-debug] POST   /userDelivery/createUserDelivery --> fresh-shop/server/api/v1/business.(*UserDeliveryApi).CreateUserDelivery-fm (7 handlers)
+[GIN-debug] DELETE /userDelivery/deleteUserDelivery --> fresh-shop/server/api/v1/business.(*UserDeliveryApi).DeleteUserDelivery-fm (7 handlers)
+[GIN-debug] DELETE /userDelivery/deleteUserDeliveryByIds --> fresh-shop/server/api/v1/business.(*UserDeliveryApi).DeleteUserDeliveryByIds-fm (7 handlers)
+[GIN-debug] PUT    /userDelivery/updateUserDelivery --> fresh-shop/server/api/v1/business.(*UserDeliveryApi).UpdateUserDelivery-fm (7 handlers)
+[GIN-debug] GET    /userDelivery/findUserDelivery --> fresh-shop/server/api/v1/business.(*UserDeliveryApi).FindUserDelivery-fm (6 handlers)
+[GIN-debug] GET    /userDelivery/getUserDeliveryList --> fresh-shop/server/api/v1/business.(*UserDeliveryApi).GetUserDeliveryList-fm (6 handlers)
+[GIN-debug] GET    /userDelivery/getUserDeliveryAllList --> fresh-shop/server/api/v1/business.(*UserDeliveryApi).GetUserDeliveryAllList-fm (6 handlers)
+[GIN-debug] POST   /pricing/batch-cost-price --> fresh-shop/server/api/v1/business.(*PricingApi).BatchUpdateCostPrice-fm (7 handlers)
+[GIN-debug] POST   /pricing/apply            --> fresh-shop/server/api/v1/business.(*PricingApi).ApplyPricing-fm (7 handlers)
+[GIN-debug] GET    /pricing/markup-rate      --> fresh-shop/server/api/v1/business.(*PricingApi).GetMarkupRate-fm (7 handlers)
+[GIN-debug] GET    /bill/list                --> fresh-shop/server/api/v1/business.(*BillApi).GetBillList-fm (7 handlers)
+[GIN-debug] POST   /bill/generate            --> fresh-shop/server/api/v1/business.(*BillApi).GenerateBill-fm (7 handlers)
+[GIN-debug] GET    /bill/:id                 --> fresh-shop/server/api/v1/business.(*BillApi).GetBillDetail-fm (7 handlers)
+[GIN-debug] PUT    /bill/:id/status          --> fresh-shop/server/api/v1/business.(*BillApi).UpdateBillStatus-fm (7 handlers)
+[GIN-debug] GET    /banner/findBanner        --> fresh-shop/server/api/v1/business.(*BannerApi).FindBanner-fm (3 handlers)
+[GIN-debug] GET    /banner/getBannerList     --> fresh-shop/server/api/v1/business.(*BannerApi).GetBannerList-fm (3 handlers)
+[GIN-debug] POST   /category/createCategory  --> fresh-shop/server/api/v1/shop.(*CategoryApi).CreateCategory-fm (7 handlers)
+[GIN-debug] DELETE /category/deleteCategory  --> fresh-shop/server/api/v1/shop.(*CategoryApi).DeleteCategory-fm (7 handlers)
+[GIN-debug] DELETE /category/deleteCategoryByIds --> fresh-shop/server/api/v1/shop.(*CategoryApi).DeleteCategoryByIds-fm (7 handlers)
+[GIN-debug] PUT    /category/updateCategory  --> fresh-shop/server/api/v1/shop.(*CategoryApi).UpdateCategory-fm (7 handlers)
+[GIN-debug] POST   /brand/createBrand        --> fresh-shop/server/api/v1/shop.(*BrandApi).CreateBrand-fm (7 handlers)
+[GIN-debug] DELETE /brand/deleteBrand        --> fresh-shop/server/api/v1/shop.(*BrandApi).DeleteBrand-fm (7 handlers)
+[GIN-debug] DELETE /brand/deleteBrandByIds   --> fresh-shop/server/api/v1/shop.(*BrandApi).DeleteBrandByIds-fm (7 handlers)
+[GIN-debug] PUT    /brand/updateBrand        --> fresh-shop/server/api/v1/shop.(*BrandApi).UpdateBrand-fm (7 handlers)
+[GIN-debug] POST   /brandCategory/createBrandCategory --> fresh-shop/server/api/v1/shop.(*BrandCategoryApi).CreateBrandCategory-fm (7 handlers)
+[GIN-debug] POST   /tags/createTags          --> fresh-shop/server/api/v1/shop.(*TagsApi).CreateTags-fm (7 handlers)
+[GIN-debug] DELETE /tags/deleteTags          --> fresh-shop/server/api/v1/shop.(*TagsApi).DeleteTags-fm (7 handlers)
+[GIN-debug] DELETE /tags/deleteTagsByIds     --> fresh-shop/server/api/v1/shop.(*TagsApi).DeleteTagsByIds-fm (7 handlers)
+[GIN-debug] PUT    /tags/updateTags          --> fresh-shop/server/api/v1/shop.(*TagsApi).UpdateTags-fm (7 handlers)
+[GIN-debug] POST   /goods/createGoods        --> fresh-shop/server/api/v1/shop.(*GoodsApi).CreateGoods-fm (7 handlers)
+[GIN-debug] DELETE /goods/deleteGoods        --> fresh-shop/server/api/v1/shop.(*GoodsApi).DeleteGoods-fm (7 handlers)
+[GIN-debug] DELETE /goods/deleteGoodsByIds   --> fresh-shop/server/api/v1/shop.(*GoodsApi).DeleteGoodsByIds-fm (7 handlers)
+[GIN-debug] PUT    /goods/updateGoods        --> fresh-shop/server/api/v1/shop.(*GoodsApi).UpdateGoods-fm (7 handlers)
+[GIN-debug] POST   /order/createOrder        --> fresh-shop/server/api/v1/shop.(*OrderApi).CreateOrder-fm (7 handlers)
+[GIN-debug] POST   /order/orderPay           --> fresh-shop/server/api/v1/shop.(*OrderApi).OrderPay-fm (7 handlers)
+[GIN-debug] POST   /order/cancelOrder        --> fresh-shop/server/api/v1/shop.(*OrderApi).CancelOrder-fm (7 handlers)
+[GIN-debug] DELETE /order/deleteOrder        --> fresh-shop/server/api/v1/shop.(*OrderApi).DeleteOrder-fm (7 handlers)
+[GIN-debug] DELETE /order/deleteOrderByIds   --> fresh-shop/server/api/v1/shop.(*OrderApi).DeleteOrderByIds-fm (7 handlers)
+[GIN-debug] PUT    /order/updateOrder        --> fresh-shop/server/api/v1/shop.(*OrderApi).UpdateOrder-fm (7 handlers)
+[GIN-debug] POST   /order/batchSettlement    --> fresh-shop/server/api/v1/shop.(*OrderApi).BatchSettlement-fm (7 handlers)
+[GIN-debug] POST   /order/confirmOrder       --> fresh-shop/server/api/v1/shop.(*OrderApi).ConfirmOrder-fm (7 handlers)
+[GIN-debug] PUT    /order/updateOrderStatus  --> fresh-shop/server/api/v1/shop.(*OrderApi).UpdateOrderStatus-fm (7 handlers)
+[GIN-debug] GET    /order/findOrder          --> fresh-shop/server/api/v1/shop.(*OrderApi).FindOrder-fm (6 handlers)
+[GIN-debug] GET    /order/findUserOrderStatus --> fresh-shop/server/api/v1/shop.(*OrderApi).FindUserOrderStatus-fm (6 handlers)
+[GIN-debug] GET    /order/getOrderList       --> fresh-shop/server/api/v1/shop.(*OrderApi).GetOrderList-fm (6 handlers)
+[GIN-debug] GET    /order/getOrderMonthStatistics --> fresh-shop/server/api/v1/shop.(*OrderApi).GetOrderMonthStatistics-fm (6 handlers)
+[GIN-debug] GET    /order/getUserOrderList   --> fresh-shop/server/api/v1/shop.(*OrderApi).GetUserOrderList-fm (6 handlers)
+[GIN-debug] GET    /order/orderStatus        --> fresh-shop/server/api/v1/shop.(*OrderApi).OrderStatus-fm (6 handlers)
+[GIN-debug] POST   /orderDetails/createOrderDetails --> fresh-shop/server/api/v1/shop.(*OrderDetailsApi).CreateOrderDetails-fm (7 handlers)
+[GIN-debug] DELETE /orderDetails/deleteOrderDetails --> fresh-shop/server/api/v1/shop.(*OrderDetailsApi).DeleteOrderDetails-fm (7 handlers)
+[GIN-debug] DELETE /orderDetails/deleteOrderDetailsByIds --> fresh-shop/server/api/v1/shop.(*OrderDetailsApi).DeleteOrderDetailsByIds-fm (7 handlers)
+[GIN-debug] PUT    /orderDetails/updateOrderDetails --> fresh-shop/server/api/v1/shop.(*OrderDetailsApi).UpdateOrderDetails-fm (7 handlers)
+[GIN-debug] GET    /orderDetails/recentlyPurchasedGoods --> fresh-shop/server/api/v1/shop.(*OrderDetailsApi).RecentlyPurchasedGoods-fm (6 handlers)
+[GIN-debug] GET    /orderDetails/findOrderDetails --> fresh-shop/server/api/v1/shop.(*OrderDetailsApi).FindOrderDetails-fm (6 handlers)
+[GIN-debug] GET    /orderDetails/getOrderDetailsList --> fresh-shop/server/api/v1/shop.(*OrderDetailsApi).GetOrderDetailsList-fm (6 handlers)
+[GIN-debug] DELETE /orderDelivery/deleteOrderDelivery --> fresh-shop/server/api/v1/shop.(*OrderDeliveryApi).DeleteOrderDelivery-fm (7 handlers)
+[GIN-debug] DELETE /orderDelivery/deleteOrderDeliveryByIds --> fresh-shop/server/api/v1/shop.(*OrderDeliveryApi).DeleteOrderDeliveryByIds-fm (7 handlers)
+[GIN-debug] PUT    /orderDelivery/updateOrderDelivery --> fresh-shop/server/api/v1/shop.(*OrderDeliveryApi).UpdateOrderDelivery-fm (7 handlers)
+[GIN-debug] POST   /orderDelivery/createOrderDelivery --> fresh-shop/server/api/v1/shop.(*OrderDeliveryApi).CreateOrderDelivery-fm (6 handlers)
+[GIN-debug] GET    /orderDelivery/findOrderDelivery --> fresh-shop/server/api/v1/shop.(*OrderDeliveryApi).FindOrderDelivery-fm (6 handlers)
+[GIN-debug] GET    /orderDelivery/getOrderDeliveryList --> fresh-shop/server/api/v1/shop.(*OrderDeliveryApi).GetOrderDeliveryList-fm (6 handlers)
+[GIN-debug] POST   /orderReturn/createOrderReturn --> fresh-shop/server/api/v1/shop.(*OrderReturnApi).CreateOrderReturn-fm (7 handlers)
+[GIN-debug] DELETE /orderReturn/deleteOrderReturn --> fresh-shop/server/api/v1/shop.(*OrderReturnApi).DeleteOrderReturn-fm (7 handlers)
+[GIN-debug] DELETE /orderReturn/deleteOrderReturnByIds --> fresh-shop/server/api/v1/shop.(*OrderReturnApi).DeleteOrderReturnByIds-fm (7 handlers)
+[GIN-debug] PUT    /orderReturn/updateOrderReturn --> fresh-shop/server/api/v1/shop.(*OrderReturnApi).UpdateOrderReturn-fm (7 handlers)
+[GIN-debug] GET    /orderReturn/findOrderReturn --> fresh-shop/server/api/v1/shop.(*OrderReturnApi).FindOrderReturn-fm (6 handlers)
+[GIN-debug] GET    /orderReturn/getOrderReturnList --> fresh-shop/server/api/v1/shop.(*OrderReturnApi).GetOrderReturnList-fm (6 handlers)
+[GIN-debug] GET    /goods/findGoods          --> fresh-shop/server/api/v1/shop.(*GoodsApi).FindGoods-fm (3 handlers)
+[GIN-debug] GET    /goods/getGoodsList       --> fresh-shop/server/api/v1/shop.(*GoodsApi).GetGoodsList-fm (3 handlers)
+[GIN-debug] POST   /goods/batchCreateGoodsByExcel --> fresh-shop/server/api/v1/shop.(*GoodsApi).BatchCreateGoodsByExcel-fm (3 handlers)
+[GIN-debug] POST   /goods/exportGoods        --> fresh-shop/server/api/v1/shop.(*GoodsApi).ExportGoods-fm (3 handlers)
+[GIN-debug] GET    /brand/findBrand          --> fresh-shop/server/api/v1/shop.(*BrandApi).FindBrand-fm (3 handlers)
+[GIN-debug] GET    /brand/getBrandList       --> fresh-shop/server/api/v1/shop.(*BrandApi).GetBrandList-fm (3 handlers)
+[GIN-debug] GET    /brand/getBrandListByCategoryId --> fresh-shop/server/api/v1/shop.(*BrandApi).GetBrandListByCategoryId-fm (3 handlers)
+[GIN-debug] GET    /brand/getBrandListAll    --> fresh-shop/server/api/v1/shop.(*BrandApi).GetBrandListAll-fm (3 handlers)
+[GIN-debug] GET    /category/findCategory    --> fresh-shop/server/api/v1/shop.(*CategoryApi).FindCategory-fm (3 handlers)
+[GIN-debug] GET    /category/getCategoryList --> fresh-shop/server/api/v1/shop.(*CategoryApi).GetCategoryList-fm (3 handlers)
+[GIN-debug] GET    /category/getCategoryListAll --> fresh-shop/server/api/v1/shop.(*CategoryApi).GetCategoryListAll-fm (3 handlers)
+[GIN-debug] GET    /tags/findTags            --> fresh-shop/server/api/v1/shop.(*TagsApi).FindTags-fm (3 handlers)
+[GIN-debug] GET    /tags/getTagsList         --> fresh-shop/server/api/v1/shop.(*TagsApi).GetTagsList-fm (3 handlers)
+[GIN-debug] GET    /tags/getTagsListAll      --> fresh-shop/server/api/v1/shop.(*TagsApi).GetTagsListAll-fm (3 handlers)
+[GIN-debug] DELETE /favorites/deleteFavorites --> fresh-shop/server/api/v1/shop.(*FavoritesApi).DeleteFavorites-fm (7 handlers)
+[GIN-debug] DELETE /favorites/deleteFavoritesByIds --> fresh-shop/server/api/v1/shop.(*FavoritesApi).DeleteFavoritesByIds-fm (7 handlers)
+[GIN-debug] POST   /favorites/favorites      --> fresh-shop/server/api/v1/shop.(*FavoritesApi).Favorites-fm (7 handlers)
+[GIN-debug] GET    /favorites/findFavorites  --> fresh-shop/server/api/v1/shop.(*FavoritesApi).FindFavorites-fm (6 handlers)
+[GIN-debug] GET    /favorites/getFavoritesList --> fresh-shop/server/api/v1/shop.(*FavoritesApi).GetFavoritesList-fm (6 handlers)
+[GIN-debug] POST   /cart/createCart          --> fresh-shop/server/api/v1/shop.(*CartApi).CreateCart-fm (7 handlers)
+[GIN-debug] DELETE /cart/deleteCart          --> fresh-shop/server/api/v1/shop.(*CartApi).DeleteCart-fm (7 handlers)
+[GIN-debug] DELETE /cart/deleteCartByIds     --> fresh-shop/server/api/v1/shop.(*CartApi).DeleteCartByIds-fm (7 handlers)
+[GIN-debug] PUT    /cart/updateCart          --> fresh-shop/server/api/v1/shop.(*CartApi).UpdateCart-fm (7 handlers)
+[GIN-debug] POST   /cart/selectAllChecked    --> fresh-shop/server/api/v1/shop.(*CartApi).SelectAllChecked-fm (6 handlers)
+[GIN-debug] POST   /cart/selectGoodsSingeChecked --> fresh-shop/server/api/v1/shop.(*CartApi).SelectGoodsSingeChecked-fm (6 handlers)
+[GIN-debug] POST   /cart/clearAllChecked     --> fresh-shop/server/api/v1/shop.(*CartApi).ClearAllChecked-fm (6 handlers)
+[GIN-debug] GET    /cart/getCartList         --> fresh-shop/server/api/v1/shop.(*CartApi).GetCartList-fm (6 handlers)
+[GIN-debug] POST   /userAddress/createUserAddress --> fresh-shop/server/api/v1/shop.(*UserAddressApi).CreateUserAddress-fm (7 handlers)
+[GIN-debug] DELETE /userAddress/deleteUserAddress --> fresh-shop/server/api/v1/shop.(*UserAddressApi).DeleteUserAddress-fm (7 handlers)
+[GIN-debug] DELETE /userAddress/deleteUserAddressByIds --> fresh-shop/server/api/v1/shop.(*UserAddressApi).DeleteUserAddressByIds-fm (7 handlers)
+[GIN-debug] PUT    /userAddress/updateUserAddress --> fresh-shop/server/api/v1/shop.(*UserAddressApi).UpdateUserAddress-fm (7 handlers)
+[GIN-debug] GET    /userAddress/findUserAddress --> fresh-shop/server/api/v1/shop.(*UserAddressApi).FindUserAddress-fm (6 handlers)
+[GIN-debug] GET    /userAddress/findUserDefaultAddress --> fresh-shop/server/api/v1/shop.(*UserAddressApi).FindUserDefaultAddress-fm (6 handlers)
+[GIN-debug] GET    /userAddress/getUserAddressList --> fresh-shop/server/api/v1/shop.(*UserAddressApi).GetUserAddressList-fm (6 handlers)
+[GIN-debug] POST   /wechat/createPayData     --> fresh-shop/server/api/v1/wechat.(*WeChatApi).CreatePayData-fm (7 handlers)
+[GIN-debug] GET    /wechat/getUnlimitedQRCode --> fresh-shop/server/api/v1/wechat.(*WeChatApi).GetUnlimitedQRCode-fm (6 handlers)
+[GIN-debug] GET    /wechat/code2Session      --> fresh-shop/server/api/v1/wechat.(*WeChatApi).Code2Session-fm (3 handlers)
+[GIN-debug] POST   /wechat/pay/notify        --> fresh-shop/server/api/v1/wechat.(*WeChatApi).PayNotify-fm (3 handlers)
+[fresh_shop/server]2026/09/23 - 21:31:19.824	[34minfo[0m	/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/initialize/router.go:126	router register success
+
+2026/09/23 21:31:19 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/jwt_black_list.go:74
+[0m[33m[0.622ms] [34;1m[rows:0][0m SELECT `jwt` FROM `jwt_blacklists` WHERE `jwt_blacklists`.`deleted_at` IS NULL
+[GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.
+
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+无鉴权插件安装==》 &{[0x104a2c1b0 0x104a2c590] / 0x1cd9f0874000 false}
+鉴权插件安装==》 &{[0x104a2c1b0 0x104a2c590] / 0x1cd9f0874000 false}
+[GIN-debug] POST   /email/emailTest          --> fresh-shop/server/plugin/email/api.(*EmailApi).EmailTest-fm (6 handlers)
+[GIN-debug] POST   /email/sendEmail          --> fresh-shop/server/plugin/email/api.(*EmailApi).SendEmail-fm (6 handlers)
+[GIN-debug] GET    /uploads/file/*filepath   --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (3 handlers)
+[GIN-debug] HEAD   /uploads/file/*filepath   --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (3 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (3 handlers)
+[fresh_shop/server]2026/09/23 - 21:31:19.825	[34minfo[0m	/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/initialize/router.go:39	register swagger handler
+[GIN-debug] GET    /health                   --> fresh-shop/server/initialize.Routers.func1 (3 handlers)
+[GIN-debug] POST   /base/login               --> fresh-shop/server/api/v1/system.(*BaseApi).Login-fm (3 handlers)
+[GIN-debug] POST   /base/loginWx             --> fresh-shop/server/api/v1/system.(*BaseApi).LoginWx-fm (3 handlers)
+[GIN-debug] POST   /base/captcha             --> fresh-shop/server/api/v1/system.(*BaseApi).Captcha-fm (3 handlers)
+[GIN-debug] POST   /init/initdb              --> fresh-shop/server/api/v1/system.(*DBApi).InitDB-fm (3 handlers)
+[GIN-debug] POST   /init/checkdb             --> fresh-shop/server/api/v1/system.(*DBApi).CheckDB-fm (3 handlers)
+[GIN-debug] POST   /api/createApi            --> fresh-shop/server/api/v1/system.(*SystemApiApi).CreateApi-fm (7 handlers)
+[GIN-debug] POST   /api/deleteApi            --> fresh-shop/server/api/v1/system.(*SystemApiApi).DeleteApi-fm (7 handlers)
+[GIN-debug] POST   /api/getApiById           --> fresh-shop/server/api/v1/system.(*SystemApiApi).GetApiById-fm (7 handlers)
+[GIN-debug] POST   /api/updateApi            --> fresh-shop/server/api/v1/system.(*SystemApiApi).UpdateApi-fm (7 handlers)
+[GIN-debug] DELETE /api/deleteApisByIds      --> fresh-shop/server/api/v1/system.(*SystemApiApi).DeleteApisByIds-fm (7 handlers)
+[GIN-debug] POST   /api/getAllApis           --> fresh-shop/server/api/v1/system.(*SystemApiApi).GetAllApis-fm (6 handlers)
+[GIN-debug] POST   /api/getApiList           --> fresh-shop/server/api/v1/system.(*SystemApiApi).GetApiList-fm (6 handlers)
+[GIN-debug] POST   /jwt/jsonInBlacklist      --> fresh-shop/server/api/v1/system.(*JwtApi).JsonInBlacklist-fm (6 handlers)
+[GIN-debug] POST   /user/admin_register      --> fresh-shop/server/api/v1/system.(*BaseApi).Register-fm (7 handlers)
+[GIN-debug] POST   /user/changePassword      --> fresh-shop/server/api/v1/system.(*BaseApi).ChangePassword-fm (7 handlers)
+[GIN-debug] POST   /user/setUserAuthority    --> fresh-shop/server/api/v1/system.(*BaseApi).SetUserAuthority-fm (7 handlers)
+[GIN-debug] DELETE /user/deleteUser          --> fresh-shop/server/api/v1/system.(*BaseApi).DeleteUser-fm (7 handlers)
+[GIN-debug] PUT    /user/setUserInfo         --> fresh-shop/server/api/v1/system.(*BaseApi).SetUserInfo-fm (7 handlers)
+[GIN-debug] PUT    /user/setSelfInfo         --> fresh-shop/server/api/v1/system.(*BaseApi).SetSelfInfo-fm (7 handlers)
+[GIN-debug] POST   /user/setUserAuthorities  --> fresh-shop/server/api/v1/system.(*BaseApi).SetUserAuthorities-fm (7 handlers)
+[GIN-debug] POST   /user/resetPassword       --> fresh-shop/server/api/v1/system.(*BaseApi).ResetPassword-fm (7 handlers)
+[GIN-debug] GET    /user/getAuditStatus      --> fresh-shop/server/api/v1/system.(*BaseApi).GetAuditStatus-fm (6 handlers)
+[GIN-debug] POST   /user/getUserList         --> fresh-shop/server/api/v1/system.(*BaseApi).GetUserList-fm (6 handlers)
+[GIN-debug] GET    /user/getUserInfo         --> fresh-shop/server/api/v1/system.(*BaseApi).GetUserInfo-fm (6 handlers)
+[GIN-debug] POST   /menu/addBaseMenu         --> fresh-shop/server/api/v1/system.(*AuthorityMenuApi).AddBaseMenu-fm (7 handlers)
+[GIN-debug] POST   /menu/addMenuAuthority    --> fresh-shop/server/api/v1/system.(*AuthorityMenuApi).AddMenuAuthority-fm (7 handlers)
+[GIN-debug] POST   /menu/deleteBaseMenu      --> fresh-shop/server/api/v1/system.(*AuthorityMenuApi).DeleteBaseMenu-fm (7 handlers)
+[GIN-debug] POST   /menu/updateBaseMenu      --> fresh-shop/server/api/v1/system.(*AuthorityMenuApi).UpdateBaseMenu-fm (7 handlers)
+[GIN-debug] POST   /menu/getMenu             --> fresh-shop/server/api/v1/system.(*AuthorityMenuApi).GetMenu-fm (6 handlers)
+[GIN-debug] POST   /menu/getMenuList         --> fresh-shop/server/api/v1/system.(*AuthorityMenuApi).GetMenuList-fm (6 handlers)
+[GIN-debug] POST   /menu/getBaseMenuTree     --> fresh-shop/server/api/v1/system.(*AuthorityMenuApi).GetBaseMenuTree-fm (6 handlers)
+[GIN-debug] POST   /menu/getMenuAuthority    --> fresh-shop/server/api/v1/system.(*AuthorityMenuApi).GetMenuAuthority-fm (6 handlers)
+[GIN-debug] POST   /menu/getBaseMenuById     --> fresh-shop/server/api/v1/system.(*AuthorityMenuApi).GetBaseMenuById-fm (6 handlers)
+[GIN-debug] POST   /system/getSystemConfig   --> fresh-shop/server/api/v1/system.(*SystemApi).GetSystemConfig-fm (7 handlers)
+[GIN-debug] POST   /system/setSystemConfig   --> fresh-shop/server/api/v1/system.(*SystemApi).SetSystemConfig-fm (7 handlers)
+[GIN-debug] POST   /system/getServerInfo     --> fresh-shop/server/api/v1/system.(*SystemApi).GetServerInfo-fm (7 handlers)
+[GIN-debug] POST   /system/reloadSystem      --> fresh-shop/server/api/v1/system.(*SystemApi).ReloadSystem-fm (7 handlers)
+[GIN-debug] POST   /casbin/updateCasbin      --> fresh-shop/server/api/v1/system.(*CasbinApi).UpdateCasbin-fm (7 handlers)
+[GIN-debug] POST   /casbin/getPolicyPathByAuthorityId --> fresh-shop/server/api/v1/system.(*CasbinApi).GetPolicyPathByAuthorityId-fm (6 handlers)
+[GIN-debug] GET    /autoCode/getDB           --> fresh-shop/server/api/v1/system.(*AutoCodeApi).GetDB-fm (6 handlers)
+[GIN-debug] GET    /autoCode/getTables       --> fresh-shop/server/api/v1/system.(*AutoCodeApi).GetTables-fm (6 handlers)
+[GIN-debug] GET    /autoCode/getColumn       --> fresh-shop/server/api/v1/system.(*AutoCodeApi).GetColumn-fm (6 handlers)
+[GIN-debug] POST   /autoCode/preview         --> fresh-shop/server/api/v1/system.(*AutoCodeApi).PreviewTemp-fm (6 handlers)
+[GIN-debug] POST   /autoCode/createTemp      --> fresh-shop/server/api/v1/system.(*AutoCodeApi).CreateTemp-fm (6 handlers)
+[GIN-debug] POST   /autoCode/createPackage   --> fresh-shop/server/api/v1/system.(*AutoCodeApi).CreatePackage-fm (6 handlers)
+[GIN-debug] POST   /autoCode/getPackage      --> fresh-shop/server/api/v1/system.(*AutoCodeApi).GetPackage-fm (6 handlers)
+[GIN-debug] POST   /autoCode/delPackage      --> fresh-shop/server/api/v1/system.(*AutoCodeApi).DelPackage-fm (6 handlers)
+[GIN-debug] POST   /autoCode/createPlug      --> fresh-shop/server/api/v1/system.(*AutoCodeApi).AutoPlug-fm (6 handlers)
+[GIN-debug] POST   /autoCode/installPlugin   --> fresh-shop/server/api/v1/system.(*AutoCodeApi).InstallPlugin-fm (6 handlers)
+[GIN-debug] POST   /authority/createAuthority --> fresh-shop/server/api/v1/system.(*AuthorityApi).CreateAuthority-fm (7 handlers)
+[GIN-debug] POST   /authority/deleteAuthority --> fresh-shop/server/api/v1/system.(*AuthorityApi).DeleteAuthority-fm (7 handlers)
+[GIN-debug] PUT    /authority/updateAuthority --> fresh-shop/server/api/v1/system.(*AuthorityApi).UpdateAuthority-fm (7 handlers)
+[GIN-debug] POST   /authority/copyAuthority  --> fresh-shop/server/api/v1/system.(*AuthorityApi).CopyAuthority-fm (7 handlers)
+[GIN-debug] POST   /authority/setDataAuthority --> fresh-shop/server/api/v1/system.(*AuthorityApi).SetDataAuthority-fm (7 handlers)
+[GIN-debug] POST   /authority/getAuthorityList --> fresh-shop/server/api/v1/system.(*AuthorityApi).GetAuthorityList-fm (6 handlers)
+[GIN-debug] POST   /sysDictionary/createSysDictionary --> fresh-shop/server/api/v1/system.(*DictionaryApi).CreateSysDictionary-fm (7 handlers)
+[GIN-debug] DELETE /sysDictionary/deleteSysDictionary --> fresh-shop/server/api/v1/system.(*DictionaryApi).DeleteSysDictionary-fm (7 handlers)
+[GIN-debug] PUT    /sysDictionary/updateSysDictionary --> fresh-shop/server/api/v1/system.(*DictionaryApi).UpdateSysDictionary-fm (7 handlers)
+[GIN-debug] GET    /sysDictionary/findSysDictionary --> fresh-shop/server/api/v1/system.(*DictionaryApi).FindSysDictionary-fm (6 handlers)
+[GIN-debug] GET    /sysDictionary/getSysDictionaryList --> fresh-shop/server/api/v1/system.(*DictionaryApi).GetSysDictionaryList-fm (6 handlers)
+[GIN-debug] POST   /autoCode/getMeta         --> fresh-shop/server/api/v1/system.(*AutoCodeHistoryApi).First-fm (6 handlers)
+[GIN-debug] POST   /autoCode/rollback        --> fresh-shop/server/api/v1/system.(*AutoCodeHistoryApi).RollBack-fm (6 handlers)
+[GIN-debug] POST   /autoCode/delSysHistory   --> fresh-shop/server/api/v1/system.(*AutoCodeHistoryApi).Delete-fm (6 handlers)
+[GIN-debug] POST   /autoCode/getSysHistory   --> fresh-shop/server/api/v1/system.(*AutoCodeHistoryApi).GetList-fm (6 handlers)
+[GIN-debug] POST   /sysOperationRecord/createSysOperationRecord --> fresh-shop/server/api/v1/system.(*OperationRecordApi).CreateSysOperationRecord-fm (6 handlers)
+[GIN-debug] DELETE /sysOperationRecord/deleteSysOperationRecord --> fresh-shop/server/api/v1/system.(*OperationRecordApi).DeleteSysOperationRecord-fm (6 handlers)
+[GIN-debug] DELETE /sysOperationRecord/deleteSysOperationRecordByIds --> fresh-shop/server/api/v1/system.(*OperationRecordApi).DeleteSysOperationRecordByIds-fm (6 handlers)
+[GIN-debug] GET    /sysOperationRecord/findSysOperationRecord --> fresh-shop/server/api/v1/system.(*OperationRecordApi).FindSysOperationRecord-fm (6 handlers)
+[GIN-debug] GET    /sysOperationRecord/getSysOperationRecordList --> fresh-shop/server/api/v1/system.(*OperationRecordApi).GetSysOperationRecordList-fm (6 handlers)
+[GIN-debug] POST   /sysDictionaryDetail/createSysDictionaryDetail --> fresh-shop/server/api/v1/system.(*DictionaryDetailApi).CreateSysDictionaryDetail-fm (7 handlers)
+[GIN-debug] DELETE /sysDictionaryDetail/deleteSysDictionaryDetail --> fresh-shop/server/api/v1/system.(*DictionaryDetailApi).DeleteSysDictionaryDetail-fm (7 handlers)
+[GIN-debug] PUT    /sysDictionaryDetail/updateSysDictionaryDetail --> fresh-shop/server/api/v1/system.(*DictionaryDetailApi).UpdateSysDictionaryDetail-fm (7 handlers)
+[GIN-debug] GET    /sysDictionaryDetail/findSysDictionaryDetail --> fresh-shop/server/api/v1/system.(*DictionaryDetailApi).FindSysDictionaryDetail-fm (6 handlers)
+[GIN-debug] GET    /sysDictionaryDetail/getSysDictionaryDetailList --> fresh-shop/server/api/v1/system.(*DictionaryDetailApi).GetSysDictionaryDetailList-fm (6 handlers)
+[GIN-debug] POST   /authorityBtn/getAuthorityBtn --> fresh-shop/server/api/v1/system.(*AuthorityBtnApi).GetAuthorityBtn-fm (6 handlers)
+[GIN-debug] POST   /authorityBtn/setAuthorityBtn --> fresh-shop/server/api/v1/system.(*AuthorityBtnApi).SetAuthorityBtn-fm (6 handlers)
+[GIN-debug] POST   /authorityBtn/canRemoveAuthorityBtn --> fresh-shop/server/api/v1/system.(*AuthorityBtnApi).CanRemoveAuthorityBtn-fm (6 handlers)
+[GIN-debug] POST   /sysConfig/createSysConfig --> fresh-shop/server/api/v1/system.(*SysConfigApi).CreateSysConfig-fm (7 handlers)
+[GIN-debug] DELETE /sysConfig/deleteSysConfig --> fresh-shop/server/api/v1/system.(*SysConfigApi).DeleteSysConfig-fm (7 handlers)
+[GIN-debug] DELETE /sysConfig/deleteSysConfigByIds --> fresh-shop/server/api/v1/system.(*SysConfigApi).DeleteSysConfigByIds-fm (7 handlers)
+[GIN-debug] PUT    /sysConfig/updateSysConfig --> fresh-shop/server/api/v1/system.(*SysConfigApi).UpdateSysConfig-fm (7 handlers)
+[GIN-debug] GET    /sysConfig/findSysConfig  --> fresh-shop/server/api/v1/system.(*SysConfigApi).FindSysConfig-fm (6 handlers)
+[GIN-debug] GET    /sysConfig/getSysConfigList --> fresh-shop/server/api/v1/system.(*SysConfigApi).GetSysConfigList-fm (6 handlers)
+[GIN-debug] GET    /sysConfig/findSysConfigByName --> fresh-shop/server/api/v1/system.(*SysConfigApi).FindSysConfigByName-fm (3 handlers)
+[GIN-debug] POST   /fileUploadAndDownload/upload --> fresh-shop/server/api/v1/file.(*FileUploadAndDownloadApi).UploadFile-fm (6 handlers)
+[GIN-debug] POST   /fileUploadAndDownload/getFileList --> fresh-shop/server/api/v1/file.(*FileUploadAndDownloadApi).GetFileList-fm (6 handlers)
+[GIN-debug] POST   /fileUploadAndDownload/deleteFile --> fresh-shop/server/api/v1/file.(*FileUploadAndDownloadApi).DeleteFile-fm (6 handlers)
+[GIN-debug] POST   /fileUploadAndDownload/editFileName --> fresh-shop/server/api/v1/file.(*FileUploadAndDownloadApi).EditFileName-fm (6 handlers)
+[GIN-debug] POST   /fileUploadAndDownload/breakpointContinue --> fresh-shop/server/api/v1/file.(*FileUploadAndDownloadApi).BreakpointContinue-fm (6 handlers)
+[GIN-debug] GET    /fileUploadAndDownload/findFile --> fresh-shop/server/api/v1/file.(*FileUploadAndDownloadApi).FindFile-fm (6 handlers)
+[GIN-debug] POST   /fileUploadAndDownload/breakpointContinueFinish --> fresh-shop/server/api/v1/file.(*FileUploadAndDownloadApi).BreakpointContinueFinish-fm (6 handlers)
+[GIN-debug] POST   /fileUploadAndDownload/removeChunk --> fresh-shop/server/api/v1/file.(*FileUploadAndDownloadApi).RemoveChunk-fm (6 handlers)
+[GIN-debug] POST   /userAccountGroup/createAccountGroup --> fresh-shop/server/api/v1/account.(*AccountGroupApi).CreateAccountGroup-fm (7 handlers)
+[GIN-debug] POST   /userAccountGroup/syncAccountGroup --> fresh-shop/server/api/v1/account.(*AccountGroupApi).SyncAccountGroup-fm (7 handlers)
+[GIN-debug] DELETE /userAccountGroup/deleteAccountGroup --> fresh-shop/server/api/v1/account.(*AccountGroupApi).DeleteAccountGroup-fm (7 handlers)
+[GIN-debug] DELETE /userAccountGroup/deleteAccountGroupByIds --> fresh-shop/server/api/v1/account.(*AccountGroupApi).DeleteAccountGroupByIds-fm (7 handlers)
+[GIN-debug] PUT    /userAccountGroup/updateAccountGroup --> fresh-shop/server/api/v1/account.(*AccountGroupApi).UpdateAccountGroup-fm (7 handlers)
+[GIN-debug] GET    /userAccountGroup/findAccountGroup --> fresh-shop/server/api/v1/account.(*AccountGroupApi).FindAccountGroup-fm (6 handlers)
+[GIN-debug] GET    /userAccountGroup/getAccountGroupList --> fresh-shop/server/api/v1/account.(*AccountGroupApi).GetAccountGroupList-fm (6 handlers)
+[GIN-debug] GET    /userAccountGroup/getAccountGroupListAll --> fresh-shop/server/api/v1/account.(*AccountGroupApi).GetAccountGroupListAll-fm (6 handlers)
+[GIN-debug] POST   /account/createAccount    --> fresh-shop/server/api/v1/account.(*AccountApi).CreateAccount-fm (7 handlers)
+[GIN-debug] DELETE /account/deleteAccount    --> fresh-shop/server/api/v1/account.(*AccountApi).DeleteAccount-fm (7 handlers)
+[GIN-debug] DELETE /account/deleteAccountByIds --> fresh-shop/server/api/v1/account.(*AccountApi).DeleteAccountByIds-fm (7 handlers)
+[GIN-debug] PUT    /account/updateAccount    --> fresh-shop/server/api/v1/account.(*AccountApi).UpdateAccount-fm (7 handlers)
+[GIN-debug] GET    /account/findAccount      --> fresh-shop/server/api/v1/account.(*AccountApi).FindAccount-fm (6 handlers)
+[GIN-debug] GET    /account/findUserAccount  --> fresh-shop/server/api/v1/account.(*AccountApi).FindUserAccount-fm (6 handlers)
+[GIN-debug] GET    /account/getAccountList   --> fresh-shop/server/api/v1/account.(*AccountApi).GetAccountList-fm (6 handlers)
+[GIN-debug] POST   /sysRecharge/createSysRecharge --> fresh-shop/server/api/v1/account.(*SysRechargeApi).CreateSysRecharge-fm (7 handlers)
+[GIN-debug] DELETE /sysRecharge/deleteSysRecharge --> fresh-shop/server/api/v1/account.(*SysRechargeApi).DeleteSysRecharge-fm (7 handlers)
+[GIN-debug] DELETE /sysRecharge/deleteSysRechargeByIds --> fresh-shop/server/api/v1/account.(*SysRechargeApi).DeleteSysRechargeByIds-fm (7 handlers)
+[GIN-debug] PUT    /sysRecharge/updateSysRecharge --> fresh-shop/server/api/v1/account.(*SysRechargeApi).UpdateSysRecharge-fm (7 handlers)
+[GIN-debug] GET    /sysRecharge/findSysRecharge --> fresh-shop/server/api/v1/account.(*SysRechargeApi).FindSysRecharge-fm (6 handlers)
+[GIN-debug] GET    /sysRecharge/getSysRechargeList --> fresh-shop/server/api/v1/account.(*SysRechargeApi).GetSysRechargeList-fm (6 handlers)
+[GIN-debug] POST   /userFinanceType/createUserFinanceType --> fresh-shop/server/api/v1/account.(*UserFinanceTypeApi).CreateUserFinanceType-fm (7 handlers)
+[GIN-debug] DELETE /userFinanceType/deleteUserFinanceType --> fresh-shop/server/api/v1/account.(*UserFinanceTypeApi).DeleteUserFinanceType-fm (7 handlers)
+[GIN-debug] DELETE /userFinanceType/deleteUserFinanceTypeByIds --> fresh-shop/server/api/v1/account.(*UserFinanceTypeApi).DeleteUserFinanceTypeByIds-fm (7 handlers)
+[GIN-debug] PUT    /userFinanceType/updateUserFinanceType --> fresh-shop/server/api/v1/account.(*UserFinanceTypeApi).UpdateUserFinanceType-fm (7 handlers)
+[GIN-debug] GET    /userFinanceType/findUserFinanceType --> fresh-shop/server/api/v1/account.(*UserFinanceTypeApi).FindUserFinanceType-fm (6 handlers)
+[GIN-debug] GET    /userFinanceType/getUserFinanceTypeList --> fresh-shop/server/api/v1/account.(*UserFinanceTypeApi).GetUserFinanceTypeList-fm (6 handlers)
+[GIN-debug] GET    /userFinanceType/getUserFinanceTypeListAll --> fresh-shop/server/api/v1/account.(*UserFinanceTypeApi).GetUserFinanceTypeListAll-fm (6 handlers)
+[GIN-debug] POST   /userFinanceCash/createUserFinanceCash --> fresh-shop/server/api/v1/account.(*UserFinanceCashApi).CreateUserFinance-fm (7 handlers)
+[GIN-debug] DELETE /userFinanceCash/deleteUserFinanceCash --> fresh-shop/server/api/v1/account.(*UserFinanceCashApi).DeleteUserFinance-fm (7 handlers)
+[GIN-debug] DELETE /userFinanceCash/deleteUserFinanceCashByIds --> fresh-shop/server/api/v1/account.(*UserFinanceCashApi).DeleteUserFinanceByIds-fm (7 handlers)
+[GIN-debug] PUT    /userFinanceCash/updateUserFinanceCash --> fresh-shop/server/api/v1/account.(*UserFinanceCashApi).UpdateUserFinance-fm (7 handlers)
+[GIN-debug] GET    /userFinanceCash/findUserFinanceCash --> fresh-shop/server/api/v1/account.(*UserFinanceCashApi).FindUserFinance-fm (6 handlers)
+[GIN-debug] GET    /userFinanceCash/getUserFinanceCashList --> fresh-shop/server/api/v1/account.(*UserFinanceCashApi).GetUserFinanceList-fm (6 handlers)
+[GIN-debug] POST   /banner/createBanner      --> fresh-shop/server/api/v1/business.(*BannerApi).CreateBanner-fm (7 handlers)
+[GIN-debug] DELETE /banner/deleteBanner      --> fresh-shop/server/api/v1/business.(*BannerApi).DeleteBanner-fm (7 handlers)
+[GIN-debug] DELETE /banner/deleteBannerByIds --> fresh-shop/server/api/v1/business.(*BannerApi).DeleteBannerByIds-fm (7 handlers)
+[GIN-debug] PUT    /banner/updateBanner      --> fresh-shop/server/api/v1/business.(*BannerApi).UpdateBanner-fm (7 handlers)
+[GIN-debug] POST   /userDelivery/createUserDelivery --> fresh-shop/server/api/v1/business.(*UserDeliveryApi).CreateUserDelivery-fm (7 handlers)
+[GIN-debug] DELETE /userDelivery/deleteUserDelivery --> fresh-shop/server/api/v1/business.(*UserDeliveryApi).DeleteUserDelivery-fm (7 handlers)
+[GIN-debug] DELETE /userDelivery/deleteUserDeliveryByIds --> fresh-shop/server/api/v1/business.(*UserDeliveryApi).DeleteUserDeliveryByIds-fm (7 handlers)
+[GIN-debug] PUT    /userDelivery/updateUserDelivery --> fresh-shop/server/api/v1/business.(*UserDeliveryApi).UpdateUserDelivery-fm (7 handlers)
+[GIN-debug] GET    /userDelivery/findUserDelivery --> fresh-shop/server/api/v1/business.(*UserDeliveryApi).FindUserDelivery-fm (6 handlers)
+[GIN-debug] GET    /userDelivery/getUserDeliveryList --> fresh-shop/server/api/v1/business.(*UserDeliveryApi).GetUserDeliveryList-fm (6 handlers)
+[GIN-debug] GET    /userDelivery/getUserDeliveryAllList --> fresh-shop/server/api/v1/business.(*UserDeliveryApi).GetUserDeliveryAllList-fm (6 handlers)
+[GIN-debug] POST   /pricing/batch-cost-price --> fresh-shop/server/api/v1/business.(*PricingApi).BatchUpdateCostPrice-fm (7 handlers)
+[GIN-debug] POST   /pricing/apply            --> fresh-shop/server/api/v1/business.(*PricingApi).ApplyPricing-fm (7 handlers)
+[GIN-debug] GET    /pricing/markup-rate      --> fresh-shop/server/api/v1/business.(*PricingApi).GetMarkupRate-fm (7 handlers)
+[GIN-debug] GET    /bill/list                --> fresh-shop/server/api/v1/business.(*BillApi).GetBillList-fm (7 handlers)
+[GIN-debug] POST   /bill/generate            --> fresh-shop/server/api/v1/business.(*BillApi).GenerateBill-fm (7 handlers)
+[GIN-debug] GET    /bill/:id                 --> fresh-shop/server/api/v1/business.(*BillApi).GetBillDetail-fm (7 handlers)
+[GIN-debug] PUT    /bill/:id/status          --> fresh-shop/server/api/v1/business.(*BillApi).UpdateBillStatus-fm (7 handlers)
+[GIN-debug] GET    /banner/findBanner        --> fresh-shop/server/api/v1/business.(*BannerApi).FindBanner-fm (3 handlers)
+[GIN-debug] GET    /banner/getBannerList     --> fresh-shop/server/api/v1/business.(*BannerApi).GetBannerList-fm (3 handlers)
+[GIN-debug] POST   /category/createCategory  --> fresh-shop/server/api/v1/shop.(*CategoryApi).CreateCategory-fm (7 handlers)
+[GIN-debug] DELETE /category/deleteCategory  --> fresh-shop/server/api/v1/shop.(*CategoryApi).DeleteCategory-fm (7 handlers)
+[GIN-debug] DELETE /category/deleteCategoryByIds --> fresh-shop/server/api/v1/shop.(*CategoryApi).DeleteCategoryByIds-fm (7 handlers)
+[GIN-debug] PUT    /category/updateCategory  --> fresh-shop/server/api/v1/shop.(*CategoryApi).UpdateCategory-fm (7 handlers)
+[GIN-debug] POST   /brand/createBrand        --> fresh-shop/server/api/v1/shop.(*BrandApi).CreateBrand-fm (7 handlers)
+[GIN-debug] DELETE /brand/deleteBrand        --> fresh-shop/server/api/v1/shop.(*BrandApi).DeleteBrand-fm (7 handlers)
+[GIN-debug] DELETE /brand/deleteBrandByIds   --> fresh-shop/server/api/v1/shop.(*BrandApi).DeleteBrandByIds-fm (7 handlers)
+[GIN-debug] PUT    /brand/updateBrand        --> fresh-shop/server/api/v1/shop.(*BrandApi).UpdateBrand-fm (7 handlers)
+[GIN-debug] POST   /brandCategory/createBrandCategory --> fresh-shop/server/api/v1/shop.(*BrandCategoryApi).CreateBrandCategory-fm (7 handlers)
+[GIN-debug] POST   /tags/createTags          --> fresh-shop/server/api/v1/shop.(*TagsApi).CreateTags-fm (7 handlers)
+[GIN-debug] DELETE /tags/deleteTags          --> fresh-shop/server/api/v1/shop.(*TagsApi).DeleteTags-fm (7 handlers)
+[GIN-debug] DELETE /tags/deleteTagsByIds     --> fresh-shop/server/api/v1/shop.(*TagsApi).DeleteTagsByIds-fm (7 handlers)
+[GIN-debug] PUT    /tags/updateTags          --> fresh-shop/server/api/v1/shop.(*TagsApi).UpdateTags-fm (7 handlers)
+[GIN-debug] POST   /goods/createGoods        --> fresh-shop/server/api/v1/shop.(*GoodsApi).CreateGoods-fm (7 handlers)
+[GIN-debug] DELETE /goods/deleteGoods        --> fresh-shop/server/api/v1/shop.(*GoodsApi).DeleteGoods-fm (7 handlers)
+[GIN-debug] DELETE /goods/deleteGoodsByIds   --> fresh-shop/server/api/v1/shop.(*GoodsApi).DeleteGoodsByIds-fm (7 handlers)
+[GIN-debug] PUT    /goods/updateGoods        --> fresh-shop/server/api/v1/shop.(*GoodsApi).UpdateGoods-fm (7 handlers)
+[GIN-debug] POST   /order/createOrder        --> fresh-shop/server/api/v1/shop.(*OrderApi).CreateOrder-fm (7 handlers)
+[GIN-debug] POST   /order/orderPay           --> fresh-shop/server/api/v1/shop.(*OrderApi).OrderPay-fm (7 handlers)
+[GIN-debug] POST   /order/cancelOrder        --> fresh-shop/server/api/v1/shop.(*OrderApi).CancelOrder-fm (7 handlers)
+[GIN-debug] DELETE /order/deleteOrder        --> fresh-shop/server/api/v1/shop.(*OrderApi).DeleteOrder-fm (7 handlers)
+[GIN-debug] DELETE /order/deleteOrderByIds   --> fresh-shop/server/api/v1/shop.(*OrderApi).DeleteOrderByIds-fm (7 handlers)
+[GIN-debug] PUT    /order/updateOrder        --> fresh-shop/server/api/v1/shop.(*OrderApi).UpdateOrder-fm (7 handlers)
+[GIN-debug] POST   /order/batchSettlement    --> fresh-shop/server/api/v1/shop.(*OrderApi).BatchSettlement-fm (7 handlers)
+[GIN-debug] POST   /order/confirmOrder       --> fresh-shop/server/api/v1/shop.(*OrderApi).ConfirmOrder-fm (7 handlers)
+[GIN-debug] PUT    /order/updateOrderStatus  --> fresh-shop/server/api/v1/shop.(*OrderApi).UpdateOrderStatus-fm (7 handlers)
+[GIN-debug] GET    /order/findOrder          --> fresh-shop/server/api/v1/shop.(*OrderApi).FindOrder-fm (6 handlers)
+[GIN-debug] GET    /order/findUserOrderStatus --> fresh-shop/server/api/v1/shop.(*OrderApi).FindUserOrderStatus-fm (6 handlers)
+[GIN-debug] GET    /order/getOrderList       --> fresh-shop/server/api/v1/shop.(*OrderApi).GetOrderList-fm (6 handlers)
+[GIN-debug] GET    /order/getOrderMonthStatistics --> fresh-shop/server/api/v1/shop.(*OrderApi).GetOrderMonthStatistics-fm (6 handlers)
+[GIN-debug] GET    /order/getUserOrderList   --> fresh-shop/server/api/v1/shop.(*OrderApi).GetUserOrderList-fm (6 handlers)
+[GIN-debug] GET    /order/orderStatus        --> fresh-shop/server/api/v1/shop.(*OrderApi).OrderStatus-fm (6 handlers)
+[GIN-debug] POST   /orderDetails/createOrderDetails --> fresh-shop/server/api/v1/shop.(*OrderDetailsApi).CreateOrderDetails-fm (7 handlers)
+[GIN-debug] DELETE /orderDetails/deleteOrderDetails --> fresh-shop/server/api/v1/shop.(*OrderDetailsApi).DeleteOrderDetails-fm (7 handlers)
+[GIN-debug] DELETE /orderDetails/deleteOrderDetailsByIds --> fresh-shop/server/api/v1/shop.(*OrderDetailsApi).DeleteOrderDetailsByIds-fm (7 handlers)
+[GIN-debug] PUT    /orderDetails/updateOrderDetails --> fresh-shop/server/api/v1/shop.(*OrderDetailsApi).UpdateOrderDetails-fm (7 handlers)
+[GIN-debug] GET    /orderDetails/recentlyPurchasedGoods --> fresh-shop/server/api/v1/shop.(*OrderDetailsApi).RecentlyPurchasedGoods-fm (6 handlers)
+[GIN-debug] GET    /orderDetails/findOrderDetails --> fresh-shop/server/api/v1/shop.(*OrderDetailsApi).FindOrderDetails-fm (6 handlers)
+[GIN-debug] GET    /orderDetails/getOrderDetailsList --> fresh-shop/server/api/v1/shop.(*OrderDetailsApi).GetOrderDetailsList-fm (6 handlers)
+[GIN-debug] DELETE /orderDelivery/deleteOrderDelivery --> fresh-shop/server/api/v1/shop.(*OrderDeliveryApi).DeleteOrderDelivery-fm (7 handlers)
+[GIN-debug] DELETE /orderDelivery/deleteOrderDeliveryByIds --> fresh-shop/server/api/v1/shop.(*OrderDeliveryApi).DeleteOrderDeliveryByIds-fm (7 handlers)
+[GIN-debug] PUT    /orderDelivery/updateOrderDelivery --> fresh-shop/server/api/v1/shop.(*OrderDeliveryApi).UpdateOrderDelivery-fm (7 handlers)
+[GIN-debug] POST   /orderDelivery/createOrderDelivery --> fresh-shop/server/api/v1/shop.(*OrderDeliveryApi).CreateOrderDelivery-fm (6 handlers)
+[GIN-debug] GET    /orderDelivery/findOrderDelivery --> fresh-shop/server/api/v1/shop.(*OrderDeliveryApi).FindOrderDelivery-fm (6 handlers)
+[GIN-debug] GET    /orderDelivery/getOrderDeliveryList --> fresh-shop/server/api/v1/shop.(*OrderDeliveryApi).GetOrderDeliveryList-fm (6 handlers)
+[GIN-debug] POST   /orderReturn/createOrderReturn --> fresh-shop/server/api/v1/shop.(*OrderReturnApi).CreateOrderReturn-fm (7 handlers)
+[GIN-debug] DELETE /orderReturn/deleteOrderReturn --> fresh-shop/server/api/v1/shop.(*OrderReturnApi).DeleteOrderReturn-fm (7 handlers)
+[GIN-debug] DELETE /orderReturn/deleteOrderReturnByIds --> fresh-shop/server/api/v1/shop.(*OrderReturnApi).DeleteOrderReturnByIds-fm (7 handlers)
+[GIN-debug] PUT    /orderReturn/updateOrderReturn --> fresh-shop/server/api/v1/shop.(*OrderReturnApi).UpdateOrderReturn-fm (7 handlers)
+[GIN-debug] GET    /orderReturn/findOrderReturn --> fresh-shop/server/api/v1/shop.(*OrderReturnApi).FindOrderReturn-fm (6 handlers)
+[GIN-debug] GET    /orderReturn/getOrderReturnList --> fresh-shop/server/api/v1/shop.(*OrderReturnApi).GetOrderReturnList-fm (6 handlers)
+[GIN-debug] GET    /goods/findGoods          --> fresh-shop/server/api/v1/shop.(*GoodsApi).FindGoods-fm (3 handlers)
+[GIN-debug] GET    /goods/getGoodsList       --> fresh-shop/server/api/v1/shop.(*GoodsApi).GetGoodsList-fm (3 handlers)
+[GIN-debug] POST   /goods/batchCreateGoodsByExcel --> fresh-shop/server/api/v1/shop.(*GoodsApi).BatchCreateGoodsByExcel-fm (3 handlers)
+[GIN-debug] POST   /goods/exportGoods        --> fresh-shop/server/api/v1/shop.(*GoodsApi).ExportGoods-fm (3 handlers)
+[GIN-debug] GET    /brand/findBrand          --> fresh-shop/server/api/v1/shop.(*BrandApi).FindBrand-fm (3 handlers)
+[GIN-debug] GET    /brand/getBrandList       --> fresh-shop/server/api/v1/shop.(*BrandApi).GetBrandList-fm (3 handlers)
+[GIN-debug] GET    /brand/getBrandListByCategoryId --> fresh-shop/server/api/v1/shop.(*BrandApi).GetBrandListByCategoryId-fm (3 handlers)
+[GIN-debug] GET    /brand/getBrandListAll    --> fresh-shop/server/api/v1/shop.(*BrandApi).GetBrandListAll-fm (3 handlers)
+[GIN-debug] GET    /category/findCategory    --> fresh-shop/server/api/v1/shop.(*CategoryApi).FindCategory-fm (3 handlers)
+[GIN-debug] GET    /category/getCategoryList --> fresh-shop/server/api/v1/shop.(*CategoryApi).GetCategoryList-fm (3 handlers)
+[GIN-debug] GET    /category/getCategoryListAll --> fresh-shop/server/api/v1/shop.(*CategoryApi).GetCategoryListAll-fm (3 handlers)
+[GIN-debug] GET    /tags/findTags            --> fresh-shop/server/api/v1/shop.(*TagsApi).FindTags-fm (3 handlers)
+[GIN-debug] GET    /tags/getTagsList         --> fresh-shop/server/api/v1/shop.(*TagsApi).GetTagsList-fm (3 handlers)
+[GIN-debug] GET    /tags/getTagsListAll      --> fresh-shop/server/api/v1/shop.(*TagsApi).GetTagsListAll-fm (3 handlers)
+[GIN-debug] DELETE /favorites/deleteFavorites --> fresh-shop/server/api/v1/shop.(*FavoritesApi).DeleteFavorites-fm (7 handlers)
+[GIN-debug] DELETE /favorites/deleteFavoritesByIds --> fresh-shop/server/api/v1/shop.(*FavoritesApi).DeleteFavoritesByIds-fm (7 handlers)
+[GIN-debug] POST   /favorites/favorites      --> fresh-shop/server/api/v1/shop.(*FavoritesApi).Favorites-fm (7 handlers)
+[GIN-debug] GET    /favorites/findFavorites  --> fresh-shop/server/api/v1/shop.(*FavoritesApi).FindFavorites-fm (6 handlers)
+[GIN-debug] GET    /favorites/getFavoritesList --> fresh-shop/server/api/v1/shop.(*FavoritesApi).GetFavoritesList-fm (6 handlers)
+[GIN-debug] POST   /cart/createCart          --> fresh-shop/server/api/v1/shop.(*CartApi).CreateCart-fm (7 handlers)
+[GIN-debug] DELETE /cart/deleteCart          --> fresh-shop/server/api/v1/shop.(*CartApi).DeleteCart-fm (7 handlers)
+[GIN-debug] DELETE /cart/deleteCartByIds     --> fresh-shop/server/api/v1/shop.(*CartApi).DeleteCartByIds-fm (7 handlers)
+[GIN-debug] PUT    /cart/updateCart          --> fresh-shop/server/api/v1/shop.(*CartApi).UpdateCart-fm (7 handlers)
+[GIN-debug] POST   /cart/selectAllChecked    --> fresh-shop/server/api/v1/shop.(*CartApi).SelectAllChecked-fm (6 handlers)
+[GIN-debug] POST   /cart/selectGoodsSingeChecked --> fresh-shop/server/api/v1/shop.(*CartApi).SelectGoodsSingeChecked-fm (6 handlers)
+[GIN-debug] POST   /cart/clearAllChecked     --> fresh-shop/server/api/v1/shop.(*CartApi).ClearAllChecked-fm (6 handlers)
+[GIN-debug] GET    /cart/getCartList         --> fresh-shop/server/api/v1/shop.(*CartApi).GetCartList-fm (6 handlers)
+[GIN-debug] POST   /userAddress/createUserAddress --> fresh-shop/server/api/v1/shop.(*UserAddressApi).CreateUserAddress-fm (7 handlers)
+[GIN-debug] DELETE /userAddress/deleteUserAddress --> fresh-shop/server/api/v1/shop.(*UserAddressApi).DeleteUserAddress-fm (7 handlers)
+[GIN-debug] DELETE /userAddress/deleteUserAddressByIds --> fresh-shop/server/api/v1/shop.(*UserAddressApi).DeleteUserAddressByIds-fm (7 handlers)
+[GIN-debug] PUT    /userAddress/updateUserAddress --> fresh-shop/server/api/v1/shop.(*UserAddressApi).UpdateUserAddress-fm (7 handlers)
+[GIN-debug] GET    /userAddress/findUserAddress --> fresh-shop/server/api/v1/shop.(*UserAddressApi).FindUserAddress-fm (6 handlers)
+[GIN-debug] GET    /userAddress/findUserDefaultAddress --> fresh-shop/server/api/v1/shop.(*UserAddressApi).FindUserDefaultAddress-fm (6 handlers)
+[GIN-debug] GET    /userAddress/getUserAddressList --> fresh-shop/server/api/v1/shop.(*UserAddressApi).GetUserAddressList-fm (6 handlers)
+[GIN-debug] POST   /wechat/createPayData     --> fresh-shop/server/api/v1/wechat.(*WeChatApi).CreatePayData-fm (7 handlers)
+[GIN-debug] GET    /wechat/getUnlimitedQRCode --> fresh-shop/server/api/v1/wechat.(*WeChatApi).GetUnlimitedQRCode-fm (6 handlers)
+[GIN-debug] GET    /wechat/code2Session      --> fresh-shop/server/api/v1/wechat.(*WeChatApi).Code2Session-fm (3 handlers)
+[GIN-debug] POST   /wechat/pay/notify        --> fresh-shop/server/api/v1/wechat.(*WeChatApi).PayNotify-fm (3 handlers)
+[fresh_shop/server]2026/09/23 - 21:31:19.825	[34minfo[0m	/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/initialize/router.go:126	router register success
+[GIN-debug] GET    /form-generator/*filepath --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (3 handlers)
+[GIN-debug] HEAD   /form-generator/*filepath --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (3 handlers)
+[fresh_shop/server]2026/09/23 - 21:31:19.825	[34minfo[0m	/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/core/server.go:36	server run success on 	{"address": ":48888"}
+
+	欢迎使用 启运冻品
+	当前版本:v2.5.5
+	默认自动化文档地址:http://127.0.0.1:48888/swagger/index.html
+	默认前端文件运行地址:http://127.0.0.1:8080
+2026/09/23 21:31:19 11141 :48888
+[GIN] 2026/09/23 - 21:32:33 | 200 |     162.875µs |             ::1 | GET      "/cart/getCartList"
+[GIN] 2026/09/23 - 21:32:33 | 200 |       20.75µs |             ::1 | GET      "/cart/getCartList"
+
+2026/09/23 21:32:33 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:63
+[0m[33m[1.603ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_category` WHERE `shop_category`.`deleted_at` IS NULL
+
+2026/09/23 21:32:33 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:68
+[0m[33m[0.666ms] [34;1m[rows:0][0m SELECT * FROM `shop_brand_category` WHERE `shop_brand_category`.`category_id` IN (37,38)
+
+2026/09/23 21:32:33 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:68
+[0m[33m[1.375ms] [34;1m[rows:2][0m SELECT * FROM `shop_category` WHERE `shop_category`.`deleted_at` IS NULL ORDER BY sort asc 
+[GIN] 2026/09/23 - 21:32:33 | 200 |      3.4695ms |             ::1 | GET      "/category/getCategoryList"
+[fresh_shop/server]2026/09/23 - 21:32:33.358	[31merror[0m	/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/utils/clamis.go:15	从Gin的Context中获取从jwt解析信息失败, 请检查请求头是否存在x-token且claims是否为规定结构
+
+2026/09/23 21:32:33 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1267
+[0m[33m[1.643ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_goods` WHERE category_id = 37 AND `shop_goods`.`deleted_at` IS NULL
+
+2026/09/23 21:32:33 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[1.050ms] [34;1m[rows:0][0m SELECT * FROM `shop_goods` WHERE category_id = 37 AND `shop_goods`.`deleted_at` IS NULL ORDER BY sort asc, created_at desc,sort asc LIMIT 20
+[GIN] 2026/09/23 - 21:32:33 | 200 |    4.602042ms |             ::1 | GET      "/goods/getGoodsList?categoryId=37&page=1&pageSize=20"
+
+2026/09/23 21:32:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:63
+[0m[33m[0.283ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_category` WHERE `shop_category`.`deleted_at` IS NULL
+[GIN] 2026/09/23 - 21:32:52 | 200 |      25.125µs |             ::1 | GET      "/cart/getCartList"
+
+2026/09/23 21:32:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:68
+[0m[33m[0.260ms] [34;1m[rows:0][0m SELECT * FROM `shop_brand_category` WHERE `shop_brand_category`.`category_id` IN (37,38)
+
+2026/09/23 21:32:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:68
+[0m[33m[0.635ms] [34;1m[rows:2][0m SELECT * FROM `shop_category` WHERE `shop_category`.`deleted_at` IS NULL ORDER BY sort asc 
+[GIN] 2026/09/23 - 21:32:52 | 200 |    1.226166ms |             ::1 | GET      "/category/getCategoryList"
+[GIN] 2026/09/23 - 21:32:52 | 200 |      11.375µs |             ::1 | GET      "/cart/getCartList"
+[fresh_shop/server]2026/09/23 - 21:32:52.516	[31merror[0m	/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/utils/clamis.go:15	从Gin的Context中获取从jwt解析信息失败, 请检查请求头是否存在x-token且claims是否为规定结构
+
+2026/09/23 21:32:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1267
+[0m[33m[0.721ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_goods` WHERE category_id = 37 AND `shop_goods`.`deleted_at` IS NULL
+
+2026/09/23 21:32:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[0.989ms] [34;1m[rows:0][0m SELECT * FROM `shop_goods` WHERE category_id = 37 AND `shop_goods`.`deleted_at` IS NULL ORDER BY sort asc, created_at desc,sort asc LIMIT 20
+[GIN] 2026/09/23 - 21:32:52 | 200 |    2.544709ms |             ::1 | GET      "/goods/getGoodsList?categoryId=37&page=1&pageSize=20"
+
+2026/09/23 21:33:11 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:63
+[0m[33m[0.288ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_category` WHERE `shop_category`.`deleted_at` IS NULL
+[GIN] 2026/09/23 - 21:33:11 | 200 |      42.125µs |             ::1 | GET      "/cart/getCartList"
+
+2026/09/23 21:33:11 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:68
+[0m[33m[0.269ms] [34;1m[rows:0][0m SELECT * FROM `shop_brand_category` WHERE `shop_brand_category`.`category_id` IN (37,38)
+
+2026/09/23 21:33:11 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:68
+[0m[33m[0.565ms] [34;1m[rows:2][0m SELECT * FROM `shop_category` WHERE `shop_category`.`deleted_at` IS NULL ORDER BY sort asc 
+[GIN] 2026/09/23 - 21:33:11 | 200 |     1.73875ms |             ::1 | GET      "/category/getCategoryList"
+[GIN] 2026/09/23 - 21:33:11 | 200 |      33.334µs |             ::1 | GET      "/cart/getCartList"
+[fresh_shop/server]2026/09/23 - 21:33:11.368	[31merror[0m	/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/utils/clamis.go:15	从Gin的Context中获取从jwt解析信息失败, 请检查请求头是否存在x-token且claims是否为规定结构
+
+2026/09/23 21:33:11 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1267
+[0m[33m[0.609ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_goods` WHERE category_id = 37 AND `shop_goods`.`deleted_at` IS NULL
+
+2026/09/23 21:33:11 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[1.427ms] [34;1m[rows:0][0m SELECT * FROM `shop_goods` WHERE category_id = 37 AND `shop_goods`.`deleted_at` IS NULL ORDER BY sort asc, created_at desc,sort asc LIMIT 20
+[GIN] 2026/09/23 - 21:33:11 | 200 |    2.519291ms |             ::1 | GET      "/goods/getGoodsList?categoryId=37&page=1&pageSize=20"
+[GIN] 2026/09/23 - 21:34:44 | 200 |     147.959µs |             ::1 | GET      "/cart/getCartList"
+
+2026/09/23 21:34:44 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:63
+[0m[33m[3.151ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_category` WHERE `shop_category`.`deleted_at` IS NULL
+[GIN] 2026/09/23 - 21:34:44 | 200 |      57.792µs |             ::1 | GET      "/cart/getCartList"
+
+2026/09/23 21:34:44 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:68
+[0m[33m[0.632ms] [34;1m[rows:0][0m SELECT * FROM `shop_brand_category` WHERE `shop_brand_category`.`category_id` IN (37,38)
+
+2026/09/23 21:34:44 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:68
+[0m[33m[2.079ms] [34;1m[rows:2][0m SELECT * FROM `shop_category` WHERE `shop_category`.`deleted_at` IS NULL ORDER BY sort asc 
+[GIN] 2026/09/23 - 21:34:44 | 200 |     7.25675ms |             ::1 | GET      "/category/getCategoryList"
+[fresh_shop/server]2026/09/23 - 21:34:44.598	[31merror[0m	/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/utils/clamis.go:15	从Gin的Context中获取从jwt解析信息失败, 请检查请求头是否存在x-token且claims是否为规定结构
+
+2026/09/23 21:34:44 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1267
+[0m[33m[0.951ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_goods` WHERE category_id = 37 AND `shop_goods`.`deleted_at` IS NULL
+
+2026/09/23 21:34:44 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
+[0m[33m[1.087ms] [34;1m[rows:0][0m SELECT * FROM `shop_goods` WHERE category_id = 37 AND `shop_goods`.`deleted_at` IS NULL ORDER BY sort asc, created_at desc,sort asc LIMIT 20
+[GIN] 2026/09/23 - 21:34:44 | 200 |    2.620375ms |             ::1 | GET      "/goods/getGoodsList?categoryId=37&page=1&pageSize=20"
+
+2026/09/23 21:35:10 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
+[0m[33m[0.449ms] [34;1m[rows:2][0m SELECT * FROM `sys_user_authority` WHERE `sys_user_authority`.`sys_user_id` = 1
+
+2026/09/23 21:35:10 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
+[0m[33m[0.390ms] [34;1m[rows:2][0m SELECT * FROM `sys_authorities` WHERE `sys_authorities`.`authority_id` IN (888,999)
+
+2026/09/23 21:35:10 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
+[0m[33m[0.224ms] [34;1m[rows:1][0m SELECT * FROM `sys_authorities` WHERE `sys_authorities`.`authority_id` = 999
+
+2026/09/23 21:35:10 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
+[0m[33m[4.002ms] [34;1m[rows:1][0m SELECT * FROM `sys_users` WHERE username = 'admin' AND `sys_users`.`deleted_at` IS NULL ORDER BY `sys_users`.`id` LIMIT 1
+
+2026/09/23 21:35:10 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:227
+[0m[33m[0.891ms] [34;1m[rows:25][0m SELECT `sys_base_menu_id` FROM `sys_authority_menus` WHERE sys_authority_authority_id = 999
+
+2026/09/23 21:35:10 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:232
+[0m[33m[0.880ms] [34;1m[rows:1][0m SELECT * FROM `sys_base_menus` WHERE (name = 'dashboard' and id in ('1','7','11','12','13','24','30','32','33','35','36','37','38','39','40','42','43','44','45','46','47','50','51','52','53')) AND `sys_base_menus`.`deleted_at` IS NULL ORDER BY `sys_base_menus`.`id` LIMIT 1
+
+2026/09/23 21:35:10 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
+[0m[33m[0.996ms] [34;1m[rows:0][0m INSERT INTO `sys_authorities` (`created_at`,`updated_at`,`deleted_at`,`authority_name`,`parent_id`,`default_router`,`authority_id`) VALUES ('2023-03-11 13:26:08.401','2024-08-22 12:18:17.445',NULL,'管理员',0,'dashboard',999) ON DUPLICATE KEY UPDATE `authority_id`=VALUES(`authority_id`)
+
+2026/09/23 21:35:10 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
+[0m[33m[0.463ms] [34;1m[rows:0][0m INSERT INTO `sys_authorities` (`created_at`,`updated_at`,`deleted_at`,`authority_name`,`parent_id`,`default_router`,`authority_id`) VALUES ('2023-03-09 12:33:14.697','2024-08-22 12:18:03.059',NULL,'超级管理员',0,'dashboard',888),('2023-03-11 13:26:08.401','2024-08-22 12:18:17.445',NULL,'管理员',0,'dashboard',999) ON DUPLICATE KEY UPDATE `authority_id`=`authority_id`
+
+2026/09/23 21:35:10 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
+[0m[33m[0.328ms] [34;1m[rows:0][0m INSERT INTO `sys_user_authority` (`sys_user_id`,`sys_authority_authority_id`) VALUES (1,888),(1,999) ON DUPLICATE KEY UPDATE `sys_user_id`=`sys_user_id`
+
+2026/09/23 21:35:10 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
+[0m[33m[6.723ms] [34;1m[rows:1][0m UPDATE `sys_users` SET `created_at`='2023-03-09 12:33:18.717',`updated_at`='2026-09-23 21:35:10.897',`deleted_at`=NULL,`uuid`='f0f71391-6d0e-418c-a601-af3dde923073',`open_id`='',`username`='admin',`invitation_code`='',`password`='$2a$10$2VQCknWrjxY6cRkV46veWeVbSoghkOJo0TEul6fhh6xH0ZnEjMBeq',`safe_password`='',`nick_name`='Admin',`sex`=0,`side_mode`='dark',`header_img`='https://minio.kl.do/picture/images/avatar/face.png',`base_color`='#fff',`active_color`='#1890ff',`authority_id`=999,`phone`='17611111111',`email`='333333333@qq.com',`enable`=1,`login_ip`='::1',`login_time`='2026-09-23 21:35:10.897',`origin_contact_name`='',`change_contact_name`='',`origin_customer_name`='',`change_customer_name`='',`audit_status`=0,`audit_remark`='',`apply_time`='2023-05-28 21:35:11' WHERE `sys_users`.`deleted_at` IS NULL AND `id` = 1
+[GIN] 2026/09/23 - 21:35:10 | 200 |   65.399958ms |             ::1 | POST     "/base/login"
+
+2026/09/23 21:35:30 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
+[0m[33m[0.337ms] [34;1m[rows:2][0m SELECT * FROM `sys_user_authority` WHERE `sys_user_authority`.`sys_user_id` = 1
+
+2026/09/23 21:35:30 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
+[0m[33m[0.322ms] [34;1m[rows:2][0m SELECT * FROM `sys_authorities` WHERE `sys_authorities`.`authority_id` IN (888,999)
+
+2026/09/23 21:35:30 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
+[0m[33m[0.237ms] [34;1m[rows:1][0m SELECT * FROM `sys_authorities` WHERE `sys_authorities`.`authority_id` = 999
+
+2026/09/23 21:35:30 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
+[0m[33m[2.820ms] [34;1m[rows:1][0m SELECT * FROM `sys_users` WHERE username = 'admin' AND `sys_users`.`deleted_at` IS NULL ORDER BY `sys_users`.`id` LIMIT 1
+
+2026/09/23 21:35:30 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:227
+[0m[33m[0.743ms] [34;1m[rows:25][0m SELECT `sys_base_menu_id` FROM `sys_authority_menus` WHERE sys_authority_authority_id = 999
+
+2026/09/23 21:35:30 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:232
+[0m[33m[0.985ms] [34;1m[rows:1][0m SELECT * FROM `sys_base_menus` WHERE (name = 'dashboard' and id in ('1','7','11','12','13','24','30','32','33','35','36','37','38','39','40','42','43','44','45','46','47','50','51','52','53')) AND `sys_base_menus`.`deleted_at` IS NULL ORDER BY `sys_base_menus`.`id` LIMIT 1
+
+2026/09/23 21:35:30 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
+[0m[33m[0.536ms] [34;1m[rows:0][0m INSERT INTO `sys_authorities` (`created_at`,`updated_at`,`deleted_at`,`authority_name`,`parent_id`,`default_router`,`authority_id`) VALUES ('2023-03-11 13:26:08.401','2024-08-22 12:18:17.445',NULL,'管理员',0,'dashboard',999) ON DUPLICATE KEY UPDATE `authority_id`=VALUES(`authority_id`)
+
+2026/09/23 21:35:30 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
+[0m[33m[0.389ms] [34;1m[rows:0][0m INSERT INTO `sys_authorities` (`created_at`,`updated_at`,`deleted_at`,`authority_name`,`parent_id`,`default_router`,`authority_id`) VALUES ('2023-03-09 12:33:14.697','2024-08-22 12:18:03.059',NULL,'超级管理员',0,'dashboard',888),('2023-03-11 13:26:08.401','2024-08-22 12:18:17.445',NULL,'管理员',0,'dashboard',999) ON DUPLICATE KEY UPDATE `authority_id`=`authority_id`
+
+2026/09/23 21:35:30 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
+[0m[33m[0.275ms] [34;1m[rows:0][0m INSERT INTO `sys_user_authority` (`sys_user_id`,`sys_authority_authority_id`) VALUES (1,888),(1,999) ON DUPLICATE KEY UPDATE `sys_user_id`=`sys_user_id`
+
+2026/09/23 21:35:30 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
+[0m[33m[3.922ms] [34;1m[rows:1][0m UPDATE `sys_users` SET `created_at`='2023-03-09 12:33:18.717',`updated_at`='2026-09-23 21:35:30.118',`deleted_at`=NULL,`uuid`='f0f71391-6d0e-418c-a601-af3dde923073',`open_id`='',`username`='admin',`invitation_code`='',`password`='$2a$10$2VQCknWrjxY6cRkV46veWeVbSoghkOJo0TEul6fhh6xH0ZnEjMBeq',`safe_password`='',`nick_name`='Admin',`sex`=0,`side_mode`='dark',`header_img`='https://minio.kl.do/picture/images/avatar/face.png',`base_color`='#fff',`active_color`='#1890ff',`authority_id`=999,`phone`='17611111111',`email`='333333333@qq.com',`enable`=1,`login_ip`='::1',`login_time`='2026-09-23 21:35:30.117',`origin_contact_name`='',`change_contact_name`='',`origin_customer_name`='',`change_customer_name`='',`audit_status`=0,`audit_remark`='',`apply_time`='2023-05-28 21:35:11' WHERE `sys_users`.`deleted_at` IS NULL AND `id` = 1
+[GIN] 2026/09/23 - 21:35:30 | 200 |   65.739042ms |             ::1 | POST     "/base/login"
+[GIN] 2026/09/23 - 21:35:30 | 404 |         291ns |             ::1 | GET      "/menu/getMenu"
+
+2026/09/23 21:35:47 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
+[0m[33m[0.383ms] [34;1m[rows:2][0m SELECT * FROM `sys_user_authority` WHERE `sys_user_authority`.`sys_user_id` = 1
+
+2026/09/23 21:35:47 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
+[0m[33m[0.314ms] [34;1m[rows:2][0m SELECT * FROM `sys_authorities` WHERE `sys_authorities`.`authority_id` IN (888,999)
+
+2026/09/23 21:35:47 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
+[0m[33m[0.728ms] [34;1m[rows:1][0m SELECT * FROM `sys_authorities` WHERE `sys_authorities`.`authority_id` = 999
+
+2026/09/23 21:35:47 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
+[0m[33m[2.426ms] [34;1m[rows:1][0m SELECT * FROM `sys_users` WHERE username = 'admin' AND `sys_users`.`deleted_at` IS NULL ORDER BY `sys_users`.`id` LIMIT 1
+
+2026/09/23 21:35:47 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:227
+[0m[33m[0.556ms] [34;1m[rows:25][0m SELECT `sys_base_menu_id` FROM `sys_authority_menus` WHERE sys_authority_authority_id = 999
+
+2026/09/23 21:35:47 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:232
+[0m[33m[0.727ms] [34;1m[rows:1][0m SELECT * FROM `sys_base_menus` WHERE (name = 'dashboard' and id in ('1','7','11','12','13','24','30','32','33','35','36','37','38','39','40','42','43','44','45','46','47','50','51','52','53')) AND `sys_base_menus`.`deleted_at` IS NULL ORDER BY `sys_base_menus`.`id` LIMIT 1
+
+2026/09/23 21:35:47 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
+[0m[33m[0.293ms] [34;1m[rows:0][0m INSERT INTO `sys_authorities` (`created_at`,`updated_at`,`deleted_at`,`authority_name`,`parent_id`,`default_router`,`authority_id`) VALUES ('2023-03-11 13:26:08.401','2024-08-22 12:18:17.445',NULL,'管理员',0,'dashboard',999) ON DUPLICATE KEY UPDATE `authority_id`=VALUES(`authority_id`)
+
+2026/09/23 21:35:47 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
+[0m[33m[0.264ms] [34;1m[rows:0][0m INSERT INTO `sys_authorities` (`created_at`,`updated_at`,`deleted_at`,`authority_name`,`parent_id`,`default_router`,`authority_id`) VALUES ('2023-03-09 12:33:14.697','2024-08-22 12:18:03.059',NULL,'超级管理员',0,'dashboard',888),('2023-03-11 13:26:08.401','2024-08-22 12:18:17.445',NULL,'管理员',0,'dashboard',999) ON DUPLICATE KEY UPDATE `authority_id`=`authority_id`
+
+2026/09/23 21:35:47 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
+[0m[33m[0.214ms] [34;1m[rows:0][0m INSERT INTO `sys_user_authority` (`sys_user_id`,`sys_authority_authority_id`) VALUES (1,888),(1,999) ON DUPLICATE KEY UPDATE `sys_user_id`=`sys_user_id`
+
+2026/09/23 21:35:47 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
+[0m[33m[2.562ms] [34;1m[rows:1][0m UPDATE `sys_users` SET `created_at`='2023-03-09 12:33:18.717',`updated_at`='2026-09-23 21:35:47.91',`deleted_at`=NULL,`uuid`='f0f71391-6d0e-418c-a601-af3dde923073',`open_id`='',`username`='admin',`invitation_code`='',`password`='$2a$10$2VQCknWrjxY6cRkV46veWeVbSoghkOJo0TEul6fhh6xH0ZnEjMBeq',`safe_password`='',`nick_name`='Admin',`sex`=0,`side_mode`='dark',`header_img`='https://minio.kl.do/picture/images/avatar/face.png',`base_color`='#fff',`active_color`='#1890ff',`authority_id`=999,`phone`='17611111111',`email`='333333333@qq.com',`enable`=1,`login_ip`='::1',`login_time`='2026-09-23 21:35:47.91',`origin_contact_name`='',`change_contact_name`='',`origin_customer_name`='',`change_customer_name`='',`audit_status`=0,`audit_remark`='',`apply_time`='2023-05-28 21:35:11' WHERE `sys_users`.`deleted_at` IS NULL AND `id` = 1
+[GIN] 2026/09/23 - 21:35:47 | 200 |   63.372541ms |             ::1 | POST     "/base/login"
+[GIN] 2026/09/23 - 21:35:47 | 404 |         167ns |             ::1 | GET      "/menu/getMenu"
+
+2026/09/23 21:36:08 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
+[0m[33m[0.508ms] [34;1m[rows:2][0m SELECT * FROM `sys_user_authority` WHERE `sys_user_authority`.`sys_user_id` = 1
+
+2026/09/23 21:36:08 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
+[0m[33m[0.386ms] [34;1m[rows:2][0m SELECT * FROM `sys_authorities` WHERE `sys_authorities`.`authority_id` IN (888,999)
+
+2026/09/23 21:36:08 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
+[0m[33m[0.392ms] [34;1m[rows:1][0m SELECT * FROM `sys_authorities` WHERE `sys_authorities`.`authority_id` = 999
+
+2026/09/23 21:36:08 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
+[0m[33m[2.892ms] [34;1m[rows:1][0m SELECT * FROM `sys_users` WHERE username = 'admin' AND `sys_users`.`deleted_at` IS NULL ORDER BY `sys_users`.`id` LIMIT 1
+
+2026/09/23 21:36:08 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:227
+[0m[33m[0.668ms] [34;1m[rows:25][0m SELECT `sys_base_menu_id` FROM `sys_authority_menus` WHERE sys_authority_authority_id = 999
+
+2026/09/23 21:36:08 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:232
+[0m[33m[0.885ms] [34;1m[rows:1][0m SELECT * FROM `sys_base_menus` WHERE (name = 'dashboard' and id in ('1','7','11','12','13','24','30','32','33','35','36','37','38','39','40','42','43','44','45','46','47','50','51','52','53')) AND `sys_base_menus`.`deleted_at` IS NULL ORDER BY `sys_base_menus`.`id` LIMIT 1
+
+2026/09/23 21:36:08 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
+[0m[33m[0.456ms] [34;1m[rows:0][0m INSERT INTO `sys_authorities` (`created_at`,`updated_at`,`deleted_at`,`authority_name`,`parent_id`,`default_router`,`authority_id`) VALUES ('2023-03-11 13:26:08.401','2024-08-22 12:18:17.445',NULL,'管理员',0,'dashboard',999) ON DUPLICATE KEY UPDATE `authority_id`=VALUES(`authority_id`)
+
+2026/09/23 21:36:08 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
+[0m[33m[0.373ms] [34;1m[rows:0][0m INSERT INTO `sys_authorities` (`created_at`,`updated_at`,`deleted_at`,`authority_name`,`parent_id`,`default_router`,`authority_id`) VALUES ('2023-03-09 12:33:14.697','2024-08-22 12:18:03.059',NULL,'超级管理员',0,'dashboard',888),('2023-03-11 13:26:08.401','2024-08-22 12:18:17.445',NULL,'管理员',0,'dashboard',999) ON DUPLICATE KEY UPDATE `authority_id`=`authority_id`
+
+2026/09/23 21:36:08 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
+[0m[33m[0.287ms] [34;1m[rows:0][0m INSERT INTO `sys_user_authority` (`sys_user_id`,`sys_authority_authority_id`) VALUES (1,888),(1,999) ON DUPLICATE KEY UPDATE `sys_user_id`=`sys_user_id`
+
+2026/09/23 21:36:08 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
+[0m[33m[3.840ms] [34;1m[rows:1][0m UPDATE `sys_users` SET `created_at`='2023-03-09 12:33:18.717',`updated_at`='2026-09-23 21:36:08.551',`deleted_at`=NULL,`uuid`='f0f71391-6d0e-418c-a601-af3dde923073',`open_id`='',`username`='admin',`invitation_code`='',`password`='$2a$10$2VQCknWrjxY6cRkV46veWeVbSoghkOJo0TEul6fhh6xH0ZnEjMBeq',`safe_password`='',`nick_name`='Admin',`sex`=0,`side_mode`='dark',`header_img`='https://minio.kl.do/picture/images/avatar/face.png',`base_color`='#fff',`active_color`='#1890ff',`authority_id`=999,`phone`='17611111111',`email`='333333333@qq.com',`enable`=1,`login_ip`='::1',`login_time`='2026-09-23 21:36:08.551',`origin_contact_name`='',`change_contact_name`='',`origin_customer_name`='',`change_customer_name`='',`audit_status`=0,`audit_remark`='',`apply_time`='2023-05-28 21:35:11' WHERE `sys_users`.`deleted_at` IS NULL AND `id` = 1
+[GIN] 2026/09/23 - 21:36:08 | 200 |   69.969834ms |             ::1 | POST     "/base/login"
+
+2026/09/23 21:36:08 [32m/Users/zhaoyuedong/go/pkg/mod/gorm.io/driver/mysql@v1.3.3/migrator.go:228
+[0m[33m[0.190ms] [34;1m[rows:-][0m SELECT DATABASE()
+
+2026/09/23 21:36:08 [32m/Users/zhaoyuedong/go/pkg/mod/gorm.io/driver/mysql@v1.3.3/migrator.go:231
+[0m[33m[3.992ms] [34;1m[rows:1][0m SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'fresh_shop%' ORDER BY SCHEMA_NAME='fresh_shop' DESC limit 1
+
+2026/09/23 21:36:08 [32m/Users/zhaoyuedong/go/pkg/mod/github.com/casbin/gorm-adapter/v3@v3.7.3/adapter.go:381
+[0m[33m[3.330ms] [34;1m[rows:-][0m SELECT count(*) FROM information_schema.tables WHERE table_schema = 'fresh_shop' AND table_name = 'casbin_rule' AND table_type = 'BASE TABLE'
+
+2026/09/23 21:36:08 [32m/Users/zhaoyuedong/go/pkg/mod/gorm.io/driver/mysql@v1.3.3/migrator.go:228
+[0m[33m[0.168ms] [34;1m[rows:-][0m SELECT DATABASE()
+
+2026/09/23 21:36:08 [32m/Users/zhaoyuedong/go/pkg/mod/gorm.io/driver/mysql@v1.3.3/migrator.go:231
+[0m[33m[0.538ms] [34;1m[rows:1][0m SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'fresh_shop%' ORDER BY SCHEMA_NAME='fresh_shop' DESC limit 1
+
+2026/09/23 21:36:08 [32m/Users/zhaoyuedong/go/pkg/mod/gorm.io/driver/mysql@v1.3.3/migrator.go:148
+[0m[33m[0.521ms] [34;1m[rows:-][0m SELECT * FROM `casbin_rule` LIMIT 1
+
+2026/09/23 21:36:08 [32m/Users/zhaoyuedong/go/pkg/mod/gorm.io/driver/mysql@v1.3.3/migrator.go:166
+[0m[33m[1.917ms] [34;1m[rows:-][0m SELECT column_name, column_default, is_nullable = 'YES', data_type, character_maximum_length, column_type, column_key, extra, column_comment, numeric_precision, numeric_scale , datetime_precision FROM information_schema.columns WHERE table_schema = 'fresh_shop' AND table_name = 'casbin_rule' ORDER BY ORDINAL_POSITION
+
+2026/09/23 21:36:08 [32m/Users/zhaoyuedong/go/pkg/mod/gorm.io/driver/mysql@v1.3.3/migrator.go:228
+[0m[33m[0.089ms] [34;1m[rows:-][0m SELECT DATABASE()
+
+2026/09/23 21:36:08 [32m/Users/zhaoyuedong/go/pkg/mod/gorm.io/driver/mysql@v1.3.3/migrator.go:231
+[0m[33m[0.391ms] [34;1m[rows:1][0m SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'fresh_shop%' ORDER BY SCHEMA_NAME='fresh_shop' DESC limit 1
+
+2026/09/23 21:36:08 [32m/Users/zhaoyuedong/go/pkg/mod/github.com/casbin/gorm-adapter/v3@v3.7.3/adapter.go:387
+[0m[33m[1.768ms] [34;1m[rows:-][0m SELECT count(*) FROM information_schema.statistics WHERE table_schema = 'fresh_shop' AND table_name = 'casbin_rule' AND index_name = 'idx_casbin_rule'
+
+2026/09/23 21:36:08 [32m/Users/zhaoyuedong/go/pkg/mod/github.com/casbin/gorm-adapter/v3@v3.7.3/adapter.go:432
+[0m[33m[1.468ms] [34;1m[rows:747][0m SELECT * FROM `casbin_rule` ORDER BY ID
+
+2026/09/23 21:36:08 [32m/Users/zhaoyuedong/go/pkg/mod/github.com/casbin/gorm-adapter/v3@v3.7.3/adapter.go:432
+[0m[33m[1.371ms] [34;1m[rows:747][0m SELECT * FROM `casbin_rule` ORDER BY ID
+
+2026/09/23 21:36:08 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:30
+[0m[33m[0.262ms] [34;1m[rows:25][0m SELECT * FROM `sys_authority_menus` WHERE sys_authority_authority_id = 999
+
+2026/09/23 21:36:08 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:41
+[0m[33m[0.436ms] [34;1m[rows:2][0m SELECT * FROM `sys_base_menu_parameters` WHERE `sys_base_menu_parameters`.`sys_base_menu_id` IN (37,42,1,52,53,36,44,7,11,38,39,45,46,47,24) AND `sys_base_menu_parameters`.`deleted_at` IS NULL
+
+2026/09/23 21:36:08 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:41
+[0m[33m[1.074ms] [34;1m[rows:15][0m SELECT * FROM `sys_base_menus` WHERE id in ('1','7','11','12','13','24','30','32','33','35','36','37','38','39','40','42','43','44','45','46','47','50','51','52','53') AND `sys_base_menus`.`deleted_at` IS NULL ORDER BY sort
+
+2026/09/23 21:36:08 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:55
+[0m[33m[0.374ms] [34;1m[rows:0][0m SELECT * FROM `sys_authority_btns` WHERE authority_id = 999
+[GIN] 2026/09/23 - 21:36:08 | 200 |   18.987084ms |             ::1 | POST     "/menu/getMenu"

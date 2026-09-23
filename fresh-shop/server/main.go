@@ -38,5 +38,6 @@ func main() {
 	//	db, _ := global.DB.DB()
 	//	defer db.Close()
 	//}
+	_ = initialize.Routers() // 初始化路由
 	core.RunWindowsServer()
 }

@@ -16,7 +16,7 @@ func (s *BillService) GenerateBill(companyId uint, year, month int) error {
 
 	// 检查是否已存在
 	var count int64
-	global.GlobalDb.Table("shop_bill").
+	global.DB.Table("shop_bill").
 		Where("company_id = ? AND period = ?", companyId, period).
 		Count(&count)
 	if count > 0 {
@@ -32,7 +32,7 @@ func (s *BillService) GenerateBill(companyId uint, year, month int) error {
 	startDate := fmt.Sprintf("%d-%02d-01", year, month)
 	endDate := time.Date(year, time.Month(month+1), 1, 0, 0, 0, 0, time.UTC)
 
-	global.GlobalDb.Table("shop_order").
+	global.DB.Table("shop_order").
 		Select("COUNT(*) as count, COALESCE(SUM(`total`), 0) as total").
 		Where("company_id = ? AND order_status = 2 AND created_at >= ? AND created_at < ?",
 			companyId, startDate, endDate).
@@ -51,13 +51,13 @@ func (s *BillService) GenerateBill(companyId uint, year, month int) error {
 		"status":       0,
 	}
 
-	return global.GlobalDb.Table("shop_bill").Create(&bill).Error
+	return global.DB.Table("shop_bill").Create(&bill).Error
 }
 
 // GetBillList 获取账单列表
 func (s *BillService) GetBillList(companyId uint, page, pageSize int) ([]map[string]interface{}, int64) {
 	var total int64
-	global.GlobalDb.Table("shop_bill").
+	global.DB.Table("shop_bill").
 		Where("company_id = ?", companyId).
 		Count(&total)
 
@@ -69,7 +69,7 @@ func (s *BillService) GetBillList(companyId uint, page, pageSize int) ([]map[str
 	}
 
 	var list []map[string]interface{}
-	global.GlobalDb.Table("shop_bill").
+	global.DB.Table("shop_bill").
 		Where("company_id = ?", companyId).
 		Order("created_at DESC").
 		Offset((page - 1) * pageSize).
@@ -82,14 +82,14 @@ func (s *BillService) GetBillList(companyId uint, page, pageSize int) ([]map[str
 // GetBillDetail 获取账单详情
 func (s *BillService) GetBillDetail(billId uint) (map[string]interface{}, error) {
 	var bill map[string]interface{}
-	if err := global.GlobalDb.Table("shop_bill").Where("id = ?", billId).First(&bill).Error; err != nil {
+	if err := global.DB.Table("shop_bill").Where("id = ?", billId).First(&bill).Error; err != nil {
 		return nil, err
 	}
 
 	// 获取关联订单
 	var orders []map[string]interface{}
 	period := bill["period"].(string)
-	global.GlobalDb.Table("shop_order").
+	global.DB.Table("shop_order").
 		Select("id, order_sn, total, order_status, created_at").
 		Where("company_id = ? AND DATE_FORMAT(created_at, '%Y-%m') = ?",
 			bill["company_id"], period).
@@ -102,7 +102,7 @@ func (s *BillService) GetBillDetail(billId uint) (map[string]interface{}, error)
 
 // UpdateBillStatus 更新账单状态
 func (s *BillService) UpdateBillStatus(billId uint, status int) error {
-	return global.GlobalDb.Table("shop_bill").
+	return global.DB.Table("shop_bill").
 		Where("id = ?", billId).
 		Update("status", status).Error
 }

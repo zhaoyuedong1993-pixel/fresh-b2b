@@ -204,8 +204,8 @@ func (userDeliveryApi *UserDeliveryApi) GetUserDeliveryAllList(c *gin.Context) {
 		global.Log.Error("获取失败!", zap.Error(err))
 		response.FailWithMessage("获取失败", c)
 	} else {
-		response.OkWithDetailed(gin.H{
+		response.OkWithData(gin.H{
 			"list": list,
-		}, "获取成功", c)
+		}, c)
 	}
 }

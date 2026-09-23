@@ -106,7 +106,7 @@ import { ref, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { getGoodsList } from '@/api/goods'
 import { getCategoryList } from '@/api/category'
-import { batchUpdateCostPrice, applyPricing, getMarkupRate } from '@/api/pricing'
+import { batchUpdateCostPrice, applyPricing as applyPriceApi, getMarkupRate } from '@/api/pricing'
 
 const loading = ref(false)
 const goodsList = ref([])
@@ -219,7 +219,7 @@ const applyPricing = async () => {
   )
 
   try {
-    await applyPricing()
+    await applyPriceApi()
     ElMessage.success('价格已生效')
     loadGoods()
   } catch (e) {

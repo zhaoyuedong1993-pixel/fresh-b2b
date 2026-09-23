@@ -68,5 +68,5 @@ func (api *PricingApi) GetMarkupRate(c *gin.Context) {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
-	response.OkWithData(gin.H{"markupRate": rate}, "查询成功", c)
+	response.OkWithData(gin.H{"markupRate": rate}, c)
 }

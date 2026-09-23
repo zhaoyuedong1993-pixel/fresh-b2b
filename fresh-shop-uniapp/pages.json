@@ -3,7 +3,17 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "启运冻品"
+				"navigationBarTitleText": "Fresh B2B",
+				"navigationBarBackgroundColor": "#4CAF50",
+				"navigationBarTextStyle": "white"
+			}
+		},
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "登录",
+				"navigationBarBackgroundColor": "#4CAF50",
+				"navigationBarTextStyle": "white"
 			}
 		},
 		{
@@ -16,13 +26,6 @@
 			"path": "pages/goods/goods",
 			"style": {
 				"navigationBarTitleText": "商品列表",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/goods/pointGoods",
-			"style": {
-				"navigationBarTitleText": "积分兑换",
 				"enablePullDownRefresh": false
 			}
 		},
@@ -41,33 +44,18 @@
 			}
 		},
 		{
-			"path": "pages/goods/quickPay",
+			"path": "pages/cart/cart",
 			"style": {
-				"navigationBarTitleText": "快速下单",
+				"navigationBarTitleText": "购物车",
 				"enablePullDownRefresh": false
 			}
 		},
 		{
 			"path": "pages/my/my",
 			"style": {
-				"navigationBarTitleText": "个人中心",
+				"navigationBarTitleText": "我的",
 				"enablePullDownRefresh": false
 			}
-		},
-		{
-			"path": "pages/my/memberInfo",
-			"style": {
-				"navigationBarTitleText": "会员信息",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/cart/cart",
-			"style": {
-				"navigationBarTitleText": "购物车",
-				"enablePullDownRefresh": false
-			}
-
 		},
 		{
 			"path": "pages/order/submit",
@@ -86,7 +74,7 @@
 		{
 			"path": "pages/order/list",
 			"style": {
-				"navigationBarTitleText": "订单列表",
+				"navigationBarTitleText": "我的订单",
 				"enablePullDownRefresh": false
 			}
 		},
@@ -99,22 +87,22 @@
 		},
 		{
 			"path": "pages/address/addressForm",
-			{
-				"path": "pages/bill/list",
-				"style": {
-					"navigationBarTitleText": "我的账单",
-					"enablePullDownRefresh": false
-				}
-			},
-			{
-				"path": "pages/bill/detail",
-				"style": {
-					"navigationBarTitleText": "账单详情",
-					"enablePullDownRefresh": false
-				}
-			},
 			"style": {
 				"navigationBarTitleText": "收货地址",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/bill/list",
+			"style": {
+				"navigationBarTitleText": "我的账单",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/bill/detail",
+			"style": {
+				"navigationBarTitleText": "账单详情",
 				"enablePullDownRefresh": false
 			}
 		}
@@ -122,18 +110,10 @@
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationStyle": "default",
-		"navigationBarTitleText": "启运冻品",
-		"navigationBarBackgroundColor": "#F8F8F8",
+		"navigationBarTitleText": "Fresh B2B",
+		"navigationBarBackgroundColor": "#4CAF50",
+		"navigationBarTextStyle": "white",
 		"backgroundColor": "#F8F8F8"
 	},
-	"uniIdRouter": {},
-	"condition": {
-		//模式配置，仅开发期间生效
-		"current": 0, //当前激活的模式(list 的索引项)
-		"list": [{
-			"name": "", //模式名称
-			"path": "/pages/my/my", //启动页面，必选
-			"query": "" //启动参数，在页面的onLoad函数里面得到
-		}]
-	}
+	"uniIdRouter": {}
 }
