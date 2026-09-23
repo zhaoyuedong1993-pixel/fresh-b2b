@@ -15,6 +15,7 @@ func (s *BusinessRouter) InitBusinessRouter(Router *gin.RouterGroup) {
 	pricingRouter := Router.Group("pricing").Use(middleware.OperationRecord())
 	{
 		pricingRouter.POST("batch-cost-price", (&business.PricingApi{}).BatchUpdateCostPrice)
+		pricingRouter.POST("batch-parse", (&business.PricingApi{}).BatchParseText)
 		pricingRouter.POST("apply", (&business.PricingApi{}).ApplyPricing)
 		pricingRouter.GET("markup-rate", (&business.PricingApi{}).GetMarkupRate)
 	}

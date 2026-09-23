@@ -31,4 +31,16 @@ type Server struct {
 
 	Wechat    Wechat    `mapstructure:"wechat" json:"wechat" yaml:"wechat"`
 	WechatPay WechatPay `mapstructure:"wechatPay" json:"wechatPay" yaml:"wechatPay"`
+
+	// AI配置
+	AI AIConfig `mapstructure:"ai" json:"ai" yaml:"ai"`
+}
+
+// AIConfig AI配置
+type AIConfig struct {
+	Enabled  bool   `mapstructure:"enabled" json:"enabled" yaml:"enabled"`
+	APIURL   string `mapstructure:"api_url" json:"api_url" yaml:"api_url"`
+	APIKey   string `mapstructure:"api_key" json:"api_key" yaml:"api_key"`
+	Model    string `mapstructure:"model" json:"model" yaml:"model"`
+	Timeout  int    `mapstructure:"timeout" json:"timeout" yaml:"timeout"`
 }

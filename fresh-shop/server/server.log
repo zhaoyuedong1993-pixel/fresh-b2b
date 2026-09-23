@@ -5,14 +5,14 @@
  - using env:	export GIN_MODE=release
  - using code:	gin.SetMode(gin.ReleaseMode)
 
-无鉴权插件安装==》 &{[0x104a2c1b0 0x104a2c590] / 0x1cd9f018d6c0 false}
-鉴权插件安装==》 &{[0x104a2c1b0 0x104a2c590] / 0x1cd9f018d6c0 false}
+无鉴权插件安装==》 &{[0x102ac0380 0x102ac0760] / 0x35b257d30000 false}
+鉴权插件安装==》 &{[0x102ac0380 0x102ac0760] / 0x35b257d30000 false}
 [GIN-debug] POST   /email/emailTest          --> fresh-shop/server/plugin/email/api.(*EmailApi).EmailTest-fm (6 handlers)
 [GIN-debug] POST   /email/sendEmail          --> fresh-shop/server/plugin/email/api.(*EmailApi).SendEmail-fm (6 handlers)
 [GIN-debug] GET    /uploads/file/*filepath   --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (3 handlers)
 [GIN-debug] HEAD   /uploads/file/*filepath   --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (3 handlers)
 [GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (3 handlers)
-[fresh_shop/server]2026/09/23 - 21:31:19.823	[34minfo[0m	/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/initialize/router.go:39	register swagger handler
+[fresh_shop/server]2026/09/23 - 21:44:52.716	[34minfo[0m	/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/initialize/router.go:39	register swagger handler
 [GIN-debug] GET    /health                   --> fresh-shop/server/initialize.Routers.func1 (3 handlers)
 [GIN-debug] POST   /base/login               --> fresh-shop/server/api/v1/system.(*BaseApi).Login-fm (3 handlers)
 [GIN-debug] POST   /base/loginWx             --> fresh-shop/server/api/v1/system.(*BaseApi).LoginWx-fm (3 handlers)
@@ -152,6 +152,7 @@
 [GIN-debug] GET    /userDelivery/getUserDeliveryList --> fresh-shop/server/api/v1/business.(*UserDeliveryApi).GetUserDeliveryList-fm (6 handlers)
 [GIN-debug] GET    /userDelivery/getUserDeliveryAllList --> fresh-shop/server/api/v1/business.(*UserDeliveryApi).GetUserDeliveryAllList-fm (6 handlers)
 [GIN-debug] POST   /pricing/batch-cost-price --> fresh-shop/server/api/v1/business.(*PricingApi).BatchUpdateCostPrice-fm (7 handlers)
+[GIN-debug] POST   /pricing/batch-parse      --> fresh-shop/server/api/v1/business.(*PricingApi).BatchParseText-fm (7 handlers)
 [GIN-debug] POST   /pricing/apply            --> fresh-shop/server/api/v1/business.(*PricingApi).ApplyPricing-fm (7 handlers)
 [GIN-debug] GET    /pricing/markup-rate      --> fresh-shop/server/api/v1/business.(*PricingApi).GetMarkupRate-fm (7 handlers)
 [GIN-debug] GET    /bill/list                --> fresh-shop/server/api/v1/business.(*BillApi).GetBillList-fm (7 handlers)
@@ -249,24 +250,24 @@
 [GIN-debug] GET    /wechat/getUnlimitedQRCode --> fresh-shop/server/api/v1/wechat.(*WeChatApi).GetUnlimitedQRCode-fm (6 handlers)
 [GIN-debug] GET    /wechat/code2Session      --> fresh-shop/server/api/v1/wechat.(*WeChatApi).Code2Session-fm (3 handlers)
 [GIN-debug] POST   /wechat/pay/notify        --> fresh-shop/server/api/v1/wechat.(*WeChatApi).PayNotify-fm (3 handlers)
-[fresh_shop/server]2026/09/23 - 21:31:19.824	[34minfo[0m	/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/initialize/router.go:126	router register success
+[fresh_shop/server]2026/09/23 - 21:44:52.717	[34minfo[0m	/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/initialize/router.go:126	router register success
 
-2026/09/23 21:31:19 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/jwt_black_list.go:74
-[0m[33m[0.622ms] [34;1m[rows:0][0m SELECT `jwt` FROM `jwt_blacklists` WHERE `jwt_blacklists`.`deleted_at` IS NULL
+2026/09/23 21:44:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/jwt_black_list.go:74
+[0m[33m[0.619ms] [34;1m[rows:0][0m SELECT `jwt` FROM `jwt_blacklists` WHERE `jwt_blacklists`.`deleted_at` IS NULL
 [GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.
 
 [GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
  - using env:	export GIN_MODE=release
  - using code:	gin.SetMode(gin.ReleaseMode)
 
-无鉴权插件安装==》 &{[0x104a2c1b0 0x104a2c590] / 0x1cd9f0874000 false}
-鉴权插件安装==》 &{[0x104a2c1b0 0x104a2c590] / 0x1cd9f0874000 false}
+无鉴权插件安装==》 &{[0x102ac0380 0x102ac0760] / 0x35b257d30340 false}
+鉴权插件安装==》 &{[0x102ac0380 0x102ac0760] / 0x35b257d30340 false}
 [GIN-debug] POST   /email/emailTest          --> fresh-shop/server/plugin/email/api.(*EmailApi).EmailTest-fm (6 handlers)
 [GIN-debug] POST   /email/sendEmail          --> fresh-shop/server/plugin/email/api.(*EmailApi).SendEmail-fm (6 handlers)
 [GIN-debug] GET    /uploads/file/*filepath   --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (3 handlers)
 [GIN-debug] HEAD   /uploads/file/*filepath   --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (3 handlers)
 [GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (3 handlers)
-[fresh_shop/server]2026/09/23 - 21:31:19.825	[34minfo[0m	/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/initialize/router.go:39	register swagger handler
+[fresh_shop/server]2026/09/23 - 21:44:52.718	[34minfo[0m	/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/initialize/router.go:39	register swagger handler
 [GIN-debug] GET    /health                   --> fresh-shop/server/initialize.Routers.func1 (3 handlers)
 [GIN-debug] POST   /base/login               --> fresh-shop/server/api/v1/system.(*BaseApi).Login-fm (3 handlers)
 [GIN-debug] POST   /base/loginWx             --> fresh-shop/server/api/v1/system.(*BaseApi).LoginWx-fm (3 handlers)
@@ -406,6 +407,7 @@
 [GIN-debug] GET    /userDelivery/getUserDeliveryList --> fresh-shop/server/api/v1/business.(*UserDeliveryApi).GetUserDeliveryList-fm (6 handlers)
 [GIN-debug] GET    /userDelivery/getUserDeliveryAllList --> fresh-shop/server/api/v1/business.(*UserDeliveryApi).GetUserDeliveryAllList-fm (6 handlers)
 [GIN-debug] POST   /pricing/batch-cost-price --> fresh-shop/server/api/v1/business.(*PricingApi).BatchUpdateCostPrice-fm (7 handlers)
+[GIN-debug] POST   /pricing/batch-parse      --> fresh-shop/server/api/v1/business.(*PricingApi).BatchParseText-fm (7 handlers)
 [GIN-debug] POST   /pricing/apply            --> fresh-shop/server/api/v1/business.(*PricingApi).ApplyPricing-fm (7 handlers)
 [GIN-debug] GET    /pricing/markup-rate      --> fresh-shop/server/api/v1/business.(*PricingApi).GetMarkupRate-fm (7 handlers)
 [GIN-debug] GET    /bill/list                --> fresh-shop/server/api/v1/business.(*BillApi).GetBillList-fm (7 handlers)
@@ -503,268 +505,14 @@
 [GIN-debug] GET    /wechat/getUnlimitedQRCode --> fresh-shop/server/api/v1/wechat.(*WeChatApi).GetUnlimitedQRCode-fm (6 handlers)
 [GIN-debug] GET    /wechat/code2Session      --> fresh-shop/server/api/v1/wechat.(*WeChatApi).Code2Session-fm (3 handlers)
 [GIN-debug] POST   /wechat/pay/notify        --> fresh-shop/server/api/v1/wechat.(*WeChatApi).PayNotify-fm (3 handlers)
-[fresh_shop/server]2026/09/23 - 21:31:19.825	[34minfo[0m	/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/initialize/router.go:126	router register success
+[fresh_shop/server]2026/09/23 - 21:44:52.718	[34minfo[0m	/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/initialize/router.go:126	router register success
 [GIN-debug] GET    /form-generator/*filepath --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (3 handlers)
 [GIN-debug] HEAD   /form-generator/*filepath --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (3 handlers)
-[fresh_shop/server]2026/09/23 - 21:31:19.825	[34minfo[0m	/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/core/server.go:36	server run success on 	{"address": ":48888"}
+[fresh_shop/server]2026/09/23 - 21:44:52.718	[34minfo[0m	/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/core/server.go:36	server run success on 	{"address": ":48888"}
 
 	欢迎使用 启运冻品
 	当前版本:v2.5.5
 	默认自动化文档地址:http://127.0.0.1:48888/swagger/index.html
 	默认前端文件运行地址:http://127.0.0.1:8080
-2026/09/23 21:31:19 11141 :48888
-[GIN] 2026/09/23 - 21:32:33 | 200 |     162.875µs |             ::1 | GET      "/cart/getCartList"
-[GIN] 2026/09/23 - 21:32:33 | 200 |       20.75µs |             ::1 | GET      "/cart/getCartList"
-
-2026/09/23 21:32:33 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:63
-[0m[33m[1.603ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_category` WHERE `shop_category`.`deleted_at` IS NULL
-
-2026/09/23 21:32:33 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:68
-[0m[33m[0.666ms] [34;1m[rows:0][0m SELECT * FROM `shop_brand_category` WHERE `shop_brand_category`.`category_id` IN (37,38)
-
-2026/09/23 21:32:33 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:68
-[0m[33m[1.375ms] [34;1m[rows:2][0m SELECT * FROM `shop_category` WHERE `shop_category`.`deleted_at` IS NULL ORDER BY sort asc 
-[GIN] 2026/09/23 - 21:32:33 | 200 |      3.4695ms |             ::1 | GET      "/category/getCategoryList"
-[fresh_shop/server]2026/09/23 - 21:32:33.358	[31merror[0m	/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/utils/clamis.go:15	从Gin的Context中获取从jwt解析信息失败, 请检查请求头是否存在x-token且claims是否为规定结构
-
-2026/09/23 21:32:33 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1267
-[0m[33m[1.643ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_goods` WHERE category_id = 37 AND `shop_goods`.`deleted_at` IS NULL
-
-2026/09/23 21:32:33 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
-[0m[33m[1.050ms] [34;1m[rows:0][0m SELECT * FROM `shop_goods` WHERE category_id = 37 AND `shop_goods`.`deleted_at` IS NULL ORDER BY sort asc, created_at desc,sort asc LIMIT 20
-[GIN] 2026/09/23 - 21:32:33 | 200 |    4.602042ms |             ::1 | GET      "/goods/getGoodsList?categoryId=37&page=1&pageSize=20"
-
-2026/09/23 21:32:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:63
-[0m[33m[0.283ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_category` WHERE `shop_category`.`deleted_at` IS NULL
-[GIN] 2026/09/23 - 21:32:52 | 200 |      25.125µs |             ::1 | GET      "/cart/getCartList"
-
-2026/09/23 21:32:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:68
-[0m[33m[0.260ms] [34;1m[rows:0][0m SELECT * FROM `shop_brand_category` WHERE `shop_brand_category`.`category_id` IN (37,38)
-
-2026/09/23 21:32:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:68
-[0m[33m[0.635ms] [34;1m[rows:2][0m SELECT * FROM `shop_category` WHERE `shop_category`.`deleted_at` IS NULL ORDER BY sort asc 
-[GIN] 2026/09/23 - 21:32:52 | 200 |    1.226166ms |             ::1 | GET      "/category/getCategoryList"
-[GIN] 2026/09/23 - 21:32:52 | 200 |      11.375µs |             ::1 | GET      "/cart/getCartList"
-[fresh_shop/server]2026/09/23 - 21:32:52.516	[31merror[0m	/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/utils/clamis.go:15	从Gin的Context中获取从jwt解析信息失败, 请检查请求头是否存在x-token且claims是否为规定结构
-
-2026/09/23 21:32:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1267
-[0m[33m[0.721ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_goods` WHERE category_id = 37 AND `shop_goods`.`deleted_at` IS NULL
-
-2026/09/23 21:32:52 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
-[0m[33m[0.989ms] [34;1m[rows:0][0m SELECT * FROM `shop_goods` WHERE category_id = 37 AND `shop_goods`.`deleted_at` IS NULL ORDER BY sort asc, created_at desc,sort asc LIMIT 20
-[GIN] 2026/09/23 - 21:32:52 | 200 |    2.544709ms |             ::1 | GET      "/goods/getGoodsList?categoryId=37&page=1&pageSize=20"
-
-2026/09/23 21:33:11 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:63
-[0m[33m[0.288ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_category` WHERE `shop_category`.`deleted_at` IS NULL
-[GIN] 2026/09/23 - 21:33:11 | 200 |      42.125µs |             ::1 | GET      "/cart/getCartList"
-
-2026/09/23 21:33:11 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:68
-[0m[33m[0.269ms] [34;1m[rows:0][0m SELECT * FROM `shop_brand_category` WHERE `shop_brand_category`.`category_id` IN (37,38)
-
-2026/09/23 21:33:11 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:68
-[0m[33m[0.565ms] [34;1m[rows:2][0m SELECT * FROM `shop_category` WHERE `shop_category`.`deleted_at` IS NULL ORDER BY sort asc 
-[GIN] 2026/09/23 - 21:33:11 | 200 |     1.73875ms |             ::1 | GET      "/category/getCategoryList"
-[GIN] 2026/09/23 - 21:33:11 | 200 |      33.334µs |             ::1 | GET      "/cart/getCartList"
-[fresh_shop/server]2026/09/23 - 21:33:11.368	[31merror[0m	/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/utils/clamis.go:15	从Gin的Context中获取从jwt解析信息失败, 请检查请求头是否存在x-token且claims是否为规定结构
-
-2026/09/23 21:33:11 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1267
-[0m[33m[0.609ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_goods` WHERE category_id = 37 AND `shop_goods`.`deleted_at` IS NULL
-
-2026/09/23 21:33:11 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
-[0m[33m[1.427ms] [34;1m[rows:0][0m SELECT * FROM `shop_goods` WHERE category_id = 37 AND `shop_goods`.`deleted_at` IS NULL ORDER BY sort asc, created_at desc,sort asc LIMIT 20
-[GIN] 2026/09/23 - 21:33:11 | 200 |    2.519291ms |             ::1 | GET      "/goods/getGoodsList?categoryId=37&page=1&pageSize=20"
-[GIN] 2026/09/23 - 21:34:44 | 200 |     147.959µs |             ::1 | GET      "/cart/getCartList"
-
-2026/09/23 21:34:44 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:63
-[0m[33m[3.151ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_category` WHERE `shop_category`.`deleted_at` IS NULL
-[GIN] 2026/09/23 - 21:34:44 | 200 |      57.792µs |             ::1 | GET      "/cart/getCartList"
-
-2026/09/23 21:34:44 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:68
-[0m[33m[0.632ms] [34;1m[rows:0][0m SELECT * FROM `shop_brand_category` WHERE `shop_brand_category`.`category_id` IN (37,38)
-
-2026/09/23 21:34:44 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/category.go:68
-[0m[33m[2.079ms] [34;1m[rows:2][0m SELECT * FROM `shop_category` WHERE `shop_category`.`deleted_at` IS NULL ORDER BY sort asc 
-[GIN] 2026/09/23 - 21:34:44 | 200 |     7.25675ms |             ::1 | GET      "/category/getCategoryList"
-[fresh_shop/server]2026/09/23 - 21:34:44.598	[31merror[0m	/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/utils/clamis.go:15	从Gin的Context中获取从jwt解析信息失败, 请检查请求头是否存在x-token且claims是否为规定结构
-
-2026/09/23 21:34:44 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1267
-[0m[33m[0.951ms] [34;1m[rows:1][0m SELECT count(*) FROM `shop_goods` WHERE category_id = 37 AND `shop_goods`.`deleted_at` IS NULL
-
-2026/09/23 21:34:44 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/shop/goods.go:1272
-[0m[33m[1.087ms] [34;1m[rows:0][0m SELECT * FROM `shop_goods` WHERE category_id = 37 AND `shop_goods`.`deleted_at` IS NULL ORDER BY sort asc, created_at desc,sort asc LIMIT 20
-[GIN] 2026/09/23 - 21:34:44 | 200 |    2.620375ms |             ::1 | GET      "/goods/getGoodsList?categoryId=37&page=1&pageSize=20"
-
-2026/09/23 21:35:10 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
-[0m[33m[0.449ms] [34;1m[rows:2][0m SELECT * FROM `sys_user_authority` WHERE `sys_user_authority`.`sys_user_id` = 1
-
-2026/09/23 21:35:10 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
-[0m[33m[0.390ms] [34;1m[rows:2][0m SELECT * FROM `sys_authorities` WHERE `sys_authorities`.`authority_id` IN (888,999)
-
-2026/09/23 21:35:10 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
-[0m[33m[0.224ms] [34;1m[rows:1][0m SELECT * FROM `sys_authorities` WHERE `sys_authorities`.`authority_id` = 999
-
-2026/09/23 21:35:10 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
-[0m[33m[4.002ms] [34;1m[rows:1][0m SELECT * FROM `sys_users` WHERE username = 'admin' AND `sys_users`.`deleted_at` IS NULL ORDER BY `sys_users`.`id` LIMIT 1
-
-2026/09/23 21:35:10 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:227
-[0m[33m[0.891ms] [34;1m[rows:25][0m SELECT `sys_base_menu_id` FROM `sys_authority_menus` WHERE sys_authority_authority_id = 999
-
-2026/09/23 21:35:10 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:232
-[0m[33m[0.880ms] [34;1m[rows:1][0m SELECT * FROM `sys_base_menus` WHERE (name = 'dashboard' and id in ('1','7','11','12','13','24','30','32','33','35','36','37','38','39','40','42','43','44','45','46','47','50','51','52','53')) AND `sys_base_menus`.`deleted_at` IS NULL ORDER BY `sys_base_menus`.`id` LIMIT 1
-
-2026/09/23 21:35:10 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
-[0m[33m[0.996ms] [34;1m[rows:0][0m INSERT INTO `sys_authorities` (`created_at`,`updated_at`,`deleted_at`,`authority_name`,`parent_id`,`default_router`,`authority_id`) VALUES ('2023-03-11 13:26:08.401','2024-08-22 12:18:17.445',NULL,'管理员',0,'dashboard',999) ON DUPLICATE KEY UPDATE `authority_id`=VALUES(`authority_id`)
-
-2026/09/23 21:35:10 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
-[0m[33m[0.463ms] [34;1m[rows:0][0m INSERT INTO `sys_authorities` (`created_at`,`updated_at`,`deleted_at`,`authority_name`,`parent_id`,`default_router`,`authority_id`) VALUES ('2023-03-09 12:33:14.697','2024-08-22 12:18:03.059',NULL,'超级管理员',0,'dashboard',888),('2023-03-11 13:26:08.401','2024-08-22 12:18:17.445',NULL,'管理员',0,'dashboard',999) ON DUPLICATE KEY UPDATE `authority_id`=`authority_id`
-
-2026/09/23 21:35:10 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
-[0m[33m[0.328ms] [34;1m[rows:0][0m INSERT INTO `sys_user_authority` (`sys_user_id`,`sys_authority_authority_id`) VALUES (1,888),(1,999) ON DUPLICATE KEY UPDATE `sys_user_id`=`sys_user_id`
-
-2026/09/23 21:35:10 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
-[0m[33m[6.723ms] [34;1m[rows:1][0m UPDATE `sys_users` SET `created_at`='2023-03-09 12:33:18.717',`updated_at`='2026-09-23 21:35:10.897',`deleted_at`=NULL,`uuid`='f0f71391-6d0e-418c-a601-af3dde923073',`open_id`='',`username`='admin',`invitation_code`='',`password`='$2a$10$2VQCknWrjxY6cRkV46veWeVbSoghkOJo0TEul6fhh6xH0ZnEjMBeq',`safe_password`='',`nick_name`='Admin',`sex`=0,`side_mode`='dark',`header_img`='https://minio.kl.do/picture/images/avatar/face.png',`base_color`='#fff',`active_color`='#1890ff',`authority_id`=999,`phone`='17611111111',`email`='333333333@qq.com',`enable`=1,`login_ip`='::1',`login_time`='2026-09-23 21:35:10.897',`origin_contact_name`='',`change_contact_name`='',`origin_customer_name`='',`change_customer_name`='',`audit_status`=0,`audit_remark`='',`apply_time`='2023-05-28 21:35:11' WHERE `sys_users`.`deleted_at` IS NULL AND `id` = 1
-[GIN] 2026/09/23 - 21:35:10 | 200 |   65.399958ms |             ::1 | POST     "/base/login"
-
-2026/09/23 21:35:30 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
-[0m[33m[0.337ms] [34;1m[rows:2][0m SELECT * FROM `sys_user_authority` WHERE `sys_user_authority`.`sys_user_id` = 1
-
-2026/09/23 21:35:30 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
-[0m[33m[0.322ms] [34;1m[rows:2][0m SELECT * FROM `sys_authorities` WHERE `sys_authorities`.`authority_id` IN (888,999)
-
-2026/09/23 21:35:30 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
-[0m[33m[0.237ms] [34;1m[rows:1][0m SELECT * FROM `sys_authorities` WHERE `sys_authorities`.`authority_id` = 999
-
-2026/09/23 21:35:30 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
-[0m[33m[2.820ms] [34;1m[rows:1][0m SELECT * FROM `sys_users` WHERE username = 'admin' AND `sys_users`.`deleted_at` IS NULL ORDER BY `sys_users`.`id` LIMIT 1
-
-2026/09/23 21:35:30 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:227
-[0m[33m[0.743ms] [34;1m[rows:25][0m SELECT `sys_base_menu_id` FROM `sys_authority_menus` WHERE sys_authority_authority_id = 999
-
-2026/09/23 21:35:30 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:232
-[0m[33m[0.985ms] [34;1m[rows:1][0m SELECT * FROM `sys_base_menus` WHERE (name = 'dashboard' and id in ('1','7','11','12','13','24','30','32','33','35','36','37','38','39','40','42','43','44','45','46','47','50','51','52','53')) AND `sys_base_menus`.`deleted_at` IS NULL ORDER BY `sys_base_menus`.`id` LIMIT 1
-
-2026/09/23 21:35:30 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
-[0m[33m[0.536ms] [34;1m[rows:0][0m INSERT INTO `sys_authorities` (`created_at`,`updated_at`,`deleted_at`,`authority_name`,`parent_id`,`default_router`,`authority_id`) VALUES ('2023-03-11 13:26:08.401','2024-08-22 12:18:17.445',NULL,'管理员',0,'dashboard',999) ON DUPLICATE KEY UPDATE `authority_id`=VALUES(`authority_id`)
-
-2026/09/23 21:35:30 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
-[0m[33m[0.389ms] [34;1m[rows:0][0m INSERT INTO `sys_authorities` (`created_at`,`updated_at`,`deleted_at`,`authority_name`,`parent_id`,`default_router`,`authority_id`) VALUES ('2023-03-09 12:33:14.697','2024-08-22 12:18:03.059',NULL,'超级管理员',0,'dashboard',888),('2023-03-11 13:26:08.401','2024-08-22 12:18:17.445',NULL,'管理员',0,'dashboard',999) ON DUPLICATE KEY UPDATE `authority_id`=`authority_id`
-
-2026/09/23 21:35:30 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
-[0m[33m[0.275ms] [34;1m[rows:0][0m INSERT INTO `sys_user_authority` (`sys_user_id`,`sys_authority_authority_id`) VALUES (1,888),(1,999) ON DUPLICATE KEY UPDATE `sys_user_id`=`sys_user_id`
-
-2026/09/23 21:35:30 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
-[0m[33m[3.922ms] [34;1m[rows:1][0m UPDATE `sys_users` SET `created_at`='2023-03-09 12:33:18.717',`updated_at`='2026-09-23 21:35:30.118',`deleted_at`=NULL,`uuid`='f0f71391-6d0e-418c-a601-af3dde923073',`open_id`='',`username`='admin',`invitation_code`='',`password`='$2a$10$2VQCknWrjxY6cRkV46veWeVbSoghkOJo0TEul6fhh6xH0ZnEjMBeq',`safe_password`='',`nick_name`='Admin',`sex`=0,`side_mode`='dark',`header_img`='https://minio.kl.do/picture/images/avatar/face.png',`base_color`='#fff',`active_color`='#1890ff',`authority_id`=999,`phone`='17611111111',`email`='333333333@qq.com',`enable`=1,`login_ip`='::1',`login_time`='2026-09-23 21:35:30.117',`origin_contact_name`='',`change_contact_name`='',`origin_customer_name`='',`change_customer_name`='',`audit_status`=0,`audit_remark`='',`apply_time`='2023-05-28 21:35:11' WHERE `sys_users`.`deleted_at` IS NULL AND `id` = 1
-[GIN] 2026/09/23 - 21:35:30 | 200 |   65.739042ms |             ::1 | POST     "/base/login"
-[GIN] 2026/09/23 - 21:35:30 | 404 |         291ns |             ::1 | GET      "/menu/getMenu"
-
-2026/09/23 21:35:47 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
-[0m[33m[0.383ms] [34;1m[rows:2][0m SELECT * FROM `sys_user_authority` WHERE `sys_user_authority`.`sys_user_id` = 1
-
-2026/09/23 21:35:47 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
-[0m[33m[0.314ms] [34;1m[rows:2][0m SELECT * FROM `sys_authorities` WHERE `sys_authorities`.`authority_id` IN (888,999)
-
-2026/09/23 21:35:47 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
-[0m[33m[0.728ms] [34;1m[rows:1][0m SELECT * FROM `sys_authorities` WHERE `sys_authorities`.`authority_id` = 999
-
-2026/09/23 21:35:47 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
-[0m[33m[2.426ms] [34;1m[rows:1][0m SELECT * FROM `sys_users` WHERE username = 'admin' AND `sys_users`.`deleted_at` IS NULL ORDER BY `sys_users`.`id` LIMIT 1
-
-2026/09/23 21:35:47 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:227
-[0m[33m[0.556ms] [34;1m[rows:25][0m SELECT `sys_base_menu_id` FROM `sys_authority_menus` WHERE sys_authority_authority_id = 999
-
-2026/09/23 21:35:47 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:232
-[0m[33m[0.727ms] [34;1m[rows:1][0m SELECT * FROM `sys_base_menus` WHERE (name = 'dashboard' and id in ('1','7','11','12','13','24','30','32','33','35','36','37','38','39','40','42','43','44','45','46','47','50','51','52','53')) AND `sys_base_menus`.`deleted_at` IS NULL ORDER BY `sys_base_menus`.`id` LIMIT 1
-
-2026/09/23 21:35:47 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
-[0m[33m[0.293ms] [34;1m[rows:0][0m INSERT INTO `sys_authorities` (`created_at`,`updated_at`,`deleted_at`,`authority_name`,`parent_id`,`default_router`,`authority_id`) VALUES ('2023-03-11 13:26:08.401','2024-08-22 12:18:17.445',NULL,'管理员',0,'dashboard',999) ON DUPLICATE KEY UPDATE `authority_id`=VALUES(`authority_id`)
-
-2026/09/23 21:35:47 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
-[0m[33m[0.264ms] [34;1m[rows:0][0m INSERT INTO `sys_authorities` (`created_at`,`updated_at`,`deleted_at`,`authority_name`,`parent_id`,`default_router`,`authority_id`) VALUES ('2023-03-09 12:33:14.697','2024-08-22 12:18:03.059',NULL,'超级管理员',0,'dashboard',888),('2023-03-11 13:26:08.401','2024-08-22 12:18:17.445',NULL,'管理员',0,'dashboard',999) ON DUPLICATE KEY UPDATE `authority_id`=`authority_id`
-
-2026/09/23 21:35:47 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
-[0m[33m[0.214ms] [34;1m[rows:0][0m INSERT INTO `sys_user_authority` (`sys_user_id`,`sys_authority_authority_id`) VALUES (1,888),(1,999) ON DUPLICATE KEY UPDATE `sys_user_id`=`sys_user_id`
-
-2026/09/23 21:35:47 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
-[0m[33m[2.562ms] [34;1m[rows:1][0m UPDATE `sys_users` SET `created_at`='2023-03-09 12:33:18.717',`updated_at`='2026-09-23 21:35:47.91',`deleted_at`=NULL,`uuid`='f0f71391-6d0e-418c-a601-af3dde923073',`open_id`='',`username`='admin',`invitation_code`='',`password`='$2a$10$2VQCknWrjxY6cRkV46veWeVbSoghkOJo0TEul6fhh6xH0ZnEjMBeq',`safe_password`='',`nick_name`='Admin',`sex`=0,`side_mode`='dark',`header_img`='https://minio.kl.do/picture/images/avatar/face.png',`base_color`='#fff',`active_color`='#1890ff',`authority_id`=999,`phone`='17611111111',`email`='333333333@qq.com',`enable`=1,`login_ip`='::1',`login_time`='2026-09-23 21:35:47.91',`origin_contact_name`='',`change_contact_name`='',`origin_customer_name`='',`change_customer_name`='',`audit_status`=0,`audit_remark`='',`apply_time`='2023-05-28 21:35:11' WHERE `sys_users`.`deleted_at` IS NULL AND `id` = 1
-[GIN] 2026/09/23 - 21:35:47 | 200 |   63.372541ms |             ::1 | POST     "/base/login"
-[GIN] 2026/09/23 - 21:35:47 | 404 |         167ns |             ::1 | GET      "/menu/getMenu"
-
-2026/09/23 21:36:08 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
-[0m[33m[0.508ms] [34;1m[rows:2][0m SELECT * FROM `sys_user_authority` WHERE `sys_user_authority`.`sys_user_id` = 1
-
-2026/09/23 21:36:08 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
-[0m[33m[0.386ms] [34;1m[rows:2][0m SELECT * FROM `sys_authorities` WHERE `sys_authorities`.`authority_id` IN (888,999)
-
-2026/09/23 21:36:08 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
-[0m[33m[0.392ms] [34;1m[rows:1][0m SELECT * FROM `sys_authorities` WHERE `sys_authorities`.`authority_id` = 999
-
-2026/09/23 21:36:08 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:152
-[0m[33m[2.892ms] [34;1m[rows:1][0m SELECT * FROM `sys_users` WHERE username = 'admin' AND `sys_users`.`deleted_at` IS NULL ORDER BY `sys_users`.`id` LIMIT 1
-
-2026/09/23 21:36:08 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:227
-[0m[33m[0.668ms] [34;1m[rows:25][0m SELECT `sys_base_menu_id` FROM `sys_authority_menus` WHERE sys_authority_authority_id = 999
-
-2026/09/23 21:36:08 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:232
-[0m[33m[0.885ms] [34;1m[rows:1][0m SELECT * FROM `sys_base_menus` WHERE (name = 'dashboard' and id in ('1','7','11','12','13','24','30','32','33','35','36','37','38','39','40','42','43','44','45','46','47','50','51','52','53')) AND `sys_base_menus`.`deleted_at` IS NULL ORDER BY `sys_base_menus`.`id` LIMIT 1
-
-2026/09/23 21:36:08 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
-[0m[33m[0.456ms] [34;1m[rows:0][0m INSERT INTO `sys_authorities` (`created_at`,`updated_at`,`deleted_at`,`authority_name`,`parent_id`,`default_router`,`authority_id`) VALUES ('2023-03-11 13:26:08.401','2024-08-22 12:18:17.445',NULL,'管理员',0,'dashboard',999) ON DUPLICATE KEY UPDATE `authority_id`=VALUES(`authority_id`)
-
-2026/09/23 21:36:08 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
-[0m[33m[0.373ms] [34;1m[rows:0][0m INSERT INTO `sys_authorities` (`created_at`,`updated_at`,`deleted_at`,`authority_name`,`parent_id`,`default_router`,`authority_id`) VALUES ('2023-03-09 12:33:14.697','2024-08-22 12:18:03.059',NULL,'超级管理员',0,'dashboard',888),('2023-03-11 13:26:08.401','2024-08-22 12:18:17.445',NULL,'管理员',0,'dashboard',999) ON DUPLICATE KEY UPDATE `authority_id`=`authority_id`
-
-2026/09/23 21:36:08 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
-[0m[33m[0.287ms] [34;1m[rows:0][0m INSERT INTO `sys_user_authority` (`sys_user_id`,`sys_authority_authority_id`) VALUES (1,888),(1,999) ON DUPLICATE KEY UPDATE `sys_user_id`=`sys_user_id`
-
-2026/09/23 21:36:08 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_user.go:162
-[0m[33m[3.840ms] [34;1m[rows:1][0m UPDATE `sys_users` SET `created_at`='2023-03-09 12:33:18.717',`updated_at`='2026-09-23 21:36:08.551',`deleted_at`=NULL,`uuid`='f0f71391-6d0e-418c-a601-af3dde923073',`open_id`='',`username`='admin',`invitation_code`='',`password`='$2a$10$2VQCknWrjxY6cRkV46veWeVbSoghkOJo0TEul6fhh6xH0ZnEjMBeq',`safe_password`='',`nick_name`='Admin',`sex`=0,`side_mode`='dark',`header_img`='https://minio.kl.do/picture/images/avatar/face.png',`base_color`='#fff',`active_color`='#1890ff',`authority_id`=999,`phone`='17611111111',`email`='333333333@qq.com',`enable`=1,`login_ip`='::1',`login_time`='2026-09-23 21:36:08.551',`origin_contact_name`='',`change_contact_name`='',`origin_customer_name`='',`change_customer_name`='',`audit_status`=0,`audit_remark`='',`apply_time`='2023-05-28 21:35:11' WHERE `sys_users`.`deleted_at` IS NULL AND `id` = 1
-[GIN] 2026/09/23 - 21:36:08 | 200 |   69.969834ms |             ::1 | POST     "/base/login"
-
-2026/09/23 21:36:08 [32m/Users/zhaoyuedong/go/pkg/mod/gorm.io/driver/mysql@v1.3.3/migrator.go:228
-[0m[33m[0.190ms] [34;1m[rows:-][0m SELECT DATABASE()
-
-2026/09/23 21:36:08 [32m/Users/zhaoyuedong/go/pkg/mod/gorm.io/driver/mysql@v1.3.3/migrator.go:231
-[0m[33m[3.992ms] [34;1m[rows:1][0m SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'fresh_shop%' ORDER BY SCHEMA_NAME='fresh_shop' DESC limit 1
-
-2026/09/23 21:36:08 [32m/Users/zhaoyuedong/go/pkg/mod/github.com/casbin/gorm-adapter/v3@v3.7.3/adapter.go:381
-[0m[33m[3.330ms] [34;1m[rows:-][0m SELECT count(*) FROM information_schema.tables WHERE table_schema = 'fresh_shop' AND table_name = 'casbin_rule' AND table_type = 'BASE TABLE'
-
-2026/09/23 21:36:08 [32m/Users/zhaoyuedong/go/pkg/mod/gorm.io/driver/mysql@v1.3.3/migrator.go:228
-[0m[33m[0.168ms] [34;1m[rows:-][0m SELECT DATABASE()
-
-2026/09/23 21:36:08 [32m/Users/zhaoyuedong/go/pkg/mod/gorm.io/driver/mysql@v1.3.3/migrator.go:231
-[0m[33m[0.538ms] [34;1m[rows:1][0m SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'fresh_shop%' ORDER BY SCHEMA_NAME='fresh_shop' DESC limit 1
-
-2026/09/23 21:36:08 [32m/Users/zhaoyuedong/go/pkg/mod/gorm.io/driver/mysql@v1.3.3/migrator.go:148
-[0m[33m[0.521ms] [34;1m[rows:-][0m SELECT * FROM `casbin_rule` LIMIT 1
-
-2026/09/23 21:36:08 [32m/Users/zhaoyuedong/go/pkg/mod/gorm.io/driver/mysql@v1.3.3/migrator.go:166
-[0m[33m[1.917ms] [34;1m[rows:-][0m SELECT column_name, column_default, is_nullable = 'YES', data_type, character_maximum_length, column_type, column_key, extra, column_comment, numeric_precision, numeric_scale , datetime_precision FROM information_schema.columns WHERE table_schema = 'fresh_shop' AND table_name = 'casbin_rule' ORDER BY ORDINAL_POSITION
-
-2026/09/23 21:36:08 [32m/Users/zhaoyuedong/go/pkg/mod/gorm.io/driver/mysql@v1.3.3/migrator.go:228
-[0m[33m[0.089ms] [34;1m[rows:-][0m SELECT DATABASE()
-
-2026/09/23 21:36:08 [32m/Users/zhaoyuedong/go/pkg/mod/gorm.io/driver/mysql@v1.3.3/migrator.go:231
-[0m[33m[0.391ms] [34;1m[rows:1][0m SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'fresh_shop%' ORDER BY SCHEMA_NAME='fresh_shop' DESC limit 1
-
-2026/09/23 21:36:08 [32m/Users/zhaoyuedong/go/pkg/mod/github.com/casbin/gorm-adapter/v3@v3.7.3/adapter.go:387
-[0m[33m[1.768ms] [34;1m[rows:-][0m SELECT count(*) FROM information_schema.statistics WHERE table_schema = 'fresh_shop' AND table_name = 'casbin_rule' AND index_name = 'idx_casbin_rule'
-
-2026/09/23 21:36:08 [32m/Users/zhaoyuedong/go/pkg/mod/github.com/casbin/gorm-adapter/v3@v3.7.3/adapter.go:432
-[0m[33m[1.468ms] [34;1m[rows:747][0m SELECT * FROM `casbin_rule` ORDER BY ID
-
-2026/09/23 21:36:08 [32m/Users/zhaoyuedong/go/pkg/mod/github.com/casbin/gorm-adapter/v3@v3.7.3/adapter.go:432
-[0m[33m[1.371ms] [34;1m[rows:747][0m SELECT * FROM `casbin_rule` ORDER BY ID
-
-2026/09/23 21:36:08 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:30
-[0m[33m[0.262ms] [34;1m[rows:25][0m SELECT * FROM `sys_authority_menus` WHERE sys_authority_authority_id = 999
-
-2026/09/23 21:36:08 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:41
-[0m[33m[0.436ms] [34;1m[rows:2][0m SELECT * FROM `sys_base_menu_parameters` WHERE `sys_base_menu_parameters`.`sys_base_menu_id` IN (37,42,1,52,53,36,44,7,11,38,39,45,46,47,24) AND `sys_base_menu_parameters`.`deleted_at` IS NULL
-
-2026/09/23 21:36:08 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:41
-[0m[33m[1.074ms] [34;1m[rows:15][0m SELECT * FROM `sys_base_menus` WHERE id in ('1','7','11','12','13','24','30','32','33','35','36','37','38','39','40','42','43','44','45','46','47','50','51','52','53') AND `sys_base_menus`.`deleted_at` IS NULL ORDER BY sort
-
-2026/09/23 21:36:08 [32m/Users/zhaoyuedong/Desktop/生鲜项目/fresh-b2b/fresh-shop/server/service/system/sys_menu.go:55
-[0m[33m[0.374ms] [34;1m[rows:0][0m SELECT * FROM `sys_authority_btns` WHERE authority_id = 999
-[GIN] 2026/09/23 - 21:36:08 | 200 |   18.987084ms |             ::1 | POST     "/menu/getMenu"
+2026/09/23 21:44:52 12990 :48888
+[GIN] 2026/09/23 - 21:44:53 | 200 |      85.417µs |             ::1 | GET      "/health"

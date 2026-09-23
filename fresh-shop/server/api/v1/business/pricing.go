@@ -10,7 +10,7 @@ import (
 // PricingApi AI调价API
 type PricingApi struct{}
 
-var pricingService = &business.PricingService{}
+var pricingService = business.NewPricingService()
 
 // BatchUpdateCostPrice 批量更新采购价
 // POST /api/business/pricing/batch-cost-price
@@ -69,4 +69,45 @@ func (api *PricingApi) GetMarkupRate(c *gin.Context) {
 		return
 	}
 	response.OkWithData(gin.H{"markupRate": rate}, c)
+}
+
+// BatchParseText AI解析文案并批量更新采购价
+// POST /api/business/pricing/batch-parse
+// Body: { "text": "今日莲藕1.5块一斤，豆芽1.5块一斤，土豆1块钱一斤" }
+func (api *PricingApi) BatchParseText(c *gin.Context) {
+	var req struct {
+		Text string `json:"text" binding:"required"`
+	}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+
+	companyId := middleware.GetCompanyID(c)
+	if companyId == 0 {
+		response.FailWithMessage("无法获取公司信息", c)
+		return
+	}
+
+	items, err := pricingService.BatchParseAndUpdate(companyId, req.Text)
+	if err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+
+	response.OkWithData(gin.H{
+		"total":   len(items),
+		"updated": countUpdated(items),
+		"items":   items,
+	}, c)
+}
+
+func countUpdated(items []business.ParsedPrice) int {
+	count := 0
+	for _, item := range items {
+		if item.Updated {
+			count++
+		}
+	}
+	return count
 }
