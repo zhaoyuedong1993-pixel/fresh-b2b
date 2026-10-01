@@ -1,195 +1,191 @@
+<!--
+ * 优诚配运 - 会员信息
+ * 设计规范：自然清新
+-->
 <template>
-	<pageWrapper>
-		<view class="box2">
-			<view class="section-title">个人信息</view>
-			<view class="info-item">
-				<view class="info-label">联系人</view>
-				<view class="info-value">{{ user.originContactName || '-' }}</view>
-			</view>
-			<view class="info-item">
-				<view class="info-label">手机号</view>
-				<view class="info-value">{{ user.phone || '-' }}</view>
-			</view>
-			<view class="info-item">
-				<view class="info-label">客户类型</view>
-				<view class="info-value">{{ customerTypeText }}</view>
-			</view>
-			<view class="info-item">
-				<view class="info-label">审核状态</view>
-				<view class="info-value">
-					<text v-if="auditStatus === 1" style="color:#67c23a">已通过</text>
-					<text v-else-if="[2,3].includes(auditStatus)" style="color:#e6a23c">审核中</text>
-					<text v-else-if="auditStatus === 4" style="color:#f56c6c">未通过</text>
-					<text v-else>-</text>
-				</view>
-			</view>
-		</view>
+    <pageWrapper>
+        <view class="page-content">
+            <!-- 个人信息卡片 -->
+            <view class="info-card">
+                <view class="card-header">
+                    <text class="card-title">个人信息</text>
+                </view>
+                <view class="info-item">
+                    <text class="label">联系人</text>
+                    <text class="value">{{ user?.originContactName || '-' }}</text>
+                </view>
+                <view class="info-item">
+                    <text class="label">手机号</text>
+                    <text class="value">{{ user?.phone || '-' }}</text>
+                </view>
+                <view class="info-item">
+                    <text class="label">客户类型</text>
+                    <text class="value">{{ customerTypeText }}</text>
+                </view>
+                <view class="info-item last">
+                    <text class="label">审核状态</text>
+                    <view class="value">
+                        <text class="status-tag pass" v-if="auditStatus === 1">已通过</text>
+                        <text class="status-tag pending" v-else-if="[2,3].includes(auditStatus)">审核中</text>
+                        <text class="status-tag reject" v-else-if="auditStatus === 4">未通过</text>
+                        <text class="status-tag" v-else>-</text>
+                    </view>
+                </view>
+            </view>
 
-		<view class="box2" v-if="company">
-			<view class="section-title">公司信息</view>
-			<view class="info-item">
-				<view class="info-label">公司名称</view>
-				<view class="info-value">{{ company.name || '-' }}</view>
-			</view>
-			<view class="info-item">
-				<view class="info-label">联系人</view>
-				<view class="info-value">{{ company.contact || '-' }}</view>
-			</view>
-			<view class="info-item">
-				<view class="info-label">联系电话</view>
-				<view class="info-value">{{ company.phone || '-' }}</view>
-			</view>
-			<view class="info-item">
-				<view class="info-label">公司地址</view>
-				<view class="info-value">{{ company.address || '-' }}</view>
-			</view>
-			<view class="info-item">
-				<view class="info-label">客户类型</view>
-				<view class="info-value">{{ company.companyType === 'monthly' ? '月度结算' : '零售' }}</view>
-			</view>
-		</view>
+            <!-- 公司信息卡片 -->
+            <view class="info-card" v-if="company">
+                <view class="card-header">
+                    <text class="card-title">公司信息</text>
+                </view>
+                <view class="info-item">
+                    <text class="label">公司名称</text>
+                    <text class="value">{{ company.name || '-' }}</text>
+                </view>
+                <view class="info-item">
+                    <text class="label">联系人</text>
+                    <text class="value">{{ company.contact || '-' }}</text>
+                </view>
+                <view class="info-item">
+                    <text class="label">联系电话</text>
+                    <text class="value">{{ company.phone || '-' }}</text>
+                </view>
+                <view class="info-item">
+                    <text class="label">公司地址</text>
+                    <text class="value">{{ company.address || '-' }}</text>
+                </view>
+                <view class="info-item last">
+                    <text class="label">客户类型</text>
+                    <text class="value">{{ company.companyType === 'monthly' ? '月度结算' : '零售' }}</text>
+                </view>
+            </view>
+        </view>
 
-		<u-toast style="z-index:9998;" ref="toast"></u-toast>
-	</pageWrapper>
+        <u-toast ref="toast" style="z-index:9998;"></u-toast>
+    </pageWrapper>
 </template>
 
 <script>
-import { getToken, getUser, getRole } from "@/store/storage";
-import { getUserAuditStatus } from "@/api/user";
-import { getCompanyById } from "@/api/login";
+    import { getUser, getRole } from "@/store/storage"
+    import { getUserAuditStatus } from "@/api/user"
+    import { getCompanyById } from "@/api/login"
 
-export default {
-	data() {
-		return {
-			user: null,
-			role: {},
-			company: null,
-			auditStatus: 0
-		}
-	},
-	computed: {
-		customerTypeText() {
-			if (!this.role.authorityName) return '-'
-			return this.role.authorityName.replace('客户', '')
-		}
-	},
-	onLoad() {
-		const token = getToken()
-		if (!token) {
-			uni.redirectTo({ url: '/pages/my/my' })
-			return
-		}
-		this.user = getUser()
-		this.role = getRole()
-		this.loadData()
-	},
-	methods: {
-		async loadData() {
-			// 审核状态
-			try {
-				const res = await getUserAuditStatus()
-				if (res.code === 0) {
-					this.auditStatus = res.data.auditStatus
-					this.user.auditStatus = res.data.auditStatus
-				}
-			} catch (e) {}
+    export default {
+        data() {
+            return {
+                user: null,
+                role: {},
+                company: null,
+                auditStatus: 0
+            }
+        },
+        computed: {
+            customerTypeText() {
+                if (!this.role?.authorityName) return '-'
+                return this.role.authorityName.replace('客户', '')
+            }
+        },
+        onLoad() {
+            const token = getUser()
+            if (!token) {
+                uni.redirectTo({ url: '/pages/my/my' })
+                return
+            }
+            this.user = getUser()
+            this.role = getRole()
+            this.loadData()
+        },
+        methods: {
+            async loadData() {
+                try {
+                    const res = await getUserAuditStatus()
+                    if (res.code === 0) {
+                        this.auditStatus = res.data.auditStatus
+                    }
+                } catch (e) { }
 
-			// 公司信息
-			if (this.user && this.user.companyId) {
-				try {
-					const companyRes = await getCompanyById(this.user.companyId)
-					if (companyRes.code === 0) {
-						this.company = companyRes.data
-					}
-				} catch (e) {}
-			}
-		}
-	}
-}
+                if (this.user?.companyId) {
+                    try {
+                        const companyRes = await getCompanyById(this.user.companyId)
+                        if (companyRes.code === 0) {
+                            this.company = companyRes.data
+                        }
+                    } catch (e) { }
+                }
+            }
+        }
+    }
 </script>
 
-<style scoped lang="scss">
-.box1 {
-	margin: 10px 10px 12px;
-	border-radius: 10px;
-	box-shadow: 0px 0px 20px #f4f3f3;
-	background: #FFFFFF;
-	padding: 20px 10px 20px;
-}
+<style lang="scss" scoped>
+    .page-content {
+        padding: 24rpx;
+        background: #F5F7F4;
+        min-height: 100vh;
+    }
 
-.box2 {
-	margin: 10px 10px 12px;
-	border-radius: 10px;
-	box-shadow: 0px 0px 20px #f4f3f3;
-	background: #FFFFFF;
-	padding: 20px 20px;
-}
+    .info-card {
+        background: #FFFFFF;
+        border-radius: 24rpx;
+        box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.06);
+        overflow: hidden;
+        margin-bottom: 24rpx;
+    }
 
-.section-title {
-	font-size: 16px;
-	font-weight: bold;
-	color: #333;
-	margin-bottom: 12px;
-	padding-bottom: 8px;
-	border-bottom: 1px solid #f0f0f0;
-}
+    .card-header {
+        padding: 28rpx 32rpx 20rpx;
+        border-bottom: 1rpx solid #EEEEEE;
+    }
 
-.user-info {
-	display: flex;
-	align-items: center;
-	width: 100%;
-	height: 100%;
-	justify-content: center;
+    .card-title {
+        font-size: 32rpx;
+        font-weight: 600;
+        color: #1A1A1A;
+    }
 
-	.face {
-		flex-shrink: 0;
-		width: 20vw;
-		height: 20vw;
+    .info-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 28rpx 32rpx;
+        border-bottom: 1rpx solid #EEEEEE;
 
-		image {
-			width: 20vw;
-			height: 100%;
-			border-radius: 100%
-		}
-	}
-}
+        &.last {
+            border-bottom: none;
+        }
+    }
 
-.username {
-	font-size: 17px;
-	width: 100%;
-	text-align: center;
-	margin: 16px 0 12px 0;
-}
+    .label {
+        font-size: 28rpx;
+        color: #999999;
+        flex-shrink: 0;
+    }
 
-.title {
-	font-size: 14px;
-	width: 100%;
-	text-align: center;
-	color: #999;
-}
+    .value {
+        font-size: 28rpx;
+        color: #1A1A1A;
+        text-align: right;
+        max-width: 70%;
+    }
 
-.info-item {
-	display: flex;
-	align-items: flex-start;
-	padding: 10px 0;
-	border-bottom: 1px solid #f7f7f7;
+    .status-tag {
+        font-size: 24rpx;
+        padding: 6rpx 20rpx;
+        border-radius: 20rpx;
 
-	&:last-child {
-		border-bottom: none;
-	}
-}
+        &.pass {
+            background: #E8F8EC;
+            color: #22A84F;
+        }
 
-.info-label {
-	width: 80px;
-	font-size: 14px;
-	color: #999;
-	flex-shrink: 0;
-}
+        &.pending {
+            background: #FEF3E2;
+            color: #F97316;
+        }
 
-.info-value {
-	flex: 1;
-	font-size: 14px;
-	color: #333;
-	word-break: break-all;
-}
+        &.reject {
+            background: #FEE2E2;
+            color: #EF4444;
+        }
+    }
 </style>

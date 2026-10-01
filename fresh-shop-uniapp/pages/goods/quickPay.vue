@@ -1,530 +1,555 @@
+<!--
+ * 优诚配运 - 快速下单（近期购买 + 我的收藏）
+ * 设计规范：自然清新
+-->
 <template>
     <pageWrapper>
-        <!-- 未登录	-->
-        <view class="empty" v-if="!token">
-            <u-empty mode="car" text="您还没有登陆哦" icon="http://cdn.uviewui.com/uview/empty/car.png">
-                <view>
-                    <u-button type="primary" :customStyle="toLoginStyle" text="去登录" @click="showLogin"></u-button>
+        <!-- 顶部 Tab -->
+        <view class="header-tabs">
+            <view class="tab-bar">
+                <view
+                    class="tab-item"
+                    :class="{ active: currentTab === 0 }"
+                    @click="switchTab(0)"
+                >
+                    <text>近期购买</text>
+                    <view class="tab-line" v-if="currentTab === 0"></view>
                 </view>
-            </u-empty>
-        </view>
-        <view v-else class="king-bg-white">
-            <!-- 吸顶标签栏 -->
-            <u-sticky bgColor="#fff">
-                <u-tabs
-                        :list="tabsList"
-                        lineWidth="50"
-                        :activeStyle="{color: '#303133', fontWeight: 'bold',transform: 'scale(1.05)'}"
-                        :inactiveStyle="{color: '#606266', transform: 'scale(1)'}"
-                        itemStyle="height: 40px;"
-                        :current="tabsIndex"
-                        @change="tabsChange"
-                ></u-tabs>
-            </u-sticky>
-            <view class="king-bg-white king-px-5 king-mt-5">
-                <u-sticky>
-                    <view class="king-p-5 king-bg-white" style="height: 35px;">
-                        <u-search search-icon="search" v-model="keyword" placeholder="请输入商品名称" @custom="searchInputClick" @search="searchInputClick">
-                        </u-search>
-                    </view>
-                </u-sticky>
+                <view
+                    class="tab-item"
+                    :class="{ active: currentTab === 1 }"
+                    @click="switchTab(1)"
+                >
+                    <text>我的收藏</text>
+                    <view class="tab-line" v-if="currentTab === 1"></view>
+                </view>
             </view>
+        </view>
+
+        <!-- 搜索栏 -->
+        <view class="search-bar">
+            <view class="search-box">
+                <u-icon name="search" size="28rpx" color="#999999"></u-icon>
+                <input
+                    class="search-input"
+                    v-model="keyword"
+                    type="text"
+                    confirm-type="search"
+                    @confirm="searchConfirm"
+                    placeholder="搜索商品名称"
+                    placeholder-class="placeholder"
+                />
+            </view>
+        </view>
+
+        <!-- 未登录 -->
+        <view class="login-tip" v-if="!token">
+            <view class="login-icon">
+                <u-icon name="account" size="80rpx" color="#CCCCCC"></u-icon>
+            </view>
+            <view class="login-text">登录后查看购买记录和收藏</view>
+            <view class="login-btn" @click="showLogin">去登录</view>
+        </view>
+
+        <!-- 内容区 -->
+        <view class="content-area" v-else>
             <!-- 近期购买 -->
-            <view v-if="tabsIndex === 0">
-                <view class="empty" v-if="payGoodslist.length === 0">
-                    <u-empty mode="history" icon="http://cdn.uviewui.com/uview/empty/history.png">
-                        <view>
-                            <u-button type="primary" :customStyle="btnStyle" text="去逛逛" @click="toHome"></u-button>
-                        </view>
-                    </u-empty>
+            <scroll-view
+                v-if="currentTab === 0 && payGoodslist.length > 0"
+                class="goods-scroll"
+                scroll-y
+                :style="{ height: scrollViewHeight + 'px' }"
+                refresher-enabled
+                :refresher-triggered="triggered"
+                @refresherrefresh="onRefresh"
+                @scrolltolower="scrollTolower"
+            >
+                <GoodsList
+                    :vertical="true"
+                    :lists="payGoodslist"
+                    price-type="￥"
+                    :is-audit="isAudit"
+                    :is-add-cart="true"
+                    imgWidth="160rpx"
+                    imgHeight="160rpx"
+                    :show-pay-count="true"
+                    @updateCart="updatePayGoodsCart"
+                ></GoodsList>
+
+                <view class="load-more">
+                    <u-loadmore :status="payLoadMore" nomore-text="没有更多了" />
                 </view>
-                <view v-else>
-                    <scroll-view v-show="payGoodslist.length > 0" class="foods-wrapper" scroll-y
-                                 :style="'height:' + windows_height + 'px'"
-                                 scroll-with-animation="true" refresher-enabled="true" :refresher-threshold="70"
-                                 :refresher-triggered="triggered" @refresherrefresh="onRefresh"
-                                 @scrolltolower="scrollTolower"
-                                 :scroll-anchoring="true">
-                        <!-- 商品列表 -->
-                        <GoodsList :vertical="true" :lists="payGoodslist" price-type="￥" :is-audit="isAudit" :is-add-cart="true" imgWidth="90px" imgHeight="90px" :show-pay-count="true" @updateCart="updatePayGoodsCart"></GoodsList>
-                        <view class="king-py-20" @click="scrollTolower">
-                            <u-loadmore :status="payLoadMore" loading-text="努力加载中，请喝杯茶" loadmore-text="上拉加载更多"
-                                        nomore-text="实在是没有了"/>
-                        </view>
-                    </scroll-view>
+            </scroll-view>
+
+            <!-- 我的收藏 -->
+            <scroll-view
+                v-if="currentTab === 1 && favoritesList.length > 0"
+                class="goods-scroll"
+                scroll-y
+                :style="{ height: scrollViewHeight + 'px' }"
+                refresher-enabled
+                :refresher-triggered="triggered"
+                @refresherrefresh="onRefresh"
+                @scrolltolower="scrollTolower"
+            >
+                <GoodsList
+                    :vertical="true"
+                    :lists="favoritesList"
+                    price-type="￥"
+                    :is-audit="isAudit"
+                    :is-add-cart="true"
+                    imgWidth="160rpx"
+                    imgHeight="160rpx"
+                    @onGoodsLongClick="onGoodsLongClick"
+                    @updateCart="updateFavGoodsCart"
+                ></GoodsList>
+
+                <view class="load-more">
+                    <u-loadmore :status="favLoadMore" nomore-text="没有更多了" />
                 </view>
-            </view>
-            <!-- 收藏 -->
-            <view v-if="tabsIndex === 1">
-                <view class="empty" v-if="favoritesList.length === 0">
-                    <u-empty mode="list" icon="http://cdn.uviewui.com/uview/empty/data.png">
-                        <view>
-                            <u-button type="primary" :customStyle="btnStyle" text="去逛逛" @click="toHome"></u-button>
-                        </view>
-                    </u-empty>
+            </scroll-view>
+
+            <!-- 空状态 -->
+            <view class="empty-wrap" v-else>
+                <view class="empty-icon">
+                    <u-icon :name="currentTab === 0 ? 'clock' : 'heart'" size="120rpx" color="#CCCCCC"></u-icon>
                 </view>
-                <view v-else>
-                    <scroll-view v-show="favoritesList.length > 0" class="foods-wrapper" scroll-y
-                                 :style="'height:' + windows_height + 'px'"
-                                 scroll-with-animation="true" refresher-enabled="true" :refresher-threshold="70"
-                                 :refresher-triggered="triggered" @refresherrefresh="onRefresh"
-                                 @scrolltolower="scrollTolower"
-                                 :scroll-anchoring="true">
-                        <!-- 商品列表 -->
-                        <GoodsList :vertical="true" :lists="favoritesList" price-type="￥" :is-audit="isAudit" :is-add-cart="true" imgWidth="90px" imgHeight="90px" @onGoodsLongClick="onGoodsLongClick" @updateCart="updateGoodsCart"></GoodsList>
-                        <view class="king-py-20" @click="scrollTolower">
-                            <u-loadmore :status="favLoadMore" loading-text="努力加载中，请喝杯茶" loadmore-text="上拉加载更多"
-                                        nomore-text="实在是没有了"/>
-                        </view>
-                    </scroll-view>
-                </view>
+                <view class="empty-text">{{ currentTab === 0 ? '暂无近期购买记录' : '暂无收藏商品' }}</view>
+                <view class="empty-btn" @click="goShopping">去选购</view>
             </view>
         </view>
-        <!-- 删除弹窗 -->
-        <u-modal :show="showDeleteFav" :showCancelButton="true" :closeOnClickOverlay="true" @confirm="favoritesClick"
-                 @cancel="hideDeleteFavDalog" @close="hideDeleteFavDalog">
-            <text class="king-font-weight-100 king-font22">
-                确定取消收藏吗？
-            </text>
-        </u-modal>
-        <!-- 登录 -->
-        <loginPop :show="showLoginDialog" @close="hideLogin" @success="loginSuccess"/>
-        <Tabbar :tabsId="2"/>
+
+        <!-- 删除收藏确认 -->
+        <u-modal
+            :show="showDeleteFav"
+            :showCancelButton="true"
+            title="取消收藏"
+            content="确定取消收藏该商品吗？"
+            @confirm="confirmDeleteFav"
+            @cancel="showDeleteFav = false"
+        ></u-modal>
+
+        <!-- 登录弹窗 -->
+        <loginPop :show="showLoginDialog" @close="hideLogin" @success="loginSuccess"></loginPop>
+
+        <!-- 底部导航 -->
+        <Tabbar :tabsId="2"></Tabbar>
+
         <u-toast ref="toast" style="z-index: 9999"></u-toast>
     </pageWrapper>
 </template>
 
-
 <script>
-import Tabbar from '@/components/tabbar/tabbar.vue'
-import loginPop from '@/components/loginPop/loginPop.vue'
-import {getRecentlyPurchasedGoodsList, getRecentlyPurchasedGoodsListLoading} from '@/api/order';
-import GoodsList from '@/components/goodsList/goodsList.vue'
-import {getUser, getToken, setUser} from '@/store/storage.js'
-import config from '@/config/config.js'
-import {addCart, deleteCartByIds} from "@/api/cart";
-import {getFavoritesListPage, getFavoritesListPageLoding, favorites} from "@/api/favorites";
-import { getUserAuditStatus } from '@/api/user';
-export default {
-    name: "quickPay",
-    components: {
-        Tabbar,
-        loginPop,
-        GoodsList
-    },
-    data(){
-        return {
-            isAudit: false,
-            token: '',
-            tabsIndex: 0,
-            keyword: '',
-            windows_height: 0, //屏幕高度
-            payGoodslist: [], // 近期购买商品
-            favoritesList: [], // 收藏商品
-            triggered: false, // 下拉刷新状态
-            payLoadMore: 'loadmore', // 上拉加载状态
-            favLoadMore: 'loadmore', // 上拉加载状态
-            showLoginDialog: false, // 登录
-            showDeleteFav: false, // 取消收藏模态框
-            currentDeleteFavIndex: 0, // 当前取消收藏的ID
-            payPage: {
-                page: 1,
-                pageSize:8,
-                total: 0,
-                isMore: true
-            },
-            favPage: {
-                page: 1,
-                pageSize:8,
-                total: 0,
-                isMore: true
-            },
-            tabsList: [{name: '近期购买'}, {name: '我的收藏'}],
-            btnStyle: {
-                width: '120px',
-                marginTop: '20px',
-                borderRadius: '20px',
-            },
-            toLoginStyle: {
-                width: '120px',
-                marginTop: '20px',
-                borderRadius: '20px',
-            },
-        }
-    },
-    onLoad() {
-        this.token = getToken()
-        if (this.token) {
-            let user = getUser()
-            if (user) {
-                if ( user.auditStatus === 1) {
-                    this.isAudit = true
-                }else {
-                    getUserAuditStatus().then(res => {
-                        if (res.data.auditStatus === 1) {
-                            this.isAudit = true
-                            user.auditStatus = 1
-                            setUser(user)
-                        }
-                    })
-                }
-            }
-        }
+    import Tabbar from '@/components/tabbar/tabbar.vue'
+    import loginPop from '@/components/loginPop/loginPop.vue'
+    import { getRecentlyPurchasedGoodsList, getRecentlyPurchasedGoodsListLoading } from '@/api/order.js'
+    import { getFavoritesListPage, getFavoritesListPageLoding, favorites } from '@/api/favorites.js'
+    import { deleteCartByIds } from '@/api/cart.js'
+    import GoodsList from '@/components/goodsList/goodsList.vue'
+    import { getUser, getToken, setUser } from '@/store/storage.js'
+    import { getUserAuditStatus } from '@/api/user.js'
+    import config from '@/config/config.js'
 
-    },
-    onReady() {
-        const windowHeight = uni.getSystemInfoSync().windowHeight
-        // 50 是 tabbar 的高度
-        this.hh = windowHeight - 50
-        this.navCount = Math.round(this.hh / 50)
-
-        this.windows_height = Number(uni.getSystemInfoSync().windowHeight) - 45 - 89;
-    },
-    mounted() {},
-    onShow() {
-        // 登录的情况下获取
-        if (this.token) {
-            this.getRecentlyGoodsList(0)
-        }
-    },
-    methods: {
-        async getRecentlyGoodsList(type) {
-            const data = {}
-            if (this.keyword) {
-                data.name = this.keyword
-            }
-            if (type === 0) {
-                this.payPage.page = 1
-                this.payPage.isMore = true
-                this.payLoadMore = 'loadmore'
-            }
-            data.page = this.payPage.page
-            data.pageSize = this.payPage.pageSize
-            let res
-            if (type === 0) {
-                res = await getRecentlyPurchasedGoodsListLoading(data, this.$refs.toast)
-            } else {
-                res = await getRecentlyPurchasedGoodsList(data, this.$refs.toast)
-            }
-            if (res.code !== 0 && type === 0) {
-                return this.$message(this.$refs.toast).error(res.msg)
-            }else if (res.code !== 0) {
-                return false
-            }
-            this.payPage.page++
-            if (res.data.list == null || res.data.list.length === 0) {
-                this.payPage.isMore = false
-                this.payLoadMore = 'nomore'
-            }
-            // 进行赋值并计算是否还有下一页
-            this.payPage.total = res.data.total
-            // 如果没有更多数据，则将isMore设置为false
-            if ((this.payPage.page - 1) * this.payPage.pageSize >= this.payPage.total || res.data.list == null || res.data.list.length === 0) {
-                console.log("没有更多了");
-                this.payPage.isMore = false
-                this.payLoadMore = 'nomore'
-            }
-            res.data.list && res.data.list.forEach(item => {
-                if (item.images !== null && item.images[0] && item.images[0].url.slice(0, 4) !== 'http') {
-                    item.images[0].url = config.baseUrl + "/" + item.images[0].url
-                }
-                if (item.weight > 1000) {
-                    item.weight = item.weight / 1000 + 'kg'
-                } else {
-                    item.weight = item.weight + 'g'
-                }
-                if (item.cartNum === null || item.cartNum === undefined) {
-                    item.cartNum = 0
-                }
-            })
-            if (type === 1) {
-                this.payGoodslist = [...this.payGoodslist, ...res.data.list]
-            } else {
-                this.payGoodslist = res.data.list
-            }
-            return true
+    export default {
+        components: {
+            Tabbar,
+            loginPop,
+            GoodsList
         },
-        // 收藏商品列表
-        async getFavoritesGoodsList(type) {
-            const data = {}
-            if (this.keyword) {
-                data.name = this.keyword
-            }
-            if (type === 0) {
-                this.favPage.page = 1
-                this.favPage.isMore = true
-                this.favLoadMore = 'loadmore'
-            }
-            data.page = this.favPage.page
-            data.pageSize = this.favPage.pageSize
-            let res
-            if (type === 0) {
-                res = await getFavoritesListPageLoding(data, this.$refs.toast)
-            } else {
-                res = await getFavoritesListPage(data, this.$refs.toast)
-            }
-            if (res.code !== 0 && type === 0) {
-                return this.$message(this.$refs.toast).error(res.msg)
-            }else if (res.code !== 0) {
-                return false
-            }
-            this.favPage.page++
-            if (res.data.list == null || res.data.list.length === 0) {
-                this.favPage.isMore = false
-                this.favLoadMore = 'nomore'
-            }
-
-            // 进行赋值并计算是否还有下一页
-            this.favPage.total = res.data.total
-            // 如果没有更多数据，则将isMore设置为false
-            if ((this.favPage.page - 1) * this.favPage.pageSize >= this.favPage.total || res.data.list == null || res.data.list.length === 0) {
-                console.log("没有更多了");
-                this.favPage.isMore = false
-                this.favLoadMore = 'nomore'
-            }
-
-            res.data.list && res.data.list.forEach(item => {
-                if (item.images !== null && item.images[0] && item.images[0].url.slice(0, 4) !== 'http') {
-                    item.images[0].url = config.baseUrl + "/" + item.images[0].url
-                }
-                if (item.weight > 1000) {
-                    item.weight = item.weight / 1000 + 'kg'
-                } else {
-                    item.weight = item.weight + 'g'
-                }
-                if (item.cartNum === null || item.cartNum === undefined) {
-                    item.cartNum = 0
-                }
-            })
-            if (type === 1) {
-                this.favoritesList = [...this.favoritesList, ...res.data.list]
-            } else {
-                this.favoritesList = res.data.list
-            }
-            return true
-        },
-        async updateGoodsCart(index, cardId, num){
-            if (this.tabsIndex === 0) {
-               await this.updatePayGoodsCart(index, cardId, num)
-            } else {
-                await this.updateFavGoodsCart(index, cardId, num)
+        data() {
+            return {
+                token: '',
+                isAudit: false,
+                currentTab: 0,
+                keyword: '',
+                scrollViewHeight: 600,
+                triggered: false,
+                payGoodslist: [],
+                favoritesList: [],
+                payPage: { page: 1, pageSize: 10, total: 0, isMore: true },
+                favPage: { page: 1, pageSize: 10, total: 0, isMore: true },
+                payLoadMore: 'loadmore',
+                favLoadMore: 'loadmore',
+                showLoginDialog: false,
+                showDeleteFav: false,
+                currentDeleteFavId: null
             }
         },
-        async updatePayGoodsCart(index, cardId, num){
-            num = parseInt(num)
-            console.log("updatePayGoodsCart", index, cardId, num)
-            let originNum = this.payGoodslist[index].cartNum
-            if (originNum > 0 && num < this.payGoodslist[index].minCount) {
-                this.$message(this.$refs.toast).error("商品最低购买数量为 " + this.payGoodslist[index].minCount)
-                num = 0
-            }
-            if ((originNum === null || originNum === undefined || originNum === 0) && num < this.payGoodslist[index].minCount) {
-                num = this.payGoodslist[index].minCount
-            }
-            if (originNum !== 0 && num === 0) {
-                let data = {
-                    ids: [cardId]
-                }
-                const res = await deleteCartByIds(data, this.$refs.toast)
-                if (res.code !== 0) {
-                    return
-                }
-                this.payGoodslist[index].cartNum = 0
-                return
-            }
-
-            this.payGoodslist[index].cartNum = num
-            let success = await this.addCartReq(this.payGoodslist[index], index, num)
-            if (!success) {
-                this.payGoodslist[index].cartNum = originNum
-            }
-        },
-        async updateFavGoodsCart(index, cardId, num){
-            num = parseInt(num)
-            console.log("updatePayGoodsCart", index, cardId, num)
-            let originNum = this.favoritesList[index].cartNum
-            if (originNum > 0 && num < this.favoritesList[index].minCount) {
-                this.$message(this.$refs.toast).error("商品最低购买数量为 " + this.favoritesList[index].minCount)
-                num = 0
-            }
-            if ((originNum === null || originNum === undefined || originNum === 0) && num < this.favoritesList[index].minCount) {
-                num = this.favoritesList[index].minCount
-            }
-            if (originNum !== 0 && num === 0) {
-                let data = {
-                    ids: [cardId]
-                }
-                const res = await deleteCartByIds(data, this.$refs.toast)
-                if (res.code !== 0) {
-                    return
-                }
-                this.favoritesList[index].cartNum = 0
-                return
-            }
-
-            this.favoritesList[index].cartNum = num
-            let success = await this.addCartReq(this.favoritesList[index], index, num)
-            if (!success) {
-                this.favoritesList[index].cartNum = originNum
-            }
-        },
-        hideDeleteFavDalog() {
-            this.showDeleteFav = false
-        },
-        // 显示删除提示框
-        showDeleteFavDalog(id) {
-            this.currentDeleteFavIndex = id
-            this.showDeleteFav = true
-        },
-        onGoodsLongClick(goods) {
-            console.log("onGoodsLongClick", goods)
-            this.showDeleteFavDalog(goods.ID)
-        },
-        // 收藏商品
-        async favoritesClick() {
-            const res = await favorites({
-                goodsId: this.currentDeleteFavIndex
-            })
-            if (res.code !== 0) {
-                this.$message(this.$refs.toast).error('取消收藏失败')
-                this.hideDeleteFavDalog()
-                return false
-            }
-            this.$message(this.$refs.toast).success('取消收藏成功')
-            this.getFavoritesGoodsList(0)
-            this.hideDeleteFavDalog()
-        },
-        searchInputClick(e) {
-            console.log("searchInpuSearch",e)
-            if (this.tabsIndex === 0) {
-                this.getRecentlyGoodsList(0)
-            } else {
-                this.getFavoritesGoodsList(0)
-            }
-        },
-        // 登录成功
-        loginSuccess(u) {
-            this.hideLogin();
+        onLoad() {
             this.token = getToken()
-            this.getRecentlyGoodsList(0)
-            this.$message(this.$refs.toast).success("登录成功")
-        },
-        // 显示登录框
-        showLogin() {
-            this.showLoginDialog = true
-        },
-        // 隐藏登录框
-        hideLogin() {
-            this.showLoginDialog = false
-        },
-        tabsChange(e) {
-            this.tabsIndex = e.index
-            if (this.tabsIndex === 0) {
-                this.getRecentlyGoodsList(0)
-            } else {
-                this.getFavoritesGoodsList(0)
-            }
-        },
-        toHome() {
-            uni.navigateTo({
-                url: '/pages/index/index'
-            })
-        },
-        // 下拉刷新
-        async onRefresh() {
-            this.triggered = true;
-            if (this.tabsIndex === 0) {
-                const b = await this.getRecentlyGoodsList(0)
-                if (b) {
-                    this.$message(this.$refs.toast).success("刷新成功")
-                } else {
-                    this.$message(this.$refs.toast).success("刷新失败")
-                }
-            } else {
-                const b = await this.getFavoritesGoodsList(0)
-                if (b) {
-                    this.$message(this.$refs.toast).success("刷新成功")
-                } else {
-                    this.$message(this.$refs.toast).success("刷新失败")
+            if (this.token) {
+                const user = getUser()
+                if (user) {
+                    if (user.auditStatus === 1) {
+                        this.isAudit = true
+                    } else {
+                        getUserAuditStatus().then(res => {
+                            if (res.data?.auditStatus === 1) {
+                                this.isAudit = true
+                                user.auditStatus = 1
+                                setUser(user)
+                            }
+                        })
+                    }
                 }
             }
-
-            this.triggered = false;
+            this.calculateHeight()
         },
-        async scrollTolower(e) {
-            if (this.tabsIndex === 0) {
-                // 如果是在加载中就不执行或没有更多时
-                if (this.payLoadMore === 'loading' || !this.payPage.isMore) {
-                    return
+        onShow() {
+            if (this.token) {
+                this.loadData()
+            }
+        },
+        methods: {
+            calculateHeight() {
+                uni.getSystemInfo({
+                    success: (res) => {
+                        this.scrollViewHeight = res.windowHeight - 180
+                    }
+                })
+            },
+            switchTab(index) {
+                this.currentTab = index
+                if (this.keyword) this.keyword = ''
+                if (index === 0 && this.payGoodslist.length === 0) {
+                    this.getRecentlyGoodsList(0)
+                } else if (index === 1 && this.favoritesList.length === 0) {
+                    this.getFavoritesGoodsList(0)
                 }
-                this.payLoadMore = 'loading'
-                await this.getRecentlyGoodsList(1)
-                // 如果还有更多
-                if (this.payPage.isMore) {
+            },
+            loadData() {
+                if (this.currentTab === 0) {
+                    this.getRecentlyGoodsList(0)
+                } else {
+                    this.getFavoritesGoodsList(0)
+                }
+            },
+            async getRecentlyGoodsList(type = 0) {
+                if (type === 0) {
+                    this.payPage = { page: 1, pageSize: 10, total: 0, isMore: true }
                     this.payLoadMore = 'loadmore'
-                } else {
-                    this.payLoadMore = 'nomore'
                 }
-            } else {
-                // 如果是在加载中就不执行或没有更多时
-                if (this.favLoadMore === 'loading' || !this.favPage.isMore) {
+
+                const data = { page: this.payPage.page, pageSize: this.payPage.pageSize }
+                if (this.keyword) data.name = this.keyword
+
+                try {
+                    const res = type === 0
+                        ? await getRecentlyPurchasedGoodsListLoading(data)
+                        : await getRecentlyPurchasedGoodsList(data)
+
+                    if (res.code !== 0) return false
+
+                    const list = res.data?.list || []
+                    list.forEach(item => {
+                        if (item.images?.[0]?.url && item.images[0].url.slice(0, 4) !== 'http') {
+                            item.images[0].url = config.baseUrl + '/' + item.images[0].url
+                        }
+                        if (item.weight) {
+                            item.weight = item.weight > 1000 ? item.weight / 1000 + 'kg' : item.weight + 'g'
+                        }
+                        if (item.cartNum == null) item.cartNum = 0
+                    })
+
+                    if (type === 0) {
+                        this.payGoodslist = list
+                    } else {
+                        this.payGoodslist = [...this.payGoodslist, ...list]
+                    }
+
+                    this.payPage.page++
+                    this.payPage.total = res.data?.total || 0
+                    this.payPage.isMore = this.payPage.page * this.payPage.pageSize < this.payPage.total
+                    this.payLoadMore = this.payPage.isMore ? 'loadmore' : 'nomore'
+                    return true
+                } catch (e) {
+                    return false
+                }
+            },
+            async getFavoritesGoodsList(type = 0) {
+                if (type === 0) {
+                    this.favPage = { page: 1, pageSize: 10, total: 0, isMore: true }
+                    this.favLoadMore = 'loadmore'
+                }
+
+                const data = { page: this.favPage.page, pageSize: this.favPage.pageSize }
+                if (this.keyword) data.name = this.keyword
+
+                try {
+                    const res = type === 0
+                        ? await getFavoritesListPageLoding(data)
+                        : await getFavoritesListPage(data)
+
+                    if (res.code !== 0) return false
+
+                    const list = res.data?.list || []
+                    list.forEach(item => {
+                        if (item.images?.[0]?.url && item.images[0].url.slice(0, 4) !== 'http') {
+                            item.images[0].url = config.baseUrl + '/' + item.images[0].url
+                        }
+                        if (item.weight) {
+                            item.weight = item.weight > 1000 ? item.weight / 1000 + 'kg' : item.weight + 'g'
+                        }
+                        if (item.cartNum == null) item.cartNum = 0
+                    })
+
+                    if (type === 0) {
+                        this.favoritesList = list
+                    } else {
+                        this.favoritesList = [...this.favoritesList, ...list]
+                    }
+
+                    this.favPage.page++
+                    this.favPage.total = res.data?.total || 0
+                    this.favPage.isMore = this.favPage.page * this.favPage.pageSize < this.favPage.total
+                    this.favLoadMore = this.favPage.isMore ? 'loadmore' : 'nomore'
+                    return true
+                } catch (e) {
+                    return false
+                }
+            },
+            async updatePayGoodsCart(index, cardId, num) {
+                num = parseInt(num)
+                let originNum = this.payGoodslist[index].cartNum || 0
+                if (originNum > 0 && num < this.payGoodslist[index].minCount) {
+                    this.$message(this.$refs.toast).error(`商品最低购买${this.payGoodslist[index].minCount}件`)
+                    num = 0
+                }
+                if (originNum === 0 && num < this.payGoodslist[index].minCount) {
+                    num = this.payGoodslist[index].minCount
+                }
+                if (originNum !== 0 && num === 0) {
+                    await deleteCartByIds({ ids: [cardId] })
+                    this.payGoodslist[index].cartNum = 0
                     return
                 }
-                this.favLoadMore = 'loading'
-                await this.getFavoritesGoodsList(1)
-                // 如果还有更多
-                if (this.favPage.isMore) {
-                    this.favLoadMore = 'loadmore'
-                } else {
-                    this.favLoadMore = 'nomore'
+                this.payGoodslist[index].cartNum = num
+                await this.addCartReq(this.payGoodslist[index], index, num, 'pay')
+            },
+            async updateFavGoodsCart(index, cardId, num) {
+                num = parseInt(num)
+                let originNum = this.favoritesList[index].cartNum || 0
+                if (originNum > 0 && num < this.favoritesList[index].minCount) {
+                    this.$message(this.$refs.toast).error(`商品最低购买${this.favoritesList[index].minCount}件`)
+                    num = 0
                 }
+                if (originNum === 0 && num < this.favoritesList[index].minCount) {
+                    num = this.favoritesList[index].minCount
+                }
+                if (originNum !== 0 && num === 0) {
+                    await deleteCartByIds({ ids: [cardId] })
+                    this.favoritesList[index].cartNum = 0
+                    return
+                }
+                this.favoritesList[index].cartNum = num
+                await this.addCartReq(this.favoritesList[index], index, num, 'fav')
+            },
+            async addCartReq(goodsInfo, index, num, type) {
+                const res = await uni.request({
+                    url: `${config.baseUrl}/cart/addCart`,
+                    method: 'POST',
+                    data: { goodsId: goodsInfo.ID, specType: 0, num: num }
+                })
+                if (res.data?.code !== 0) {
+                    this.$message(this.$refs.toast).error('操作失败')
+                    if (type === 'pay') {
+                        this.payGoodslist[index].cartNum = this.payGoodslist[index].cartNum || 0
+                    } else {
+                        this.favoritesList[index].cartNum = this.favoritesList[index].cartNum || 0
+                    }
+                }
+            },
+            onGoodsLongClick(goods) {
+                this.currentDeleteFavId = goods.ID
+                this.showDeleteFav = true
+            },
+            async confirmDeleteFav() {
+                if (!this.currentDeleteFavId) return
+                try {
+                    const res = await favorites({ goodsId: this.currentDeleteFavId })
+                    if (res.code === 0) {
+                        this.$message(this.$refs.toast).success('已取消收藏')
+                        this.getFavoritesGoodsList(0)
+                    }
+                } catch (e) {
+                    this.$message(this.$refs.toast).error('操作失败')
+                } finally {
+                    this.showDeleteFav = false
+                    this.currentDeleteFavId = null
+                }
+            },
+            searchConfirm() {
+                this.loadData()
+            },
+            async onRefresh() {
+                this.triggered = true
+                const b = await this.loadData()
+                this.$message(this.$refs.toast).success(b ? '刷新成功' : '刷新失败')
+                this.triggered = false
+            },
+            async scrollTolower() {
+                if (this.currentTab === 0) {
+                    if (this.payLoadMore === 'loading' || !this.payPage.isMore) return
+                    this.payLoadMore = 'loading'
+                    await this.getRecentlyGoodsList(1)
+                    this.payLoadMore = this.payPage.isMore ? 'loadmore' : 'nomore'
+                } else {
+                    if (this.favLoadMore === 'loading' || !this.favPage.isMore) return
+                    this.favLoadMore = 'loading'
+                    await this.getFavoritesGoodsList(1)
+                    this.favLoadMore = this.favPage.isMore ? 'loadmore' : 'nomore'
+                }
+            },
+            showLogin() {
+                this.showLoginDialog = true
+            },
+            hideLogin() {
+                this.showLoginDialog = false
+            },
+            async loginSuccess() {
+                this.hideLogin()
+                this.token = getToken()
+                this.loadData()
+                this.$message(this.$refs.toast).success('登录成功')
+            },
+            goShopping() {
+                uni.switchTab({ url: '/pages/index/index' })
             }
-        },
-        // type 1增 2减 暂时没用
-        // num 数量
-        async addCartReq(goodsInfo, index, num) {
-            const data = {
-                goodsId: goodsInfo.ID,
-                specType: 0, // 单规格
-                num: num
-            }
-            if (num < goodsInfo.minCount) {
-                this.$message(this.$refs.toast).error("商品数量不能小于 " + goodsInfo.minCount)
-                data.num = 0
-                return false
-            }
-            if (num < 1) {
-                this.$message(this.$refs.toast).error("商品数量不能小于 1")
-                return false
-            }
-            const res = await addCart(data)
-            if (res.code !== 0) {
-                console.log("更新购物车失败")
-                return false
-            }
-            return true
-        },
-    },
-
-}
+        }
+    }
 </script>
 
-<style lang="scss">
-page {
-    background: #FFFFFF;
-}
+<style lang="scss" scoped>
+    .header-tabs {
+        height: 90rpx;
+        background: #FFFFFF;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
+    }
 
-.u-tabs__wrapper__nav__item {
-  flex: 1 !important;
-  padding: 0 !important;
-}
+    .tab-bar {
+        display: flex;
+        height: 90rpx;
+    }
 
+    .tab-item {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        font-size: 28rpx;
+        color: #999999;
 
-.empty {
-    background: white;
-    height: 70vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+        &.active {
+            color: #22A84F;
+            font-weight: 600;
+        }
+    }
+
+    .tab-line {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 48rpx;
+        height: 6rpx;
+        background: linear-gradient(90deg, #22A84F, #1A9A45);
+        border-radius: 3rpx;
+    }
+
+    .search-bar {
+        padding: 20rpx 24rpx;
+        background: #FFFFFF;
+    }
+
+    .search-box {
+        height: 64rpx;
+        background: #F5F7F4;
+        border-radius: 32rpx;
+        display: flex;
+        align-items: center;
+        padding: 0 24rpx;
+        gap: 12rpx;
+    }
+
+    .search-input {
+        flex: 1;
+        height: 100%;
+        font-size: 26rpx;
+        color: #1A1A1A;
+    }
+
+    .placeholder {
+        color: #CCCCCC;
+        font-size: 26rpx;
+    }
+
+    .login-tip {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 200rpx;
+        gap: 24rpx;
+    }
+
+    .login-icon {
+        width: 160rpx;
+        height: 160rpx;
+        background: #F5F7F4;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .login-text {
+        font-size: 28rpx;
+        color: #999999;
+    }
+
+    .login-btn {
+        background: linear-gradient(135deg, #22A84F 0%, #1A9A45 100%);
+        color: #FFFFFF;
+        font-size: 28rpx;
+        padding: 20rpx 60rpx;
+        border-radius: 40rpx;
+        box-shadow: 0 4rpx 16rpx rgba(34, 168, 79, 0.3);
+    }
+
+    .content-area {
+        padding: 24rpx;
+    }
+
+    .goods-scroll {
+        padding-bottom: 24rpx;
+    }
+
+    .load-more {
+        padding: 24rpx 0;
+    }
+
+    .empty-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 160rpx;
+        gap: 24rpx;
+    }
+
+    .empty-text {
+        font-size: 28rpx;
+        color: #999999;
+    }
+
+    .empty-btn {
+        background: linear-gradient(135deg, #22A84F 0%, #1A9A45 100%);
+        color: #FFFFFF;
+        font-size: 28rpx;
+        padding: 20rpx 60rpx;
+        border-radius: 40rpx;
+    }
 </style>

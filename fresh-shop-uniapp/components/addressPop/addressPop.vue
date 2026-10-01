@@ -1,181 +1,245 @@
 <!--
- * @Author: dalefeng
- * @Date: 2023-03-23 22:16:00
- * @LastEditors: dalefeng
- * @LastEditTime: 2023-04-21 17:26:13
+ * 优诚配运 - 地址选择弹窗
+ * 设计规范：自然清新
 -->
 <template>
-    <view>
-        <u-popup :show="show" @open="open" @close="close" :closeable="closeable">
-            <view class="title">选择用户地址</view>
-            <view class="box">
-                <scroll-view :scroll-y="true" style="height: 45vh">
-                    <view class="list" v-for="item in list" :key="item.ID" @tap="checkedAddress(item)">
-                        <view class="radio">
-                            <image src="../../static/select.png" v-if="item.ID == addressId" class="checked-image"
-                                   mode=""></image>
-                            <image src="../../static/not_select.png" v-else class="checked-image" mode=""
-                            ></image>
-                        </view>
-                        <view class="address">
-                            <text>
-                                {{ item.address }}{{ item.title }}{{ item.detail }}
-                            </text>
-                            <view class="info">
-                                <text>{{ item.name }}{{ item.sex === 1 ? '先生' : '女士' }}</text>
-                                <text class="king-ml-10">{{ item.mobile }}</text>
-                                <view class="king-ml-10 king-inline-block" v-if="item.isDefault === 1">
-                                    <u-tag text="默认" plain shape="circle" size="mini"></u-tag>
-                                </view>
-                                <view class="king-ml-10 king-inline-block">
-                                    <u-tag :text="item.lable" plain shape="circle" size="mini"></u-tag>
-                                </view>
-                            </view>
-                        </view>
+	<u-popup :show="show" @close="close" mode="bottom" round="24rpx" :closeable="true">
+		<view class="address-popup">
+			<view class="popup-header">
+				<text class="popup-title">选择收货地址</text>
+			</view>
 
-<!--                    TODO 收货地址跳转    <view class="edit" @click="toUpdateAddress(item.ID)">
-                            <u-icon name="edit-pen" size="30"></u-icon>
-                        </view>-->
-                    </view>
-                </scroll-view>
-            </view>
-            <view class="btn">
-                <u-button :customStyle="otherBtnStyle" @click="toCreateAddress">添加地址</u-button>
-            </view>
-        </u-popup>
-        <u-toast style="z-index:9998;" ref="toast"></u-toast>
-    </view>
+			<view class="popup-content">
+				<scroll-view scroll-y="true" class="address-list">
+					<view
+						class="address-item"
+						v-for="item in list"
+						:key="item.ID"
+						@click="checkedAddress(item)"
+					>
+						<view class="item-check">
+							<view class="check-circle" :class="{ active: item.ID === addressId }">
+								<u-icon v-if="item.ID === addressId" name="checkmark" size="24rpx" color="#FFFFFF"></u-icon>
+							</view>
+						</view>
+						<view class="item-info">
+							<view class="item-user">
+								<text class="user-name">{{ item.userName }}</text>
+								<text class="user-phone">{{ item.userPhone }}</text>
+								<view class="default-tag" v-if="item.isDefault === 1">默认</view>
+							</view>
+							<view class="item-address">
+								{{ item.address || '' }}{{ item.detailAddress || '' }}{{ item.lableName || '' }}
+							</view>
+						</view>
+					</view>
+
+					<view class="empty-tip" v-if="list.length === 0">
+						<u-icon name="map" size="80rpx" color="#CCCCCC"></u-icon>
+						<text>暂无收货地址</text>
+					</view>
+				</scroll-view>
+			</view>
+
+			<view class="popup-footer">
+				<view class="add-btn" @click="toCreateAddress">
+					<u-icon name="plus" size="32rpx" color="#FFFFFF"></u-icon>
+					<text>添加新地址</text>
+				</view>
+			</view>
+		</view>
+
+		<u-toast ref="toast" style="z-index: 9999;"></u-toast>
+	</u-popup>
 </template>
 
 <script>
-import {getAddressList} from '@/api/address';
+	import { getAddressList } from '@/api/address.js'
 
-export default {
-    name: "addressPop",
-    data() {
-        return {
-            list: [], // 收货地址列表
-            otherBtnStyle: {
-                width: "80%",
-                height: "50px",
-                borderRadius: "30px",
-                background: "#2979ff",
-                color: "#fff",
-            },
-        };
-    },
-    props: {
-        show: {
-            type: Boolean,
-            default: false,
-        },
-        closeable: {
-            type: Boolean,
-            default: true,
-        },
-        // 当前选择的收货地址 ID
-        addressId: {
-            type: Number,
-            default: true,
-        }
-    },
-    mounted() {
-        uni.getSystemInfo({
-            success: (res) => {
-                this.windowHeight = res.windowHeight - this.subHeight;
-            },
-        });
-    },
-    methods: {
-        async open() {
-            //this.$emit("open");
-            await this.getAddressListData()
-        },
-        // 选中时间
-        checkedAddress(addressInfo) {
-            this.$emit("checked", addressInfo)
-        },
-        // 获取收货地址
-        async getAddressListData() {
-            const res = await getAddressList(this.$refs.toast)
-            if (res.code !== 0) {
-                this.$message(this.$refs.toast).error(res.msg)
-                return false
-            }
-            this.list = res.data.list
-        },
-        close() {
-            this.$emit("close");
-        },
-        toCreateAddress() {
-            this.close()
-            uni.navigateTo({
-                url: '/pages/address/addressForm?submit=1'
-            })
-        }
-    }
-}
+	export default {
+		name: 'addressPop',
+		data() {
+			return {
+				list: []
+			}
+		},
+		props: {
+			show: {
+				type: Boolean,
+				default: false
+			},
+			closeable: {
+				type: Boolean,
+				default: true
+			},
+			addressId: {
+				type: Number,
+				default: null
+			}
+		},
+		watch: {
+			show(val) {
+				if (val) {
+					this.getAddressListData()
+				}
+			}
+		},
+		methods: {
+			async getAddressListData() {
+				try {
+					const res = await getAddressList()
+					if (res.code === 0) {
+						this.list = res.data || []
+					}
+				} catch (e) {
+					this.$message(this.$refs.toast).error('加载失败')
+				}
+			},
+			checkedAddress(addressInfo) {
+				this.$emit('checked', addressInfo)
+			},
+			close() {
+				this.$emit('close')
+			},
+			toCreateAddress() {
+				this.close()
+				uni.navigateTo({
+					url: '/pages/address/addressForm?submit=1'
+				})
+			}
+		}
+	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+	.address-popup {
+		display: flex;
+		flex-direction: column;
+		max-height: 70vh;
+	}
 
-.box {
-  height: 45vh;
-  margin-bottom: 55px;
-}
+	.popup-header {
+		padding: 32rpx;
+		border-bottom: 1rpx solid #EEEEEE;
+		text-align: center;
+	}
 
-.title {
-  margin: 12px 15px;
-}
+	.popup-title {
+		font-size: 32rpx;
+		font-weight: 600;
+		color: #1A1A1A;
+	}
 
-.list {
-  padding: 10px 10px 10px 20px;
-  background: #FFFFFF;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 18px;
-  border-bottom: 1px solid #dddddf;
+	.popup-content {
+		flex: 1;
+		overflow: hidden;
+	}
 
-  &:nth-last-child(1) {
-    border: none;
-  }
+	.address-list {
+		height: 50vh;
+		padding: 0 24rpx;
+	}
 
-  .address {
-    width: 80%;
-  }
+	.address-item {
+		display: flex;
+		align-items: flex-start;
+		padding: 28rpx 0;
+		border-bottom: 1rpx solid #F0F0F0;
 
-  .radio {
-    width: 45px;
-    height: 35px;
+		&:last-child {
+			border-bottom: none;
+		}
+	}
 
-    .checked-image {
-      width: 30px;
-      height: 30px;
-    }
-  }
+	.item-check {
+		padding-top: 4rpx;
+		margin-right: 20rpx;
+	}
 
-  .info {
-    margin-top: 10px;
-    color: #6a7076;
-    display: flex;
-    font-size: 17px;
-  }
+	.check-circle {
+		width: 40rpx;
+		height: 40rpx;
+		border-radius: 50%;
+		border: 2rpx solid #DDDDDD;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 
-  .edit {
-    width: 60px;
-    display: flex;
-    justify-content: center;
-  }
-}
+		&.active {
+			background: #22A84F;
+			border-color: #22A84F;
+		}
+	}
 
-.btn {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  position: absolute;
-  bottom: 5px;
-}
+	.item-info {
+		flex: 1;
+	}
+
+	.item-user {
+		display: flex;
+		align-items: center;
+		gap: 12rpx;
+		margin-bottom: 12rpx;
+	}
+
+	.user-name {
+		font-size: 28rpx;
+		font-weight: 600;
+		color: #1A1A1A;
+	}
+
+	.user-phone {
+		font-size: 26rpx;
+		color: #666666;
+	}
+
+	.default-tag {
+		background: #E8F8EC;
+		color: #22A84F;
+		font-size: 20rpx;
+		padding: 4rpx 12rpx;
+		border-radius: 8rpx;
+	}
+
+	.item-address {
+		font-size: 26rpx;
+		color: #666666;
+		line-height: 1.5;
+	}
+
+	.empty-tip {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding-top: 100rpx;
+		gap: 20rpx;
+
+		text {
+			font-size: 28rpx;
+			color: #999999;
+		}
+	}
+
+	.popup-footer {
+		padding: 24rpx 32rpx;
+		padding-bottom: calc(env(safe-area-inset-bottom) + 24rpx);
+		border-top: 1rpx solid #EEEEEE;
+	}
+
+	.add-btn {
+		height: 88rpx;
+		background: linear-gradient(135deg, #22A84F 0%, #1A9A45 100%);
+		border-radius: 44rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 12rpx;
+		box-shadow: 0 4rpx 20rpx rgba(34, 168, 79, 0.3);
+
+		text {
+			font-size: 30rpx;
+			font-weight: 600;
+			color: #FFFFFF;
+		}
+	}
 </style>

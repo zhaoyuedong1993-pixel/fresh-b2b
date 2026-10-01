@@ -1,681 +1,565 @@
+<!--
+ * 优诚配运 - 提交订单
+ * 设计规范：自然清新
+-->
 <template>
-	<pageWrapper>
-		<!-- 未受邀用户显示地址选择 -->
-		<view class="select-address" v-if="user && user.auditStatus === 0">
-			<view class="address" v-if="shipmentType === '0'" @click="addressShow">
-				<view class="icon">
-					<u-icon name="map" color="#2979ff" size="36"></u-icon>
-				</view>
-				<view v-if="addressId === 0" class="title">请选择收货地址</view>
-				<view v-else>
-					<view class="title king-ellipsis2">{{ address.title + address.detail }}</view>
-					<view class="sub-title">
-						<text class="king-mr-10">{{ address.name }}{{ address.sex === 1 ? '先生' : '女士' }}</text>
-						<text>{{ address.mobile }}</text>
-						<view class="king-ml-10 king-inline-block">
-							<u-tag :text="address.lable" plain shape="circle" size="mini"></u-tag>
-						</view>
-					</view>
-				</view>
-			</view>
-			<view class="food-type">
-				<u-radio-group v-model="shipmentType" placement="row" @change="shipmentTypeChange">
-					<u-radio :customStyle="radioLeftStyle" size="24" iconSize="18" labelSize="18" label="配送"
-						name="0"></u-radio>
-					<u-radio :customStyle="radioRightStyle" size="24" iconSize="18" labelSize="18" label="自提"
-						name="1"></u-radio>
-				</u-radio-group>
-			</view>
-		</view>
-		<view class="goods-list">
-			<view>订单详情</view>
-			<view class="goods-info" v-for="cart in list" :key="cart.ID">
-				<image v-if="cart.goods.images && cart.goods.images.length > 0"
-					:src="cart.goods.images && cart.goods.images.length > 0 ? cart.goods.images[0].url : ''"
-					class="goods-image king-radius10" mode=""></image>
-				<image v-else src="/static/nopicture.jpg" class="goods-image king-radius10" mode=""></image>
-				<view class="goods-info-box">
-					<view class="goods-info-spec">
-						<text class="goods-name king-ellipsis2">{{ cart.goods.name }}</text>
-						<text class="spe">规格：{{ cart.goods.weight ? cart.goods.weight + 'g/' : '' }}{{
-                                cart.goods.unit
-                            }}
-						</text>
-						<text class="spe">
-							单价：{{
-                                cart.goods.price > 0 && cart.goods.price < cart.goods.costPrice ? cart.goods.price : cart.goods.costPrice
-                            }}
-							<text v-if="pointGoodsId === 0">元</text>
-							<text v-if="pointGoodsId > 0"> 积分</text>
-						</text>
-					</view>
-					<view class="goods-box">
-						<text class="goods-price">
-							<text class="goods-symbol" v-if="pointGoodsId === 0">¥</text>
-							{{
-                                cart.goods.price > 0 && cart.goods.price < cart.goods.costPrice ? cart.goods.price * cart.num : cart.goods.costPrice * cart.num
-                            }}
-							<text v-if="pointGoodsId > 0">积分</text>
-							<!--                            <text class="goods-unit"> / {{ cart.goods.unit }}</text>-->
-						</text>
-						<view class="goods-num-box">
-							<view class="goods-num">
-								<text>{{ cart.num }} {{ cart.goods.unit }}</text>
-							</view>
-						</view>
-					</view>
-				</view>
-			</view>
-		</view>
-		<view class="remark">
-			<view>备注</view>
-			<u--input placeholder="请输入备注信息" :customStyle="{'padding': '6px 0 0 0'}" border="bottom" v-model="remark"
-				clearable></u--input>
-		</view>
-		<view style="height: 70px"></view>
-		<view class="statistics-box">
-			<text class="total">合计：</text>
-			<text class="text-color"><text v-if="pointGoodsId === 0">¥</text>
-				{{ total }}
-				<text class="text-color" style="font-size: 20px; margin-left: 3px" v-if="pointGoodsId > 0">积分</text>
-			</text>
-			<view v-if="pointGoodsId > 0" class="btn" @tap="showPointPayDialog">
-				<text>积分支付</text>
-			</view>
-			<view v-else class="btn" @tap="submit">
-				<text>提交订单</text>
-			</view>
-		</view>
-		<addressPop :show="showLoginDialog" @close="addressClose" :addressId="addressId" @checked="addressChecked">
-		</addressPop>
-		<u-modal :show="showPointPay" title="确认购买" @confirm="submit" @cancel="() => showPointPay = false"
-			@close="() => showPointPay = false" :showCancelButton="true" :closeOnClickOverlay="true" confirmText="支付">
-			<view class="king-center king-black6">
-				积分余额：{{ pointAmount }}<br>
-				您确认购买该商品么？
-			</view>
-		</u-modal>
-		<u-modal :show="showSettlmentUnpaid" showCancelButton closeOnClickOverlay @confirm="callPhone"
-			@cancel="settlmentUnpaidCancel" confirmText="联系商家" cancelText="稍后处理" title="未结算订单提醒">
-			<view>
-				<view class="main-message">您有{{preSettlmentInfo.month}}月未结算的订单需要处理</view>
-				<view class="details">
-					<view>共有 <text class="highlight"> {{ preSettlmentInfo.monthUnpaid }} </text> 个订单未结算</view>
-					<view>结算金额为 <text class="highlight"> {{ preSettlmentInfo.settlementUnpaid }} </text> 元</view>
-				</view>
-				<view class="contact-info">
-					<view>为确保您的正常使用，请尽快处理</view>
-					<view>如需帮助，请联系商家：<text class="phone-number">{{ relationPhone }}</text></view>
-				</view>
-			</view>
-		</u-modal>
-		<u-toast ref="toast" style="z-index: 9999 !important"></u-toast>
-	</pageWrapper>
+    <pageWrapper>
+        <scroll-view scroll-y class="page-scroll">
+            <!-- 配送方式 + 地址 -->
+            <view class="section-card" v-if="user && user.auditStatus === 0">
+                <!-- 配送地址 -->
+                <view class="address-row" v-if="shipmentType === '0'" @click="addressShow">
+                    <view class="address-icon">
+                        <u-icon name="map" color="#22A84F" size="40rpx"></u-icon>
+                    </view>
+                    <view class="address-content" v-if="addressId > 0">
+                        <view class="address-main">
+                            <text class="address-name">{{ address.name }}</text>
+                            <text class="address-sex">{{ address.sex === 1 ? '先生' : '女士' }}</text>
+                            <text class="address-phone">{{ address.mobile }}</text>
+                        </view>
+                        <view class="address-detail">{{ address.title }}{{ address.detail }}</view>
+                    </view>
+                    <view class="address-empty" v-else>
+                        <text>请选择收货地址</text>
+                    </view>
+                    <u-icon name="arrow-right" color="#CCCCCC" size="32rpx"></u-icon>
+                </view>
+
+                <!-- 自提点 -->
+                <view class="pickup-row" v-if="shipmentType === '1'">
+                    <view class="pickup-icon">
+                        <u-icon name="bag" color="#22A84F" size="40rpx"></u-icon>
+                    </view>
+                    <view class="pickup-info">
+                        <text class="pickup-label">到店自提</text>
+                        <text class="pickup-tip">请到店出示订单编号取货</text>
+                    </view>
+                </view>
+
+                <!-- 配送方式切换 -->
+                <view class="shipment-tabs">
+                    <view class="tab-item" :class="{ active: shipmentType === '0' }" @click="shipmentTypeChange('0')">
+                        <u-icon name="car" size="32rpx" :color="shipmentType === '0' ? '#22A84F' : '#999999'"></u-icon>
+                        <text>配送</text>
+                    </view>
+                    <view class="tab-item" :class="{ active: shipmentType === '1' }" @click="shipmentTypeChange('1')">
+                        <u-icon name="bag" size="32rpx" :color="shipmentType === '1' ? '#22A84F' : '#999999'"></u-icon>
+                        <text>自提</text>
+                    </view>
+                </view>
+            </view>
+
+            <!-- 订单商品 -->
+            <view class="section-title">订单详情</view>
+            <view class="section-card goods-card">
+                <view class="goods-item" v-for="cart in list" :key="cart.ID">
+                    <image class="goods-img" :src="cart.goods?.images?.[0]?.url || '/static/nopicture.jpg'" mode="aspectFill"></image>
+                    <view class="goods-info">
+                        <text class="goods-name">{{ cart.goods?.name }}</text>
+                        <text class="goods-spec">规格：{{ cart.goods?.weight ? cart.goods.weight + 'g/' : '' }}{{ cart.goods?.unit }}</text>
+                        <view class="goods-bottom">
+                            <text class="goods-price">
+                                <text class="sym">¥</text>{{ cart.goods?.price > 0 && cart.goods?.price < cart.goods?.costPrice ? cart.goods?.price : cart.goods?.costPrice }}
+                            </text>
+                            <text class="goods-num">x{{ cart.num }}</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+
+            <!-- 备注 -->
+            <view class="section-card remark-card">
+                <text class="remark-label">备注</text>
+                <input class="remark-input" v-model="remark" placeholder="选填，可备注特殊需求" placeholder-class="placeholder" />
+            </view>
+
+            <view class="bottom-safe"></view>
+        </scroll-view>
+
+        <!-- 底部结算栏 -->
+        <view class="bottom-bar">
+            <view class="total-info">
+                <text class="total-label">合计：</text>
+                <text class="total-price">
+                    <text class="sym">¥</text>{{ total }}
+                </text>
+            </view>
+            <view class="submit-btn" @click="submit">
+                <text>提交订单</text>
+            </view>
+        </view>
+
+        <!-- 地址选择 -->
+        <addressPop :show="showLoginDialog" @close="addressClose" :addressId="addressId" @checked="addressChecked"></addressPop>
+
+        <!-- 未结算提醒 -->
+        <u-modal :show="showSettlmentUnpaid" showCancelButton closeOnClickOverlay @confirm="callPhone"
+            @cancel="settlmentUnpaidCancel" confirmText="联系商家" cancelText="稍后处理" title="未结算订单提醒">
+            <view class="modal-body">
+                <view class="modal-main">您有{{ preSettlmentInfo.month }}月未结算的订单需要处理</view>
+                <view class="modal-info">
+                    <view>共 <text class="hl">{{ preSettlmentInfo.monthUnpaid }}</text> 个订单未结算</view>
+                    <view>金额 <text class="hl">¥{{ preSettlmentInfo.settlementUnpaid }}</text></view>
+                </view>
+            </view>
+        </u-modal>
+
+        <u-toast ref="toast" style="z-index: 9999"></u-toast>
+    </pageWrapper>
 </template>
 
 <script>
-	import {
-		getCheckedCartList
-	} from "@/api/cart";
-	import config from '@/config/config.js'
-	import {
-		getToken,
-		getRole,
-		getSettlmentInfo,
-		getUser,
-	} from '@/store/storage.js'
-	import {
-		getDefaultAddressInfo
-	} from '@/api/address';
-	import {
-		createOrder,
-		getOrderStatus,
-	} from '@/api/order';
-	import addressPop from '@/components/addressPop/addressPop'
-	import {
-		getAccountInfo
-	} from "@/api/account.js";
-	import {
-		getGoodsInfo
-	} from '@/api/goods.js'
+    import { getCheckedCartList } from "@/api/cart"
+    import config from '@/config/config.js'
+    import { getToken, getRole, getSettlmentInfo, getUser } from '@/store/storage.js'
+    import { getDefaultAddressInfo } from '@/api/address'
+    import { createOrder, getOrderStatus } from '@/api/order'
+    import { getGoodsInfo } from '@/api/goods.js'
+    import addressPop from '@/components/addressPop/addressPop.vue'
 
-	export default {
-		components: {
-			addressPop,
-		},
-		data() {
-			return {
-				token: '',
-				role: {},
-				user: {},
-				list: [],
-				pointGoodsId: 0,
-				addressId: 0, // 用户地址ID
-				address: {}, // 用户收货地址
-				total: 0,
-				showSettlmentUnpaid: false,
-				relationPhone: '',
-				showLoginDialog: false,
-				shipmentType: '0', // 配送方式 1配送 2自提
-				remark: "", // 备注
-				radioLeftStyle: {
-					"width": "50%",
-					"justify-content": "center",
-					"border-right": "1px solid #eee",
-				},
-				radioRightStyle: {
-					"width": "50%",
-					"justify-content": "center",
-				},
-				showPointPay: false, // 积分购买提示框
-				pointAmount: 0, // 积分数量
-				preSettlmentInfo: {}, // 月结信息
-			}
-		},
-		onLoad(options) {
-			this.relationPhone = config.phone
-			if (options.pointGoodsId) {
-				this.pointGoodsId = parseInt(options.pointGoodsId)
-			}
-			this.role = getRole()
-			if (!this.role) {
-				this.$message(this.$refs.toast).error("客户类型异常，请联系管理员")
-			}
-			this.preSettlmentInfo = getSettlmentInfo()
-			if (this.preSettlmentInfo && this.preSettlmentInfo.monthUnpaid > 0) {
-				this.showSettlmentUnpaid = true
-			}
-			console.log('pointGoodsId', this.pointGoodsId)
-		},
-		mounted() {
-			this.token = getToken()
-			this.user = getUser()
-			// 受邀用户默认自提
-			if (this.user && this.user.auditStatus === 1) {
-				this.shipmentType = '1'
-			}
-			if (!this.token) {
-				this.$message(this.$refs.toast).error("请请先登录").then(() => {
-					uni.redirectTo({
-						url: '/pages/my/my'
-					})
-				})
-				return
-			}
-			if (this.pointGoodsId > 0) {
-				this.getPointGoodsData()
-			} else {
-				this.getCartListData()
-			}
-			this.getAddressInfo()
-		},
-		methods: {
-			// 显示积分支付
-			async showPointPayDialog() {
-				this.showPointPay = true
-				const res = await getAccountInfo(2, this.$refs.toast) // 积分
-				if (res.code !== 0) {
-					this.showPointPay = false
-					return false
-				}
-				this.pointAmount = res.data.account.amount
-			},
-			// 订单提交
-			async submit() {
-				try {
-					// 检查用户审核状态
-					const user = getUser()
-					if (user && user.auditStatus === 0) {
-						this.$message(this.$refs.toast).error("您的账号正在审核中，暂无法下单")
-						return
-					}
-					const data = {
-						remarks: this.remark,
-						addressId: this.addressId,
-						shipmentType: parseInt(this.shipmentType)
-					}
-					if (this.pointGoodsId) {
-						data.pointGoodsId = this.pointGoodsId
-					}
-					const res = await createOrder(data, this.$refs.toast)
-					console.log('createOrder返回:', JSON.stringify(res))
-					if (res.code !== 0) {
-						console.error('创建订单失败:', res.msg)
-						return
-					}
-					// 如果是积分商品
-					if (this.pointGoodsId > 0) {
-						this.showPointPay = false
-						await this.$message(this.$refs.toast).success("兑换成功")
-						uni.redirectTo({
-							url: '/pages/order/detail?id=' + res.data.order.ID
-						})
-						return
-					}
-					// 月结用户直接提交订单，零售用户微信支付
-					// settlementType: 1=月结 0=零售
-					if (res.data.order.settlementType === 1) {
-						await this.$message(this.$refs.toast).success("订单已提交，等待配送")
-					} else {
-						if (!res.data.pay || !res.data.pay.paySign) {
-							console.error('支付信息异常:', res.data.pay)
-						}
-					}
-					uni.redirectTo({
-						url: '/pages/order/detail?id=' + res.data.order.ID
-					})
-				} catch (e) {
-					console.error('提交订单异常:', e)
-					await this.$message(this.$refs.toast).error("提交失败，请重试")
-				}
-			},
-			// 发起微信支付
-			toPay(pay, order) {
-				this.$message(this.$refs.toast).loading('正在支付中...')
-				const payment = {
-					provider: 'wxpay', // 服务提供商，通过 uni.getProvider 获取。
-					timeStamp: pay.timestamp,
-					nonceStr: pay.nonceStr,
-					orderInfo: pay.order,
-					package: 'prepay_id=' + pay.prePayId,
-					signType: pay.signType,
-					paySign: pay.paySign,
-					success: res => {
-						console.log('success', res)
-						this.$message(this.$refs.toast).hide()
-						this.paySuccess(order.ID)
-					},
-					fail: res => {
-						console.log('fail', res)
-						this.$message(this.$refs.toast).hide()
-						if (res.errMsg === 'requestPayment:fail cancel') {
-							this.$message(this.$refs.toast).error("取消支付").then(() => {
-								uni.redirectTo({
-									url: '/pages/order/detail?id=' + order.ID
-								})
-							})
-							return false
-						}
-						this.$message(this.$refs.toast).error("支付失败").then(() => {
-							uni.redirectTo({
-								url: '/pages/order/detail?id=' + order.ID
-							})
-						})
-					}
-				}
-				console.log('payment', payment)
-				uni.requestPayment(payment)
-			},
-			// 支付成功回调
-			paySuccess(orderId) {
-				this.$message(this.$refs.toast).loading('正在获取支付结果...')
-				let count = 0
-				let errCount = 0
-				const statusInterval = setInterval(async () => {
-					const res = await getOrderStatus(orderId);
-					if (res.code !== 0) {
-						errCount++
-						// 只允许错误重试 30 次 30秒
-						if (errCount > 30) {
-							clearInterval(statusInterval); // 清除定时器
-							this.$message(this.$refs.toast).hide()
-							this.$message(this.$refs.toast).error("获取交易结果超时，请稍后查看").then(() => {
-								uni.redirectTo({
-									url: '/pages/order/detail?id=' + orderId
-								})
-							})
-						}
-						return false;
-					}
-					count++
-					// 只允许重试获取状态 30 次 30秒
-					if (count > 30) {
-						clearInterval(statusInterval); // 清除定时器
-						this.$message(this.$refs.toast).hide()
-						this.$message(this.$refs.toast).error("获取交易结果超时，请稍后查看").then(() => {
-							uni.redirectTo({
-								url: '/pages/order/detail?id=' + orderId
-							})
-						})
-						return
-					}
-					if (res.data.status === 1) {
-						clearInterval(statusInterval); // 清除定时器
-						this.$message(this.$refs.toast).hide()
-						// 进行其他操作
-						this.$message(this.$refs.toast).success("支付成功").then(() => {
-							uni.redirectTo({
-								url: '/pages/order/detail?id=' + orderId
-							})
-						})
-					}
-				}, 1000);
-			},
-			// 地址选择
-			addressChecked(addressInfo) {
-				this.address = addressInfo
-				this.addressId = addressInfo.ID
-				this.addressClose()
-			},
-			// 显示地址
-			addressShow() {
-				this.showLoginDialog = true
-			},
-			addressClose() {
-				this.showLoginDialog = false
-			},
-			async getPointGoodsData() {
-				const data = {
-					ID: this.pointGoodsId,
-				}
-				const res = await getGoodsInfo(data, this.$refs.toast)
-				res.data.regoods.images && res.data.regoods.images.length > 0 && res.data.regoods.images.forEach((item,
-					index) => {
-					if (item.url.slice(0, 4) !== 'http') {
-						res.data.regoods.images[index].url = config.baseUrl + "/" + item.url
-					}
-				})
-				if (res.data.regoods.weight > 1000) {
-					res.data.regoods.weight = res.data.regoods.weight / 1000 + 'kg'
-				} else {
-					res.data.regoods.weight = res.data.regoods.weight + 'g'
-				}
-				const g = res.data.regoods
-				const c = {
-					goodsId: g.ID,
-					specType: 0,
-					num: 1,
-					goods: g
-				}
-				this.list.push(c)
-				this.total = g.costPrice.toFixed(2)
-			},
-			async getCartListData() {
-				const res = await getCheckedCartList(this.$refs.toast)
-				if (res.code !== 0) {
-					this.$message(this.$refs.toast).error(res.msg)
-					return
-				}
-				if (!res.data.list || res.data.list.length === 0) {
-					this.$message(this.$refs.toast).error("无商品数据").then(() => {
-						uni.redirectTo({
-							url: '/pages/cart/cart'
-						})
-					})
-					return
-				}
-				res.data.list.forEach(item => {
-					if (item.goods.images && item.goods.images.length > 0 && item.goods.images[0].url.slice(0,
-							4) !== 'http') {
-						item.goods.images[0].url = config.baseUrl + "/" + item.goods.images[0].url
-					}
-					// 计算总价格
+    export default {
+        components: { addressPop },
+        data() {
+            return {
+                token: '',
+                role: {},
+                user: {},
+                list: [],
+                pointGoodsId: 0,
+                addressId: 0,
+                address: {},
+                total: 0,
+                showSettlmentUnpaid: false,
+                relationPhone: '',
+                showLoginDialog: false,
+                shipmentType: '0',
+                remark: '',
+                showPointPay: false,
+                pointAmount: 0,
+                preSettlmentInfo: {}
+            }
+        },
+        onLoad(options) {
+            this.relationPhone = config.phone
+            if (options.pointGoodsId) {
+                this.pointGoodsId = parseInt(options.pointGoodsId)
+            }
+            this.role = getRole()
+            this.preSettlmentInfo = getSettlmentInfo()
+            if (this.preSettlmentInfo && this.preSettlmentInfo.monthUnpaid > 0) {
+                this.showSettlmentUnpaid = true
+            }
+        },
+        mounted() {
+            this.token = getToken()
+            this.user = getUser()
+            if (this.user?.auditStatus === 1) {
+                this.shipmentType = '1'
+            }
+            if (!this.token) {
+                this.$message(this.$refs.toast).error("请先登录").then(() => {
+                    uni.redirectTo({ url: '/pages/my/my' })
+                })
+                return
+            }
+            if (this.pointGoodsId > 0) {
+                this.getPointGoodsData()
+            } else {
+                this.getCartListData()
+            }
+            this.getAddressInfo()
+        },
+        methods: {
+            async submit() {
+                const user = getUser()
+                if (user?.auditStatus === 0) {
+                    this.$message(this.$refs.toast).error("您的账号正在审核中，暂无法下单")
+                    return
+                }
+                const data = {
+                    remarks: this.remark,
+                    addressId: this.addressId,
+                    shipmentType: parseInt(this.shipmentType)
+                }
+                if (this.pointGoodsId) {
+                    data.pointGoodsId = this.pointGoodsId
+                }
+                const res = await createOrder(data, this.$refs.toast)
+                if (res.code !== 0) return
 
-					if (item.goods.price > 0 && item.goods.price < item.goods.costPrice) { // 如果设置了优惠价格
-						this.total += item.goods.price * item.num
-					} else { // 没设置优惠价格
-						console.log(this.total, item.goods.costPrice, item.num, this.total + item.goods
-							.costPrice * item.num)
-						this.total += item.goods.costPrice * item.num
-					}
-				})
-				this.total = this.total.toFixed(2)
-				this.list = res.data.list
-			},
-			// 获取用户默认收货地址
-			getAddressInfo() {
-				getDefaultAddressInfo(this.$refs.toast).then(res => {
-					this.address = res.data
-					this.addressId = res.data.ID
-				})
-			},
-			// 选择框切换
-			shipmentTypeChange(e) {
-				console.log('shipmentTypeChange', e)
-				if (e === '1') {
-					this.address = {}
-					this.addressId = 0
-				} else {
-					this.getAddressInfo()
-				}
-			},
-			// 拨打电话
-			callPhone() {
-				uni.makePhoneCall({
-					phoneNumber: this.relationPhone,
-					success: (result) => {},
-					fail: (error) => {}
-				})
-			},
-			settlmentUnpaidCancel() {
-				this.showSettlmentUnpaid = false
-				uni.navigateBack({
-				    delta: 1
-				});
-			}
-		},
-	}
+                if (this.pointGoodsId > 0) {
+                    this.showPointPay = false
+                    await this.$message(this.$refs.toast).success("兑换成功")
+                    uni.redirectTo({ url: '/pages/order/detail?id=' + res.data.order.ID })
+                    return
+                }
+
+                if (res.data.order.settlementType === 1) {
+                    await this.$message(this.$refs.toast).success("订单已提交，等待配送")
+                }
+                uni.redirectTo({ url: '/pages/order/detail?id=' + res.data.order.ID })
+            },
+            addressChecked(info) {
+                this.address = info
+                this.addressId = info.ID
+                this.addressClose()
+            },
+            addressShow() {
+                this.showLoginDialog = true
+            },
+            addressClose() {
+                this.showLoginDialog = false
+            },
+            shipmentTypeChange(type) {
+                this.shipmentType = type
+                if (type === '1') {
+                    this.address = {}
+                    this.addressId = 0
+                } else {
+                    this.getAddressInfo()
+                }
+            },
+            async getPointGoodsData() {
+                const res = await getGoodsInfo({ ID: this.pointGoodsId }, this.$refs.toast)
+                if (res.code !== 0) return
+                const g = res.data.regoods
+                g.images?.forEach((item, index) => {
+                    if (item.url?.slice(0, 4) !== 'http') {
+                        g.images[index].url = config.baseUrl + '/' + item.url
+                    }
+                })
+                this.list.push({ goodsId: g.ID, specType: 0, num: 1, goods: g })
+                this.total = (g.costPrice || 0).toFixed(2)
+            },
+            async getCartListData() {
+                const res = await getCheckedCartList(this.$refs.toast)
+                if (res.code !== 0) {
+                    this.$message(this.$refs.toast).error(res.msg)
+                    return
+                }
+                if (!res.data.list?.length) {
+                    this.$message(this.$refs.toast).error("无商品数据").then(() => {
+                        uni.redirectTo({ url: '/pages/cart/cart' })
+                    })
+                    return
+                }
+                res.data.list.forEach(item => {
+                    if (item.goods?.images?.[0] && item.goods.images[0].url?.slice(0, 4) !== 'http') {
+                        item.goods.images[0].url = config.baseUrl + '/' + item.goods.images[0].url
+                    }
+                    const price = item.goods?.price > 0 && item.goods?.price < item.goods?.costPrice
+                        ? item.goods.price : item.goods?.costPrice || 0
+                    this.total += price * item.num
+                })
+                this.total = this.total.toFixed(2)
+                this.list = res.data.list
+            },
+            getAddressInfo() {
+                getDefaultAddressInfo(this.$refs.toast).then(res => {
+                    if (res.data) {
+                        this.address = res.data
+                        this.addressId = res.data.ID
+                    }
+                })
+            },
+            callPhone() {
+                uni.makePhoneCall({ phoneNumber: this.relationPhone })
+            },
+            settlmentUnpaidCancel() {
+                this.showSettlmentUnpaid = false
+                uni.navigateBack({ delta: 1 })
+            }
+        }
+    }
 </script>
 
 <style lang="scss" scoped>
-	page {
-		padding: 0 10px;
-	}
+    .page-scroll {
+        height: calc(100vh - 120rpx);
+        background: #F5F7F4;
+    }
 
-	.select-address {
-		background: #fff;
-		border-radius: 10px;
-		padding: 20px 20px;
-		display: flex;
-		justify-content: center;
-		flex-direction: column;
+    .section-title {
+        font-size: 28rpx;
+        font-weight: 600;
+        color: #1A1A1A;
+        padding: 24rpx 24rpx 12rpx;
+    }
 
-		.address {
-			display: flex;
-			align-items: center;
-			padding-bottom: 14px;
-			border-bottom: 1px solid #F2F2F2;
-			margin-bottom: 20px;
-		}
+    .section-card {
+        margin: 0 24rpx 20rpx;
+        background: #FFFFFF;
+        border-radius: 20rpx;
+        box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.06);
+    }
 
-		.food-type {
-			margin: 0px 0 2px 0;
-		}
+    /* 地址 */
+    .address-row {
+        display: flex;
+        align-items: center;
+        padding: 28rpx 24rpx;
+        gap: 20rpx;
+    }
 
-		.icon {
-			margin-right: 20px;
-		}
+    .address-icon, .pickup-icon {
+        width: 72rpx;
+        height: 72rpx;
+        background: #E8F8EC;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
 
-		.title {
-			font-size: 18px;
-			font-weight: 550;
-		}
+    .address-content {
+        flex: 1;
+    }
 
-		.sub-title {
-			margin-top: 8px;
-			font-size: 17px;
-			color: #454749;
-			display: flex;
-			align-items: center;
-		}
-	}
+    .address-main {
+        display: flex;
+        align-items: center;
+        gap: 8rpx;
+        margin-bottom: 8rpx;
+    }
 
-	.remark {
-		margin-top: 20px;
-		padding: 14px 20px;
-		color: #454749;
-		background: white;
-		border-radius: 10px;
+    .address-name {
+        font-size: 30rpx;
+        font-weight: 600;
+        color: #1A1A1A;
+    }
 
-		.input {}
-	}
+    .address-sex, .address-phone {
+        font-size: 26rpx;
+        color: #666666;
+    }
 
-	.goods-list {
-		background: white;
-		border-radius: 10px;
-		padding: 20px 20px 10px 20px;
-		margin-top: 10px;
+    .address-detail {
+        font-size: 24rpx;
+        color: #999999;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+    }
 
-		.goods-info {
-			display: flex;
-			flex-direction: row;
-			align-items: center;
-			padding: 20px 0;
-			border-bottom: 1px solid #F2F2F2;
+    .address-empty {
+        flex: 1;
+        font-size: 28rpx;
+        color: #999999;
+    }
 
-			&:last-child {
-				border-bottom: none;
-			}
+    .pickup-row {
+        display: flex;
+        align-items: center;
+        padding: 28rpx 24rpx;
+        gap: 20rpx;
+    }
 
-			.goods-image {
-				width: 75px;
-				height: 75px;
-			}
+    .pickup-info {
+        display: flex;
+        flex-direction: column;
+        gap: 8rpx;
+    }
 
-			.goods-info-box {
-				width: 80%;
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
+    .pickup-label {
+        font-size: 30rpx;
+        font-weight: 600;
+        color: #1A1A1A;
+    }
 
-				.goods-info-spec {
-					margin-left: 12px;
-					display: flex;
-					flex-direction: column;
-					font-size: 18px;
-				}
+    .pickup-tip {
+        font-size: 24rpx;
+        color: #999999;
+    }
 
-				.goods-name {
-					font-size: 16px;
-					font-weight: 400;
-					color: #313133;
-				}
+    .shipment-tabs {
+        display: flex;
+        border-top: 1rpx solid #EEEEEE;
+    }
 
-				.spe {
-					margin-top: 5px;
-					font-size: 16px;
-					font-weight: 400;
-					color: #919298;
-				}
+    .tab-item {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8rpx;
+        padding: 24rpx 0;
+        font-size: 28rpx;
+        color: #999999;
+        border-top: 4rpx solid transparent;
+        transition: all 0.2s;
+    }
 
-				.goods-box {
-					margin-top: 9px;
-					display: flex;
-					flex-direction: column;
-					align-items: flex-end;
+    .tab-item.active {
+        color: #22A84F;
+        border-top-color: #22A84F;
+    }
 
-					.goods-symbol {
-						font-size: 18px;
-						font-weight: 400;
-						color: rgb(50, 38, 38);
-						margin-right: 2px;
-					}
+    /* 商品 */
+    .goods-card {
+        padding: 0;
+    }
 
-					.goods-price {
-						font-size: 20px;
-						font-weight: 400;
-						color: rgb(50, 38, 38);
-						margin-right: 2px;
+    .goods-item {
+        display: flex;
+        padding: 24rpx;
+        gap: 20rpx;
+        border-bottom: 1rpx solid #EEEEEE;
 
-						.goods-unit {
-							font-size: 14px;
-							color: #6a7076;
-							margin-left: 2px;
-						}
-					}
+        &:last-child {
+            border-bottom: none;
+        }
+    }
 
-					.goods-num-box {
-						.goods-num {
-							text-align: center;
-							font-size: 16px;
-							font-weight: 400;
-							color: #666666;
-						}
-					}
-				}
-			}
-		}
-	}
+    .goods-img {
+        width: 160rpx;
+        height: 160rpx;
+        border-radius: 16rpx;
+        flex-shrink: 0;
+    }
 
-	.statistics-box {
-		width: 100%;
-		height: 60px;
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		justify-content: flex-end;
-		background-color: #FFFFFF;
-		position: fixed;
-		bottom: 0;
+    .goods-info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
 
-		.total {
-			color: #313133;
-		}
+    .goods-name {
+        font-size: 28rpx;
+        font-weight: 500;
+        color: #1A1A1A;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+    }
 
-		.btn {
-			width: 109px;
-			height: 46px;
-			line-height: 46px;
-			background: #2979ff;
-			text-align: center;
-			font-size: 15px;
-			font-weight: 500;
-			color: white;
-			margin: 0 20px;
-			border-radius: 40px;
-		}
+    .goods-spec {
+        font-size: 24rpx;
+        color: #999999;
+    }
 
-		text {
-			font-size: 17px;
-			font-weight: 400;
-			color: white;
-		}
+    .goods-bottom {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
 
-		.text-color {
-			font-size: 22px;
-			color: rgba(242, 18, 18, 1);
-		}
-	}
+    .goods-price {
+        color: #F97316;
+        font-size: 32rpx;
+        font-weight: 700;
+    }
 
-	.u-radio-group {
-		justify-content: center;
-	}
-	
-	
-	// 结算提示
-	
-	.modal-content {
-	    padding: 20px;
-	    text-align: center;
-	}
-	
-	.warning-icon {
-	    font-size: 40px;
-	    margin-bottom: 10px;
-	}
-	
-	.main-message {
-	    font-size: 18px;
-	    font-weight: bold;
-	    margin-bottom: 15px;
-	}
-	
-	.details {
-	    margin-bottom: 15px;
-	}
-	
-	.highlight {
-	    color: #ff6600;
-	    font-weight: bold;
-		margin: 0 4px;
-	}
-	
-	.contact-info {
-	    font-size: 14px;
-	}
-	
-	.phone-number {
-	    font-weight: bold;
-	    margin-top: 5px;
-	}
+    .sym {
+        font-size: 24rpx;
+        font-weight: 600;
+    }
+
+    .goods-num {
+        font-size: 26rpx;
+        color: #666666;
+    }
+
+    /* 备注 */
+    .remark-card {
+        display: flex;
+        align-items: center;
+        padding: 24rpx;
+        gap: 16rpx;
+    }
+
+    .remark-label {
+        font-size: 28rpx;
+        color: #1A1A1A;
+        font-weight: 500;
+        flex-shrink: 0;
+    }
+
+    .remark-input {
+        flex: 1;
+        font-size: 28rpx;
+        color: #1A1A1A;
+    }
+
+    .placeholder {
+        color: #CCCCCC;
+    }
+
+    .bottom-safe {
+        height: 140rpx;
+    }
+
+    /* 底部栏 */
+    .bottom-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 120rpx;
+        background: #FFFFFF;
+        display: flex;
+        align-items: center;
+        padding: 0 24rpx;
+        box-shadow: 0 -2rpx 12rpx rgba(0, 0, 0, 0.06);
+        z-index: 100;
+    }
+
+    .total-info {
+        flex: 1;
+        display: flex;
+        align-items: baseline;
+    }
+
+    .total-label {
+        font-size: 28rpx;
+        color: #666666;
+    }
+
+    .total-price {
+        font-size: 40rpx;
+        font-weight: 700;
+        color: #F97316;
+    }
+
+    .submit-btn {
+        background: linear-gradient(135deg, #22A84F 0%, #1A9A45 100%);
+        color: #FFFFFF;
+        font-size: 30rpx;
+        font-weight: 600;
+        padding: 24rpx 60rpx;
+        border-radius: 40rpx;
+        box-shadow: 0 4rpx 16rpx rgba(34, 168, 79, 0.3);
+    }
+
+    /* 弹窗 */
+    .modal-body {
+        padding: 32rpx;
+    }
+
+    .modal-main {
+        font-size: 32rpx;
+        font-weight: 600;
+        color: #1A1A1A;
+        text-align: center;
+        margin-bottom: 24rpx;
+    }
+
+    .modal-info {
+        background: #F5F7F4;
+        border-radius: 12rpx;
+        padding: 24rpx;
+        font-size: 28rpx;
+        color: #666666;
+        line-height: 1.8;
+    }
+
+    .hl {
+        color: #22A84F;
+        font-weight: 600;
+        margin: 0 6rpx;
+    }
 </style>

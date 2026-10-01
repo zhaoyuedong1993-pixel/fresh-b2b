@@ -1,134 +1,179 @@
+<!--
+ * 优诚配运 - 订单列表
+ * 设计规范：自然清新
+-->
 <template>
     <pageWrapper>
-        <view class="tabs">
-            <u-tabs :list="statusList" :current="tabsCurrentIndex" @click="clickTabs" :scrollable="false"></u-tabs>
+        <!-- 顶部 Tab -->
+        <view class="header-tabs">
+            <view class="tab-bar">
+                <view
+                    class="tab-item"
+                    :class="{ active: currentTab === index }"
+                    v-for="(tab, index) in tabs"
+                    :key="tab.status"
+                    @click="switchTab(index)"
+                >
+                    <text>{{ tab.name }}</text>
+                    <view class="tab-line" v-if="currentTab === index"></view>
+                </view>
+            </view>
         </view>
-        <swiper class="swiper" :current-item-id="currentStatus" @change="swiperChange">
-            <!-- 全部订单 -->
-            <swiper-item item-id="null">
-                <orderList status="null" v-if="currentStatus === 'null' || swiperLazyShow['null'] "></orderList>
-            </swiper-item>
-            <!-- 待付款订单 -->
-            <swiper-item item-id="0">
-                <orderList status="0" v-if="currentStatus === '0' || swiperLazyShow['0'] "></orderList>
-            </swiper-item>
-            <!-- 备货中 -->
-            <swiper-item item-id="1">
-                <orderList status="1" v-if="currentStatus === '1' || swiperLazyShow['1'] "></orderList>
-            </swiper-item>
-            <!-- 待收货 -->
-            <swiper-item item-id="2">
-                <orderList status="2" v-if="currentStatus === '2' || swiperLazyShow['2'] "></orderList>
-            </swiper-item>
-            <!-- 已完成 -->
-            <swiper-item item-id="3">
-                <orderList status="3" v-if="currentStatus === '3' || swiperLazyShow['3'] "></orderList>
-            </swiper-item>
-            <!-- 售后订单 -->
-<!--            <swiper-item item-id="10">-->
-<!--                <orderList status="10" v-if="currentStatus === '10' || swiperLazyShow['10'] "></orderList>-->
-<!--            </swiper-item>-->
-        </swiper>
+
+        <!-- 订单列表 -->
+        <scroll-view class="order-scroll" scroll-y :style="{ height: scrollHeight + 'px' }"
+            refresher-enabled :refresher-triggered="isRefreshing" @refresherrefresh="onRefresh"
+            @scrolltolower="onScrollLower">
+            <view class="order-list" v-if="orderList.length > 0">
+                <orderList :status="currentStatus" />
+            </view>
+
+            <!-- 空状态 -->
+            <view class="empty-wrap" v-else>
+                <view class="empty-icon">
+                    <u-icon name="order" size="120rpx" color="#CCCCCC"></u-icon>
+                </view>
+                <view class="empty-text">暂无相关订单</view>
+                <view class="empty-btn" @click="goShopping">去选购</view>
+            </view>
+        </scroll-view>
+
         <u-toast ref="toast" style="z-index: 9999"></u-toast>
     </pageWrapper>
 </template>
 
 <script>
-import config from '@/config/config.js'
-import {getOrderList, confirmOrder, cancelOrder, orderPay, getOrderStatus, getOrderStatusCount} from '@/api/order'
-import {getToken} from '@/store/storage.js'
-import orderList from "@/components/orderList/orderList";
+    import orderList from "@/components/orderList/orderList"
 
-export default {
-    components: {
-        orderList
-    },
-    data() {
-        return {
-            token: '',
-            list: [],
-            statusList: [{
-                name: '全部',
-                status: 'null',
-            }, {
-                name: '未付款',
-                status: '0',
-            }, {
-                name: '备货中',
-                status: '1',
-            }, {
-                name: '配送中',
-                status: '2',
-            }, {
-                name: '已完成',
-                status: '3',
+    export default {
+        components: { orderList },
+        data() {
+            return {
+                tabs: [
+                    { name: '全部', status: null },
+                    { name: '未付款', status: 0 },
+                    { name: '备货中', status: 1 },
+                    { name: '配送中', status: 2 },
+                    { name: '已完成', status: 3 }
+                ],
+                currentTab: 0,
+                currentStatus: null,
+                orderList: [],
+                scrollHeight: 600,
+                isRefreshing: false
             }
-            // , {
-            //     name: '待售后',
-            //     status: '10',
-            // }
-            ],
-            tabsCurrentIndex: 0,
-            currentStatus: '1', // 当前订单状态 null:全部 0:未支付 1:备货中 2:已发货 3:已完成
-            swiperLazyShow: { // 用来控制swiper的懒加载，
-                'null': false,
-                '0': false,
-                '1': false,
-                '2': false,
-                '3': false,
-                // '10': false
-            }
-        }
-    },
-    onLoad(options) {
-        this.currentStatus = options.status ? '' + options.status : 'null'
-        this.swiperLazyShow[this.currentStatus] = true
-        this.statusList.forEach((item, index) => {
-            if (item.status === this.currentStatus) {
-                this.tabsCurrentIndex = index
-            }
-        })
-        this.token = getToken()
-        if (!this.token) {
-            this.$refs.toast.show('请先登录').then(res => {
-                uni.redirectTo({
-                    url: '/pages/my/my'
-                })
-            })
-            return false
-        }
-    },
-    methods: {
-        clickTabs(e) {
-            console.log('clickTabs', e)
-            this.currentStatus = e.status
-            this.tabsCurrentIndex = e.index
-            this.swiperLazyShow[e.status] = true
         },
-        // 订单列表左右切换
-        swiperChange(e) {
-            const itemId = e.detail.currentItemId
-            this.currentStatus = itemId
-            this.swiperLazyShow[itemId] = true
-            this.statusList.forEach((item, index) => {
-                if (item.status === itemId) {
-                    this.tabsCurrentIndex = index
+        onLoad(options) {
+            if (options.status !== undefined && options.status !== 'null') {
+                const s = parseInt(options.status)
+                const idx = this.tabs.findIndex(t => t.status === s)
+                if (idx >= 0) {
+                    this.currentTab = idx
+                    this.currentStatus = s
+                }
+            }
+        },
+        onReady() {
+            uni.getSystemInfo({
+                success: (res) => {
+                    this.scrollHeight = res.windowHeight - 90
                 }
             })
+        },
+        methods: {
+            switchTab(index) {
+                this.currentTab = index
+                this.currentStatus = this.tabs[index].status
+            },
+            async onRefresh() {
+                this.isRefreshing = true
+                // orderList 组件会自己处理刷新
+                setTimeout(() => {
+                    this.isRefreshing = false
+                    this.$message(this.$refs.toast).success('刷新成功')
+                }, 1000)
+            },
+            onScrollLower() { },
+            goShopping() {
+                uni.switchTab({ url: '/pages/index/index' })
+            }
         }
     }
-}
 </script>
 
 <style lang="scss" scoped>
-.tabs {
-  background: #FFFFFF;
-  height: 45px;
-}
+    .header-tabs {
+        height: 90rpx;
+        background: #FFFFFF;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
+    }
 
-.swiper {
-  //background: #FFFFFF;
-  height: calc(100% - 45px);
-}
+    .tab-bar {
+        display: flex;
+        height: 90rpx;
+    }
 
+    .tab-item {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        font-size: 28rpx;
+        color: #999999;
+        transition: all 0.2s;
+
+        &.active {
+            color: #22A84F;
+            font-weight: 600;
+        }
+    }
+
+    .tab-line {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 48rpx;
+        height: 6rpx;
+        background: linear-gradient(90deg, #22A84F, #1A9A45);
+        border-radius: 3rpx;
+    }
+
+    .order-scroll {
+        padding-top: 90rpx;
+        background: #F5F7F4;
+    }
+
+    .order-list {
+        padding: 24rpx;
+    }
+
+    .empty-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 200rpx;
+        gap: 24rpx;
+    }
+
+    .empty-text {
+        font-size: 28rpx;
+        color: #999999;
+    }
+
+    .empty-btn {
+        background: linear-gradient(135deg, #22A84F 0%, #1A9A45 100%);
+        color: #FFFFFF;
+        font-size: 28rpx;
+        padding: 20rpx 60rpx;
+        border-radius: 40rpx;
+        box-shadow: 0 4rpx 16rpx rgba(34, 168, 79, 0.3);
+    }
 </style>

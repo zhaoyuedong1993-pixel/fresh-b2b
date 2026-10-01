@@ -1,323 +1,220 @@
+<!--
+ * 优诚配运 - 购物车
+ * 设计规范：自然清新
+-->
 <template>
     <pageWrapper>
-        <!-- 未登录状态 -->
-        <view class="login-container" v-if="!token">
-            <view class="login-card">
-                <view class="login-icon">
-                    <u-icon name="account-circle" color="#3c9cff" size="80"></u-icon>
+        <!-- 未登录 -->
+        <view class="not-login" v-if="!token">
+            <view class="empty-card">
+                <view class="empty-icon">
+                    <u-icon name="shopping-cart" size="120rpx" color="#CCCCCC"></u-icon>
                 </view>
-                <view class="login-text">
-                    <text class="login-title">登录后查看购物车</text>
-                    <text class="login-subtitle">登录即可享受专属优惠和便捷购物体验</text>
-                </view>
-                <view class="login-button">
-                    <u-button type="primary" :customStyle="toLoginStyle" text="立即登录" @click="showLogin" />
-                </view>
+                <view class="empty-title">购物车是空的</view>
+                <view class="empty-desc">登录后查看您的购物车商品</view>
+                <view class="empty-btn" @click="showLogin">立即登录</view>
             </view>
         </view>
 
-        <!-- 已登录状态 -->
-        <view class="cart-container" v-else>
+        <!-- 已登录 -->
+        <view class="cart-wrap" v-else>
             <!-- 页面标题 -->
             <view class="page-header">
-                <text class="page-title">我的购物车</text>
-                <view class="cart-count" v-if="list.length > 0">
-                    <text class="count-text">{{ list.length }}件商品</text>
+                <text class="page-title">购物车</text>
+                <view class="header-right" v-if="list.length > 0" @click="toggleEdit">
+                    <text>{{ isEdit ? '完成' : '编辑' }}</text>
                 </view>
             </view>
 
             <!-- 购物车内容 -->
-            <view class="cart-content">
-                <!-- 购物车列表 -->
-                <shopCart :list="list" :height="scrollViewHeight" :triggered="triggered"
-                          @onRefresh="onRefresh" @delect="delectCart" @update="updateCart" @accounts="accounts" @deleteCart="deleteCartByIndex"/>
-            </view>
+            <scroll-view class="cart-scroll" scroll-y :style="{ height: scrollHeight + 'px' }" refresher-enabled
+                :refresher-triggered="isRefreshing" @refresherrefresh="onRefresh">
+                <shopCart :list="list" :isEdit="isEdit" @onRefresh="onRefresh" @delect="delectCart"
+                    @update="updateCart" @accounts="accounts" @deleteCart="deleteCartByIndex" />
+                <view class="bottom-safe" v-if="list.length === 0">
+                    <view class="empty-card">
+                        <view class="empty-icon">
+                            <u-icon name="shopping-cart" size="120rpx" color="#CCCCCC"></u-icon>
+                        </view>
+                        <view class="empty-title">购物车是空的</view>
+                        <view class="empty-desc">快去选购心仪商品吧</view>
+                        <view class="empty-btn" @click="goHome">去选购</view>
+                    </view>
+                </view>
+            </scroll-view>
         </view>
 
-        <!-- 底部导航 -->
-        <Tabbar :tabsId="3"/>
-
-        <!-- 登录弹窗 -->
-        <loginPop :show="showLoginDialog" @close="hideLogin" @success="loginSuccess"/>
-
-        <!-- 提示信息 -->
+        <Tabbar :tabsId="3" />
+        <loginPop :show="showLoginDialog" @close="hideLogin" @success="loginSuccess" />
         <u-toast ref="toast" style="z-index: 9999"></u-toast>
     </pageWrapper>
 </template>
 
 <script>
-import Tabbar from '@/components/tabbar/tabbar.vue'
-import shopCart from '@/components/shopCart/shopCart.vue'
-import loginPop from '@/components/loginPop/loginPop.vue'
-import {getToken} from '@/store/storage.js'
-import {getCartList} from '@/api/cart';
-import config from '@/config/config.js'
+    import Tabbar from '@/components/tabbar/tabbar.vue'
+    import shopCart from '@/components/shopCart/shopCart.vue'
+    import loginPop from '@/components/loginPop/loginPop.vue'
+    import { getToken } from '@/store/storage.js'
+    import { getCartList } from '@/api/cart'
+    import config from '@/config/config.js'
 
-export default {
-    components: {
-        Tabbar,
-        loginPop,
-        shopCart
-    },
-    data() {
-        return {
-            token: '',
-            tabsIndex: 0,
-            list: [], // 购物车列表
-            showLoginDialog: false, // 登录
-            scrollViewHeight: 0,
-            triggered: false,
-            toLoginStyle: {
-                width: '160px',
-                height: '48px',
-                borderRadius: '24px',
-                background: '#3c9cff',
-                border: 'none',
-                color: '#ffffff',
-                fontSize: '16px',
-                fontWeight: '500',
-            },
-            tabsList: [{
-                name: '购物车',
-            },
-                // {
-                //     name: '快速下单',
-                // }
-            ]
-        };
-    },
-    onLoad() {
-        this.token = getToken()
-    },
-    onShow() {
-        // 登录的情况下获取
-        if (this.token) {
-            this.getCartListData()
-        }
-    },
-    mounted() {
-        // 设置商品列表高度，确保不被底部tabbar遮挡
-        uni.getSystemInfo({
-            success: (res) => {
-                const windowHeight = res.windowHeight;
-                const statusBarHeight = res.statusBarHeight || 0;
-                // 减去状态栏、固定标题高度、底部结算栏高度和tabbar高度
-                // 标题高度约70px，底部结算栏约50px，tabbar约50px
-                this.scrollViewHeight = windowHeight - statusBarHeight - 70 - 50;
-                console.log('计算后的scroll-view高度:', this.scrollViewHeight);
-            },
-        });
-    },
-    methods: {
-        // 更新购物车解决微信小程序选中问题
-        updateCart(list) {
-            this.list = list
-        },
-        deleteCartByIndex(index) {
-            const l = JSON.parse(JSON.stringify(this.list))
-            l.splice(index, 1)
-            this.list = l
-        },
-        async getCartListData() {
-            const res = await getCartList(this.$refs.toast)
-            // 授权过期
-            if (res.code === 401) {
-                this.token = ''
-                return false
+    export default {
+        components: { Tabbar, shopCart, loginPop },
+        data() {
+            return {
+                token: '',
+                list: [],
+                showLoginDialog: false,
+                scrollHeight: 600,
+                isRefreshing: false,
+                isEdit: false
             }
-            res.data.list.forEach(item => {
-                if (item.goods.images && item.goods.images.length > 0 && item.goods.images[0].url.slice(0, 4) !== 'http') {
-                    item.goods.images[0].url = config.baseUrl + "/" + item.goods.images[0].url
+        },
+        onLoad() {
+            this.token = getToken()
+        },
+        onShow() {
+            if (this.token) {
+                this.getCartListData()
+            }
+        },
+        mounted() {
+            uni.getSystemInfo({
+                success: (res) => {
+                    this.scrollHeight = res.windowHeight - 120
                 }
             })
-            this.list = res.data.list
-            console.log(this.list)
-            return true
         },
-        // 登录成功
-        loginSuccess(u) {
-            this.hideLogin();
-            this.token = getToken()
-            this.$message(this.$refs.toast).success("登录成功")
-            this.getCartListData()
-        },
-        // 显示登录框
-        showLogin() {
-            this.showLoginDialog = true
-        },
-        // 隐藏登录框
-        hideLogin() {
-            this.showLoginDialog = false
-        },
-        tabsChange(e) {
-            this.tabsIndex = e.index
-        },
-        delectCart(e) {
-            console.log('delectCart', e)
-        },
-        accounts(e) {
-            console.log('accounts', e);
-        },
-        // 刷新
-        async onRefresh() {
-            this.triggered = true;
-            const b = await this.getCartListData()
-            if (b) {
+        methods: {
+            async getCartListData() {
+                const res = await getCartList(this.$refs.toast)
+                if (res.code === 401) {
+                    this.token = ''
+                    return
+                }
+                res.data.list?.forEach(item => {
+                    if (item.goods?.images?.[0] && item.goods.images[0].url?.slice(0, 4) !== 'http') {
+                        item.goods.images[0].url = config.baseUrl + '/' + item.goods.images[0].url
+                    }
+                })
+                this.list = res.data.list || []
+            },
+            updateCart(list) {
+                this.list = list
+            },
+            deleteCartByIndex(index) {
+                this.list.splice(index, 1)
+            },
+            toggleEdit() {
+                this.isEdit = !this.isEdit
+            },
+            async onRefresh() {
+                this.isRefreshing = true
+                await this.getCartListData()
+                this.isRefreshing = false
                 this.$message(this.$refs.toast).success('刷新成功')
-            } else {
-                this.$message(this.$refs.toast).error('刷新失败')
+            },
+            delectCart(e) { },
+            accounts(e) { },
+            showLogin() {
+                this.showLoginDialog = true
+            },
+            hideLogin() {
+                this.showLoginDialog = false
+            },
+            loginSuccess() {
+                this.hideLogin()
+                this.token = getToken()
+                this.$message(this.$refs.toast).success('登录成功')
+                this.getCartListData()
+            },
+            goHome() {
+                uni.switchTab({ url: '/pages/index/index' })
             }
-            this.triggered = false;
-        },
+        }
     }
-}
 </script>
 
-<style lang="scss">
-// 页面基础样式
-page {
-  background: #f8f9fa;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-}
-
-// 登录提示容器
-.login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 70vh;
-  padding: 20px;
-
-  .login-card {
-    background: #ffffff;
-    border-radius: 20px;
-    padding: 40px 30px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    max-width: 320px;
-    width: 100%;
-
-    .login-icon {
-      margin-bottom: 24px;
-      animation: float 3s ease-in-out infinite;
+<style lang="scss" scoped>
+    .not-login {
+        min-height: 100vh;
+        background: #F5F7F4;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40rpx;
     }
 
-    .login-text {
-      margin-bottom: 32px;
+    .empty-card {
+        background: #FFFFFF;
+        border-radius: 24rpx;
+        padding: 60rpx 40rpx;
+        text-align: center;
+        box-shadow: 0 4rpx 24rpx rgba(0, 0, 0, 0.06);
+        width: 100%;
+    }
 
-      .login-title {
-        display: block;
-        font-size: 20px;
+    .empty-icon {
+        margin-bottom: 24rpx;
+    }
+
+    .empty-title {
+        font-size: 32rpx;
         font-weight: 600;
-        color: #2c3e50;
-        margin-bottom: 8px;
-      }
-
-      .login-subtitle {
-        display: block;
-        font-size: 14px;
-        color: #7f8c8d;
-        line-height: 1.5;
-      }
+        color: #1A1A1A;
+        margin-bottom: 12rpx;
     }
 
-    .login-button {
-      animation: slideUp 0.6s ease-out;
+    .empty-desc {
+        font-size: 26rpx;
+        color: #999999;
+        margin-bottom: 40rpx;
     }
-  }
-}
 
-// 购物车容器
-.cart-container {
-  display: flex;
-  flex-direction: column;
-  background: #f8f9fa;
+    .empty-btn {
+        display: inline-block;
+        background: linear-gradient(135deg, #22A84F 0%, #1A9A45 100%);
+        color: #FFFFFF;
+        font-size: 28rpx;
+        padding: 20rpx 60rpx;
+        border-radius: 40rpx;
+        box-shadow: 0 4rpx 16rpx rgba(34, 168, 79, 0.3);
+    }
 
-  // 页面标题 - 固定定位
-  .page-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    background: #ffffff;
-    padding: 10px 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-    z-index: 100;
+    .cart-wrap {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        background: #F5F7F4;
+    }
+
+    .page-header {
+        height: 100rpx;
+        padding: 0 32rpx;
+        background: linear-gradient(135deg, #22A84F 0%, #1A9A45 100%);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-shrink: 0;
+    }
 
     .page-title {
-      font-size: 20px;
-      font-weight: 600;
-      color: #2c3e50;
+        font-size: 36rpx;
+        font-weight: 600;
+        color: #FFFFFF;
     }
 
-    .cart-count {
-      background: #3c9cff;
-      color: #ffffff;
-      padding: 4px 10px;
-      border-radius: 12px;
-      font-size: 11px;
-      font-weight: 500;
-    }
-  }
-
-  // 购物车内容
-  .cart-content {
-    flex: 1;
-    padding-top: 50px; // 为固定标题留出空间
-    padding-bottom: 70px;
-  }
-}
-
-// 动画效果
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-// 响应式设计
-@media (max-width: 375px) {
-  .login-container {
-    .login-card {
-      padding: 30px 20px;
-
-      .login-text {
-        .login-title {
-          font-size: 18px;
-        }
-
-        .login-subtitle {
-          font-size: 13px;
-        }
-      }
-    }
-  }
-
-  .cart-container {
-    .page-header {
-      padding: 10px 12px;
-
-      .page-title {
-        font-size: 20px;
-      }
+    .header-right text {
+        font-size: 28rpx;
+        color: #FFFFFF;
+        opacity: 0.9;
     }
 
-    .cart-content {
-      padding: 12px;
+    .cart-scroll {
+        flex: 1;
     }
-  }
-}
+
+    .bottom-safe {
+        padding: 40rpx 24rpx;
+    }
 </style>

@@ -1,405 +1,364 @@
+<!--
+ * 优诚配运 - 商品卡片组件
+ * 设计规范：自然清新
+-->
 <template>
 	<view>
-		<view class="goods--box" v-if="!vertical">
-			<view class="goods--item" v-for="(item, index) in lists" :key="index" @click="goodsClick(item)">
-                <view class="item-cover-mask" v-if="item.store <= 0">
-                    <view class="item-cover-mask-text">补货中</view>
-                </view>
-                <img v-if="item.images != null && item.images[0]" class="item-img" :src="item.images != null && item.images.length > 0 ? item.images[0].url : ''" alt="">
-                <img v-else class="item-img" src="/static/nopicture.jpg" alt="">
-				<view class="item-content">
-					<view class="title">{{ item.name }}</view>
-					<view v-if="isAudit" class="bottom-txt">
-						<view >
-							<text class="price king-font17" v-if="isPoint">{{ item.costPrice || '0' }}积分</text>
-							<text class="price" v-else>{{ priceType }}{{ item.price > 0 && item.price < item.costPrice ? item.price : item.costPrice || '0' }}</text>
-							<text v-if="item.price > 0 && item.price < item.costPrice && !isPoint" class="del-price">{{ priceType }}{{ item.costPrice || '0'
-							}}</text>
+		<!-- 网格模式（首页） -->
+		<view class="goods-grid" v-if="!vertical">
+			<view
+				class="goods-card"
+				v-for="(item, index) in lists"
+				:key="index"
+				@click="goodsClick(item)"
+			>
+				<!-- 图片 -->
+				<view class="card-image-wrap">
+					<image
+						v-if="item.images && item.images[0]"
+						class="card-image"
+						:src="item.images[0].url"
+						mode="aspectFill"
+					></image>
+					<image v-else class="card-image" src="/static/nopicture.jpg" mode="aspectFill"></image>
+					<!-- 缺货遮罩 -->
+					<view class="stock-mask" v-if="item.store <= 0">
+						<text class="stock-text">补货中</text>
+					</view>
+					<!-- 已售标签 -->
+					<view class="sale-tag" v-if="item.sale > 0">
+						<text>已售 {{ item.sale }}</text>
+					</view>
+				</view>
+
+				<!-- 内容 -->
+				<view class="card-body">
+					<text class="goods-name">{{ item.name }}</text>
+
+					<view class="goods-meta" v-if="item.unit">
+						<text class="spec">规格：{{ item.weight ? item.weight + 'g/' : '' }}{{ item.unit }}</text>
+					</view>
+
+					<view class="card-footer" v-if="isAudit">
+						<view class="price-wrap">
+							<text class="price-symbol">¥</text>
+							<text class="price">{{ item.price > 0 && item.price < item.costPrice ? item.price : item.costPrice || '0' }}</text>
+							<text class="price-original" v-if="item.price > 0 && item.price < item.costPrice">
+								¥{{ item.costPrice }}
+							</text>
 						</view>
-						<view class="sale-num"><text>已售 {{ item.sale }}</text></view>
 					</view>
 				</view>
 			</view>
 		</view>
-        <!--  每个商品一行   -->
-		<view class="goodsv--box" v-else>
-			<view class="goodsv--item" v-for="(item, index) in lists" :key="index" @longpress="goodsLongClick(item)">
-                <view class="item-cover-mask" :style="goodsImageStyle" v-if="(item.store <= 0 || item.store < item.minCount) " @click.stop="goodsClick(item)">
-                    <view class="item-cover-mask-text">补货中</view>
-                </view>
-                <view class="item-cover" v-if="item.images != null && item.images && item.images[0]"
-                      :style="'background-image: url(' + (item.images.length > 0 ? item.images[0].url : '') + '); ' + goodsImageStyle" @click.stop="goodsClick(item)" />
-                <image class="item-cover" :style="goodsImageStyle" v-else src="/static/nopicture.jpg"  @click.stop="goodsClick(item)" />
 
-                <view class="item-content">
-                    <text class="title" @click.stop="goodsClick(item)">{{ item.name }}</text>
-                    <!--					<text class="title"> {{ item.weight }}</text>-->
-                    <view class="store">
-                        <view><text>库存：{{ item.store >= item.minCount ? item.store : 0 }}</text> <text v-if="showPayCount" class="king-ml-10">买过 {{ item.payCount ? item.payCount : 0 }} {{ item.unit }}</text></view>
-                    </view>
-                    <view v-if="isAudit"  class="bottom-txt">
-                        <view>
-                            <text class="price">{{ priceType }}{{ item.price > 0 && item.price < item.costPrice ? item.price : item.costPrice || '0' }}</text>
-                            <text class="unit">/{{ item.unit }}</text>
-                            <text v-if="item.price > 0 && item.price < item.costPrice" class="del-price">{{ priceType }}{{ item.costPrice || '0'}}</text>
-                        </view>
-                        <view class="sale-num"><text>已售 {{ item.sale }}</text></view>
-                        <view class="add-cart-button" v-if="item.store > 0 && isAddCart === false">
-                            <u-icon name="shopping-cart" color="#ffffff" size="24"></u-icon>
-                            <view class="badge">
-                                <u-badge max="99" :value="item.cartNum" shape="circle"></u-badge>
-                            </view>
-                        </view>
-                        <view v-if="item.store > 0 && isAddCart === true" class="cart-quantity-control" @click.stop="">
-                            <button class="decrease-quantity" @click.stop="updateCart(index, item.goodsCardId, item.cartNum - 1)">-</button>
-                            <input type="number" v-model="item.cartNum" class="quantity" min="0" :max="item.store" @change="updateCart(index, item.goodsCardId, item.cartNum)">
-                            <button class="increase-quantity" @click.stop="updateCart(index, item.goodsCardId, item.cartNum + 1)">+</button>
-                        </view>
-                    </view>
-                </view>
+		<!-- 列表模式（分类页） -->
+		<view class="goods-list" v-else>
+			<view
+				class="goods-row"
+				v-for="(item, index) in lists"
+				:key="index"
+				@click="goodsClick(item)"
+			>
+				<!-- 图片 -->
+				<view class="row-image-wrap">
+					<image
+						v-if="item.images && item.images[0]"
+						class="row-image"
+						:src="item.images[0].url"
+						mode="aspectFill"
+					></image>
+					<image v-else class="row-image" src="/static/nopicture.jpg" mode="aspectFill"></image>
+					<view class="stock-badge" v-if="item.store <= 0">
+						<text>补货中</text>
+					</view>
+				</view>
+
+				<!-- 内容 -->
+				<view class="row-body">
+					<text class="row-name">{{ item.name }}</text>
+
+					<view class="row-meta">
+						<text class="spec">规格：{{ item.weight ? item.weight + 'g/' : '' }}{{ item.unit }}</text>
+						<text class="stock">库存：{{ item.store >= item.minCount ? item.store : 0 }} {{ item.unit }}</text>
+					</view>
+
+					<view class="row-footer" v-if="isAudit">
+						<view class="price-wrap">
+							<text class="price-symbol">¥</text>
+							<text class="price">{{ item.price > 0 && item.price < item.costPrice ? item.price : item.costPrice || '0' }}</text>
+							<text class="price-unit">/{{ item.unit }}</text>
+							<text class="price-original" v-if="item.price > 0 && item.price < item.costPrice">
+								¥{{ item.costPrice }}
+							</text>
+						</view>
+						<view class="sale-tag" v-if="item.sale > 0">
+							<text>已售 {{ item.sale }}</text>
+						</view>
+					</view>
+				</view>
 			</view>
 		</view>
 	</view>
 </template>
+
 <script>
 export default {
 	props: {
-		lists: {
-			type: Array,
-			required: true,
-			default: () => {
-				return []
-			}
-		},
-		priceType: {
-			type: String,
-			required: false,
-			default: "￥"
-		},
-		// 样式
-		vertical: {
-			type: Boolean,
-			default: false
-		},
-		// 禁用商品点击默认跳转， 自定义监听 @onGoods
-		disableJump: {
-			type: Boolean,
-			default: false
-		},
-		// 是否是积分商品
-		isPoint: {
-			type: Boolean,
-			default: false
-		},
-		// 是否审核通过
-		isAudit: {
-			type: Boolean,
-			default: false
-		},
-		// 是否开启一键添加购物车
-		isAddCart: {
-			type: Boolean,
-			default: false
-		},
-		// 商品图片宽度
-		imgWidth: {
-			type: String,
-			default: ""
-		},
-		imgHeight: {
-			type: String,
-			default: ""
-		},
-		showPayCount: {
-			type: Boolean,
-			default: false
-		}
+		lists: { type: Array, required: true, default: () => [] },
+		priceType: { type: String, default: '¥' },
+		vertical: { type: Boolean, default: false },
+		disableJump: { type: Boolean, default: false },
+		isPoint: { type: Boolean, default: false },
+		isAudit: { type: Boolean, default: false },
+		isAddCart: { type: Boolean, default: false },
+		imgWidth: { type: String, default: '' },
+		imgHeight: { type: String, default: '' },
+		showPayCount: { type: Boolean, default: false }
 	},
-    computed: {
-        goodsImageStyle() {
-            let style = ""
-            if (this.imgWidth !== "") {
-                style += `width: ${this.imgWidth};`
-            }else {
-                style += `width: 75px;`
-            }
-            if (this.imgHeight !== "") {
-                style += `height: ${this.imgHeight};`
-            }else {
-                style += `height: 75px;`
-            }
-            return style
-        }
-    },
 	methods: {
-		// 商品点击 默认跳转详情
 		goodsClick(goods) {
 			if (this.disableJump) {
-				this.$emit("onGoods", goods)
+				this.$emit('onGoods', goods)
 			} else {
-				uni.navigateTo({
-					url: `/pages/goods/detail?id=${goods.ID}`
-				})
+				uni.navigateTo({ url: `/pages/goods/detail?id=${goods.ID}` })
 			}
 		},
-        goodsLongClick(goods) {
-            this.$emit("onGoodsLongClick", goods)
+		goodsLongClick(goods) {
+			this.$emit('onGoodsLongClick', goods)
 		},
-        updateCart(index, cardId, num) {
-            this.$emit("updateCart", index, cardId, num)
-        },
-
+		updateCart(index, cardId, num) {
+			this.$emit('updateCart', index, cardId, num)
+		}
 	}
 }
 </script>
+
 <style lang="scss" scoped>
-$padding: 30rpx;
-$margin: 10rpx;
-$radius: 20rpx;
-
-.ellipsis-1 {
-  max-width: 100%;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+/* ========================
+   网格模式（首页两列）
+   ======================== */
+.goods-grid {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 20rpx;
+	padding: 4rpx;
 }
 
-.ellipsis-2 {
-  max-width: 100%;
-  display: -webkit-box;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+.goods-card {
+	background: #FFFFFF;
+	border-radius: 20rpx;
+	overflow: hidden;
+	box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.06);
+	transition: all 0.2s;
+
+	&:active {
+		transform: scale(0.98);
+		box-shadow: 0 1rpx 6rpx rgba(0, 0, 0, 0.08);
+	}
 }
 
-.ellipsis-2-v {
-  max-width: 80%;
-  display: -webkit-box;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+.card-image-wrap {
+	position: relative;
+	width: 100%;
+	aspect-ratio: 1;
 }
 
-.store {
-  color: #888;
-  font-size: 14px;
-  font-weight: normal;
-  margin-left: 3px;
+.card-image {
+	width: 100%;
+	height: 100%;
+	border-radius: 20rpx 20rpx 0 0;
 }
 
-.bottom-txt {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-
-  .price {
-    color: #fa3534;
-    font-size: 16px;
-    font-weight: 600;
-
-    text {
-      font-size: 12px;
-    }
-  }
-
-  .unit {
-    color: #666;
-    font-size: 12px;
-  }
-
-  .del-price {
-    color: #666;
-    font-weight: 600;
-    font-size: 11px;
-    text-decoration: line-through;
-    margin-left: 4px;
-  }
-
-  .sale-num {
-    color: #888;
-    font-size: 12px;
-    font-weight: normal;
-    margin-bottom: 2px;
-  }
+.stock-mask {
+	position: absolute;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.45);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 20rpx 20rpx 0 0;
 }
 
-.goods--box {
-  display: flex;
-  flex-wrap: wrap;
-  padding: $padding/3;
-
-  .goods--item {
-    background: white;
-    width: calc(50% - #{$margin*2});
-    border-radius: $radius;
-    overflow: hidden;
-    margin: $margin;
-    position: relative;
-
-
-    .item-img {
-      width: 100%;
-      border-radius: 10px;
-	    height: 180px;
-    }
-
-    .item-cover-mask {
-      width: 100%;
-      height: 100%;
-      flex-shrink: 0;
-      z-index: 9999;
-      background-color: rgba(173, 171, 171, 0.5);
-      position: absolute;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 10px;
-
-      .item-cover-mask-text {
-        font-size: 14px;
-        padding: 6px 12px;
-        background-color: rgba(0, 0, 0, 0.7);
-        color: #fff0f0;
-        border-radius: 20px;
-      }
-    }
-
-    .item-content {
-      padding: $padding - 10;
-
-      & > .title {
-        font-size: 16px;
-        line-height: 24px;
-        height: 30px;
-        color: #333;
-        @extend .ellipsis-1;
-      }
-
-    }
-  }
+.stock-text {
+	font-size: 26rpx;
+	color: #FFFFFF;
+	background: rgba(0, 0, 0, 0.5);
+	padding: 8rpx 24rpx;
+	border-radius: 24rpx;
 }
 
+.sale-tag {
+	position: absolute;
+	top: 12rpx;
+	right: 12rpx;
+	background: rgba(239, 68, 68, 0.9);
+	padding: 4rpx 12rpx;
+	border-radius: 8rpx;
 
-.goodsv--box {
-  display: flex;
-  flex-wrap: wrap;
-  padding: $padding/3;
-
-  .goodsv--item {
-    background: white;
-    width: calc(100% - #{$margin*2});
-    background: white;
-    border-radius: $radius;
-    overflow: hidden;
-    margin: $margin;
-    display: flex;
-    padding: 8px 1px;
-
-    .item-cover-mask {
-      flex-shrink: 0;
-      background-color: rgba(173, 171, 171, 0.5);
-      position: absolute;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 10px;
-      margin: 10px 0 0 10px;
-
-      .item-cover-mask-text {
-        font-size: 12px;
-        padding: 2px 6px;
-        background-color: rgba(0, 0, 0, 0.7);
-        color: #fff0f0;
-        border-radius: 10px;
-      }
-    }
-
-
-    .item-cover {
-      background-position: center;
-      background-size: cover;
-      display: inline-block;
-      border-radius: 8px;
-      margin-top: 10px;
-      margin-left: 10px;
-    }
-
-    .item-content {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 8px 10px 8px 5px;
-      flex: 1;
-
-      & > .title {
-        font-size: 16px;
-        line-height: 20px;
-        height: 40px;
-        color: #333;
-        @extend .ellipsis-2-v;
-      }
-
-      .bottom-txt {
-        justify-content: normal;
-
-        .sale-num {
-          margin-left: 6px;
-        }
-      }
-
-
-    }
-  }
+	text {
+		font-size: 20rpx;
+		color: #FFFFFF;
+	}
 }
 
-.add-cart-button {
-  position: absolute;
-  border-radius: 100%;
-  background: #2979ff;
-  color: white;
-  right: 20px;
-  cursor: pointer;
-  padding: 2px 2px 2px 1px;
-
-  .badge {
-    position: absolute;
-    top: -6px;
-    right: -6px;
-  }
+.card-body {
+	padding: 16rpx 20rpx 20rpx;
 }
 
-.cart-quantity-control {
-  position: absolute;
-  right: 10px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  width: 100px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+.goods-name {
+	font-size: 28rpx;
+	font-weight: 500;
+	color: #1A1A1A;
+	line-height: 1.4;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	overflow: hidden;
 }
 
-.decrease-quantity,
-.increase-quantity {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 32px;
-  height: 32px;
-  background-color: #f5f5f5;
-  cursor: pointer;
-  vertical-align: middle;
+.goods-meta {
+	margin-top: 8rpx;
 }
 
-.quantity {
-  flex-grow: 1;
-  text-align: center;
-  border: none;
-  color: #333;
-  font-size: 16px;
-  outline: none;
-  padding: 0 5px;
+.spec {
+	font-size: 22rpx;
+	color: #999999;
+}
+
+.card-footer {
+	margin-top: 12rpx;
+}
+
+.price-wrap {
+	display: flex;
+	align-items: baseline;
+	flex-wrap: wrap;
+}
+
+.price-symbol {
+	font-size: 24rpx;
+	color: #F97316;
+	font-weight: 600;
+}
+
+.price {
+	font-size: 36rpx;
+	color: #F97316;
+	font-weight: 700;
+	line-height: 1;
+}
+
+.price-unit {
+	font-size: 22rpx;
+	color: #666666;
+}
+
+.price-original {
+	font-size: 22rpx;
+	color: #CCCCCC;
+	text-decoration: line-through;
+	margin-left: 8rpx;
+}
+
+/* ========================
+   列表模式（分类页单列）
+   ======================== */
+.goods-list {
+	display: flex;
+	flex-direction: column;
+	gap: 16rpx;
+	padding: 4rpx;
+}
+
+.goods-row {
+	display: flex;
+	background: #FFFFFF;
+	border-radius: 20rpx;
+	overflow: hidden;
+	box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.06);
+	transition: all 0.2s;
+	padding: 16rpx;
+
+	&:active {
+		transform: scale(0.99);
+		background: #FAFAFA;
+	}
+}
+
+.row-image-wrap {
+	position: relative;
+	flex-shrink: 0;
+	width: 180rpx;
+	height: 180rpx;
+	border-radius: 16rpx;
+	overflow: hidden;
+}
+
+.row-image {
+	width: 100%;
+	height: 100%;
+}
+
+.stock-badge {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: rgba(0, 0, 0, 0.5);
+	padding: 4rpx 0;
+	text-align: center;
+
+	text {
+		font-size: 20rpx;
+		color: #FFFFFF;
+	}
+}
+
+.row-body {
+	flex: 1;
+	margin-left: 20rpx;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.row-name {
+	font-size: 30rpx;
+	font-weight: 600;
+	color: #1A1A1A;
+	line-height: 1.4;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	overflow: hidden;
+}
+
+.row-meta {
+	display: flex;
+	flex-direction: column;
+	gap: 6rpx;
+	margin-top: 8rpx;
+}
+
+.spec {
+	font-size: 24rpx;
+	color: #999999;
+}
+
+.stock {
+	font-size: 24rpx;
+	color: #666666;
+}
+
+.row-footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-top: auto;
+}
+
+.row-footer .price-wrap {
+	flex: 1;
 }
 </style>

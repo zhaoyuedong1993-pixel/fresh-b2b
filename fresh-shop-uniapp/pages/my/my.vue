@@ -1,610 +1,472 @@
 <!--
- * @Author: dalefeng
- * @Date: 2023-04-14 13:36:30
- * @LastEditors: dalefeng
- * @LastEditTime: 2023-04-23 14:12:03
+ * 优诚配运 - 个人中心
+ * 设计规范：自然清新
 -->
 <template>
     <pageWrapper>
-        <view class="header" v-bind:class="{ 'status': isH5Plus }" v-if="token">
-            <view class="userinfo">
-                <view class="face">
-                    <image :src="user.headerImg"></image>
+        <!-- 头部用户信息 -->
+        <view class="profile-header">
+            <!-- 已登录 -->
+            <view class="user-card" v-if="token && user" @click="toMemberInfo">
+                <view class="user-avatar">
+                    <image :src="user.headerImg || '/static/my/face.png'" mode="aspectFill"></image>
                 </view>
-                <view class="info">
-                    <view class="username" @click="() => showChangeNickName = true">{{ user.nickName }}</view>
-<!--                    <view class="integral" @click="copyInvitationCode(user.invitationCode)">-->
-<!--                        <text style="margin-right: 4px;">推荐码：{{ user.invitationCode ? user.invitationCode : '' }}</text>-->
-<!--                        <u-icon name="file-text" color="#fff"></u-icon>-->
-<!--                    </view>-->
-					<view class="king-flex">
-						<view class="integral king-mr-10">
-							<text v-if="user.auditStatus === 1">{{ role.authorityName ? role.authorityName : '' }}</text>
-							<text v-else-if="user.auditStatus === 0">未填写会员信息</text>
-							<text v-else-if="[2,3].includes(user.auditStatus)">等待审核</text>
-							<text v-else-if="user.auditStatus === 4">审核不通过</text>
-						</view>
-						<view class="integral king-mr-10">
-						  积分：{{ point ? point : 0 }}
-						</view>
-					</view>
-					<view class="king-flex" v-if="role.authorityId === 1001">
-						<view class="integral king-mr-5">
-						  {{orderStatusCount.month}}月未结：{{ orderStatusCount ? orderStatusCount.monthUnpaid : 0 }} 单
-						</view>
-						<view class="integral">
-						  未结金额：{{ orderStatusCount ? orderStatusCount.settlementUnpaid : 0 }} 元
-						</view>
-					</view>
-					<view class="king-flex" v-if="company">
-						<view class="integral">
-						  公司：{{ company.name }}
-						</view>
-					</view>
-                </view>
-            </view>
-            <view class="setting">
-<!--                <image src="../../static/my/setting.png"></image>-->
-            </view>
-        </view>
-        <!-- 未登录  -->
-        <view v-else class="header" v-bind:class="{ 'status': isH5Plus }">
-            <view class="userinfo" @click="showLogin">
-                <view class="face">
-                    <image src="../../static/my/face.png"></image>
-                </view>
-                <view class="login-btn">登录 / 注册</view>
-            </view>
-
-        </view>
-        <view class="orders">
-            <view class="box">
-                <view class="title">我的订单</view>
-                <view class="king-flex">
-                    <view class="label" v-for="(row, index) in orderTypeLise" :key="row.name" hover-class="hover"
-                          @tap="toOrderType(index)">
-                        <view class="icon">
-                            <view class="badge" v-if="orderStatusCount[row.badge] > 0">{{ orderStatusCount[row.badge] }}</view>
-                            <image class="icon-img" :src="'../../static/my/' + row.icon"></image>
+                <view class="user-info">
+                    <text class="user-name">{{ user.nickName || '用户' }}</text>
+                    <view class="user-tags">
+                        <view class="tag" v-if="user.auditStatus === 1">
+                            <text>{{ role.authorityName ? role.authorityName.replace('客户', '') : '' }}</text>
                         </view>
-                        <view style="width: 100%; text-align: center;">{{ row.name }}</view>
+                        <view class="tag warn" v-else-if="[2, 3].includes(user.auditStatus)">
+                            <text>等待审核</text>
+                        </view>
+                        <view class="tag warn" v-else-if="user.auditStatus === 4">
+                            <text>审核不通过</text>
+                        </view>
+                        <view class="tag" v-else>
+                            <text>未填写信息</text>
+                        </view>
+                        <view class="tag point">
+                            <text>积分 {{ point }}</text>
+                        </view>
                     </view>
+                </view>
+                <u-icon name="arrow-right" color="#CCCCCC" size="32rpx"></u-icon>
+            </view>
 
-					<view class="label" hover-class="hover"
-						  @tap="getUnlimitedQRCode()">
-						<view class="icon">
-							<image class="icon-img" :src="'../../static/my/tuiguang.png'"></image>
-						</view>
-						<view style="width: 100%; text-align: center;">推广码</view>
-					</view>
+            <!-- 未登录 -->
+            <view class="user-card not-login" v-else @click="showLogin">
+                <view class="user-avatar">
+                    <image src="/static/my/face.png" mode="aspectFill"></image>
+                </view>
+                <view class="user-info">
+                    <text class="user-name login-tip">点击登录</text>
+                </view>
+                <u-icon name="arrow-right" color="#CCCCCC" size="32rpx"></u-icon>
+            </view>
+
+            <!-- 月结信息 -->
+            <view class="monthly-info" v-if="role.authorityId === 1001 && orderStatusCount.monthUnpaid > 0">
+                <view class="monthly-item">
+                    <text class="label">{{ orderStatusCount.month }}月未结</text>
+                    <text class="value">{{ orderStatusCount.monthUnpaid }} 单</text>
+                </view>
+                <view class="divider"></view>
+                <view class="monthly-item">
+                    <text class="label">未结金额</text>
+                    <text class="value primary">¥{{ orderStatusCount.settlementUnpaid }}</text>
                 </view>
             </view>
         </view>
-        <!-- 菜单 -->
-        <view class="list" v-for="(list, index) in severList" :key="index">
-            <view v-for="(li, key) in list" :key="li.name">
-                <!-- 条件判断未登录 不显示菜单的条件  -->
-                <view v-if="!severList[index][key].isLogin || severList[index][key].isLogin && token" class="li"
-                      @click="menuClick(index, key)" v-bind:class="{ 'noborder': key == list.length - 1 }"
-                      hover-class="hover">
-                    <view class="icon">
-                        <image :src="'../../static/my/list/' + li.icon"></image>
-                    </view>
-                    <view class="text">{{ severList[index][key].name }}</view>
-                    <image class="to" src="../../static/my/to.png"></image>
+
+        <!-- 订单入口 -->
+        <view class="order-section">
+            <view class="section-header">
+                <text class="section-title">我的订单</text>
+                <view class="more-btn" @click="toOrderList(null)">
+                    <text>全部订单</text>
+                    <u-icon name="arrow-right" color="#CCCCCC" size="28rpx"></u-icon>
                 </view>
             </view>
-
+            <view class="order-tabs">
+                <view class="order-tab" v-for="item in orderTabs" :key="item.status" @click="toOrderList(item.status)">
+                    <view class="tab-icon">
+                        <u-icon :name="item.icon" :color="item.color" size="48rpx"></u-icon>
+                        <view class="badge" v-if="orderStatusCount[item.badge] > 0">
+                            <text>{{ orderStatusCount[item.badge] }}</text>
+                        </view>
+                    </view>
+                    <text class="tab-name">{{ item.name }}</text>
+                </view>
+            </view>
         </view>
-        <!-- 登录 -->
-        <loginPop :show="showLoginDialog" @close="hideLogin" @success="loginSuccess"/>
-        <!-- 拨号 -->
-        <u-modal :show="showPhoneDialog" showCancelButton closeOnClickOverlay @confirm="callPhone"
-                 @cancel="() => showPhoneDialog = false" @close="close" confirmText="拨号">
-            <view>联系电话：{{ relationPhone }}</view>
-        </u-modal>
-        <Tabbar :tabsId="4"/>
+
+        <!-- 菜单列表 -->
+        <view class="menu-section">
+            <view class="menu-item" v-for="item in menuList" :key="item.name" @click="handleMenu(item)">
+                <view class="menu-left">
+                    <u-icon :name="item.icon" color="#666666" size="40rpx"></u-icon>
+                    <text class="menu-name">{{ item.name }}</text>
+                </view>
+                <u-icon name="arrow-right" color="#CCCCCC" size="32rpx"></u-icon>
+            </view>
+        </view>
+
+        <!-- 退出登录按钮 -->
+        <view class="logout-btn" v-if="token" @click="logout">
+            <text>退出登录</text>
+        </view>
+
+        <loginPop :show="showLoginDialog" @close="hideLogin" @success="loginSuccess" />
+        <Tabbar :tabsId="4" />
         <u-toast ref="toast" style="z-index: 9999"></u-toast>
-        <u-modal :show="showChangeNickName" title="修改昵称" @confirm="changeNickName"
-                 @cancel="() => showChangeNickName = false"
-                 @close="() => showChangeNickName = false"
-                 :showCancelButton="true"
-                 :closeOnClickOverlay="true"
-                 confirmText="修改">
-
-            <view class="king-center">
-                <u--input
-                        placeholder="请输入昵称"
-                        border="surround"
-                        v-model="user.nickName"
-                ></u--input>
-            </view>
-        </u-modal>
-		<u-modal
-			title="启运冻品"
-			:show="showMiniQCImg"
-			closeOnClickOverlay
-			@confirm="() => showMiniQCImg = false"
-		>
-			<image
-				style="width: 220px;height: 220px;"
-				:src="qrCodeImageUrl"
-			></image>
-		</u-modal>
     </pageWrapper>
 </template>
+
 <script>
-import Tabbar from '@/components/tabbar/tabbar.vue'
-import loginPop from '@/components/loginPop/loginPop.vue'
-import {getUserInfo, setSelfInfo, getUnlimitedQRCodeImg} from "@/api/user";
-import {getOrderStatusCount} from "@/api/order";
-import {getCompanyById} from "@/api/login";
-import {getUser, getToken, setUser, setToken, setOpenId, getRole, setRole, setSettlmentInfo} from '@/store/storage.js'
-import {parseDateStr} from "@/utils/date";
-import config from '@/config/config.js'
-export default {
-    components: {
-        Tabbar,
-        loginPop
-    },
-    data() {
-        return {
-            //#ifdef APP-PLUS
-            isH5Plus: true,
-            //#endif
-            //#ifndef APP-PLUS
-            isH5Plus: false,
-            //#endif
-            user: {},
-			role: {},
-			company: null, // 公司信息
-	        point: 0, // 积分余额
-            orderStatusCount: {},
-            token: '',
-            showLoginDialog: false, // 登录
-            showPhoneDialog: false, // 拨号
-            relationPhone: "", // 联系人电话
-            showChangeNickName: false, // 修改昵称模态框
-			qrCodeImageUrl: "",  // 推广码
-			showMiniQCImg: false, // 推广码
-            orderTypeLise: [
-                //name-标题 icon-图标 badge-角标
-                {name: '全部订单', icon: 'qrbu.png', badge: 0, status: null},
-                {name: '待付款', icon: 'fukr.png', badge: 'unpaid', status: 0},
-                {name: '备货中', icon: 'faho.png', badge: 'delivered', status: 1},
-                {name: '待收货', icon: 'uzho.png', badge: 'shipped', status: 2},
-                // {name: '售后', icon: 'uzhz.png', badge: 0, status: 10}
-            ],
-            severList: [
-                [
-                    { name: '我的账单', icon: 'point_shop.png', handle: this.toBill, isLogin: true},
-                    { name: '会员信息', icon: 'point_shop.png', handle: this.toMemberInformation, isLogin: true},
-                    { name: '积分兑换', icon: 'point_shop.png', handle: this.toPointGoods, isLogin: true},
-                    // { name: '积分明细', icon: 'finance.png', handle: this.showPhone },
-                    {name: '收货地址', icon: 'address.png', handle: this.toAddress},
-                    {name: '清除缓存', icon: 'clear.png', handle: this.clearStorage},
-                    {name: '联系我们', icon: 'relation.png', handle: this.showPhone},
-                    {name: '退出登录', icon: 'logout.png', handle: this.logout, isLogin: true},
+    import Tabbar from '@/components/tabbar/tabbar.vue'
+    import loginPop from '@/components/loginPop/loginPop.vue'
+    import { getUserInfo, setSelfInfo } from "@/api/user"
+    import { getOrderStatusCount } from "@/api/order"
+    import { getCompanyById } from "@/api/login"
+    import { getUser, getToken, setUser, setToken, setOpenId, getRole, setRole, setSettlmentInfo } from '@/store/storage.js'
+    import { parseDateStr } from "@/utils/date"
+    import config from '@/config/config.js'
+
+    export default {
+        components: { Tabbar, loginPop },
+        data() {
+            return {
+                user: {},
+                role: {},
+                company: null,
+                point: 0,
+                orderStatusCount: {},
+                token: '',
+                showLoginDialog: false,
+                orderTabs: [
+                    { name: '待付款', icon: 'checkbox-mark', color: '#F97316', status: 0, badge: 'unpaid' },
+                    { name: '备货中', icon: 'clock', color: '#22A84F', status: 1, badge: 'delivered' },
+                    { name: '配送中', icon: 'car', color: '#3B82F6', status: 2, badge: 'shipped' },
+                    { name: '已完成', icon: 'checkmark-circle', color: '#666666', status: 3, badge: 'success' }
+                ],
+                menuList: [
+                    { name: '我的账单', icon: 'red-packet', action: 'bill' },
+                    { name: '会员信息', icon: 'account', action: 'member' },
+                    { name: '积分兑换', icon: 'star', action: 'point' },
+                    { name: '收货地址', icon: 'map', action: 'address' },
+                    { name: '清除缓存', icon: 'trash', action: 'clear' },
+                    { name: '联系我们', icon: 'phone', action: 'contact' }
                 ]
-            ],
-        };
-    },
-    onLoad() {
-        //加载
-        this.relationPhone = config.phone
-		this.init()
-    },
-	onShow() {
-		this.user = getUser()
-	},
-    methods: {
-        async init() {
+            }
+        },
+        onLoad() {
+            this.init()
+        },
+        onShow() {
+            this.user = getUser()
             this.token = getToken()
-            //如果登录了，则获取用户信息
-            if (this.token) {
+        },
+        methods: {
+            async init() {
+                this.token = getToken()
+                if (!this.token) return
+
                 const res = await getUserInfo()
                 if (res.code === 401) {
-                  this.user = ""
-                  this.point = 0
-                  this.token = ""
+                    this.token = ''
+                    this.user = ''
+                    return
                 }
                 this.user = res.data.userInfo
-				this.role = res.data.userInfo.authority
-	            this.point = res.data.point
+                this.role = res.data.userInfo.authority
+                this.point = res.data.point
                 setUser(this.user)
-				setRole(this.role)
+                setRole(this.role)
 
-				// 获取公司信息
-				console.log('user.companyId:', this.user.companyId)
-				if (this.user.companyId) {
-					console.log('开始请求公司信息, id:', this.user.companyId)
-					const companyRes = await getCompanyById(this.user.companyId)
-					console.log('companyRes:', JSON.stringify(companyRes))
-					if (companyRes.code === 0) {
-						this.company = companyRes.data
-					} else {
-						console.log('获取公司失败:', companyRes.msg)
-					}
-				} else {
-					console.log('没有companyId，无法获取公司信息')
-				}
-
-				// 先获取上月未结，在获取本月
-				const date = new Date()
-				date.setMonth(date.getMonth() - 1)
-				const settlementMonth = parseDateStr(date.toString())
-				const preOrderStatusRes = await getOrderStatusCount({settlementMonth: settlementMonth})
-				if (preOrderStatusRes.data.monthUnpaid > 0) {
-					this.orderStatusCount = preOrderStatusRes.data
-					setSettlmentInfo(this.orderStatusCount)
-				} else {
-					// 获取当月未结的订单状态数量
-					const orderStatusRes = await getOrderStatusCount()
-					this.orderStatusCount = orderStatusRes.data
-					setSettlmentInfo({})
-				}
-
-
-                console.log('this.orderStatusCount', this.orderStatusCount)
-            }
-        },
-        // 登录成功
-        async loginSuccess(u) {
-            console.log("loginSuccess", u);
-            this.hideLogin();
-            this.token = getToken()
-            this.user = u
-            // 获取积分
-            const res = await getUserInfo()
-            this.point = res.data.point
-            this.$message(this.$refs.toast).success("登录成功")
-        },
-        async changeNickName() {
-            const res = await setSelfInfo({nickName: this.user.nickName})
-            if (res.code !== 0){
-                return false
-            }
-            this.showChangeNickName = false
-            this.$message(this.$refs.toast).success("修改成功")
-        },
-        toPointGoods(){
-						uni.navigateTo({
-							url: '/pages/goods/pointGoods'
-						})
-        },
-        toAddress() {
-            uni.navigateTo({
-                url: '/pages/address/address'
-            })
-        },
-        toMemberInformation() {
-            uni.navigateTo({
-                url: '/pages/my/memberInfo'
-            })
-        },
-        // 显示登录框
-        showLogin() {
-            this.showLoginDialog = true
-        },
-        // 隐藏登录框
-        hideLogin() {
-            this.showLoginDialog = false
-        },
-        // 菜单栏点击
-        menuClick(index, key) {
-            this.severList[index][key].handle()
-        },
-        // 显示手机号
-        showPhone() {
-            this.showPhoneDialog = true
-        },
-        // 拨打电话
-        callPhone() {
-            uni.makePhoneCall({
-                phoneNumber: this.relationPhone,
-                success: (result) => {
-                },
-                fail: (error) => {
+                // 月结统计
+                const date = new Date()
+                date.setMonth(date.getMonth() - 1)
+                const preRes = await getOrderStatusCount({ settlementMonth: parseDateStr(date.toString()) })
+                if (preRes.data?.monthUnpaid > 0) {
+                    this.orderStatusCount = preRes.data
+                    setSettlmentInfo(this.orderStatusCount)
+                } else {
+                    const curRes = await getOrderStatusCount()
+                    this.orderStatusCount = curRes.data || {}
                 }
-            })
-        },
-        toBill() {
-            uni.navigateTo({
-                url: '/pages/bill/list'
-            })
-        },
-        // 点击退出登录
-        logout() {
-            uni.showModal({
-                title: '退出登录',
-                content: '是否确认退出登录',
-                showCancel: true,
-                success: ({confirm, cancel}) => {
-                    if (confirm) {
-                        this.token = ''
-                        this.user = ''
-                        setUser('')
-                        setToken('')
-                        setOpenId('')
-                        this.$message(this.$refs.toast).success("退出登录")
+            },
+            toMemberInfo() {
+                uni.navigateTo({ url: '/pages/my/memberInfo' })
+            },
+            toOrderList(status) {
+                uni.navigateTo({ url: '/pages/order/list?status=' + (status ?? 'null') })
+            },
+            handleMenu(item) {
+                switch (item.action) {
+                    case 'bill': uni.navigateTo({ url: '/pages/bill/list' }); break
+                    case 'member': uni.navigateTo({ url: '/pages/my/memberInfo' }); break
+                    case 'point': uni.navigateTo({ url: '/pages/goods/pointGoods' }); break
+                    case 'address': uni.navigateTo({ url: '/pages/address/address' }); break
+                    case 'clear':
+                        uni.showModal({
+                            title: '清除缓存', content: '是否确认清除？', success: ({ confirm }) => {
+                                if (confirm) {
+                                    uni.clearStorageSync()
+                                    this.$message(this.$refs.toast).success('清除成功')
+                                }
+                            }
+                        }); break
+                    case 'contact':
+                        uni.makePhoneCall({ phoneNumber: config.phone }); break
+                }
+            },
+            showLogin() {
+                this.showLoginDialog = true
+            },
+            hideLogin() {
+                this.showLoginDialog = false
+            },
+            async loginSuccess(u) {
+                this.hideLogin()
+                this.token = getToken()
+                this.user = u
+                await this.init()
+                this.$message(this.$refs.toast).success('登录成功')
+            },
+            logout() {
+                uni.showModal({
+                    title: '退出登录', content: '是否确认退出？', success: ({ confirm }) => {
+                        if (confirm) {
+                            this.token = ''
+                            this.user = ''
+                            setUser('')
+                            setToken('')
+                            setOpenId('')
+                            this.$message(this.$refs.toast).success('已退出')
+                        }
                     }
-                }
-            })
-        },
-        // 复制邀请码
-        copyInvitationCode(code) {
-            uni.setClipboardData({
-                data: code,
-                success: () => {
-                    this.$message(this.$refs.toast).success("复制推荐码成功")
-                }
-            })
-        },
-        // 清除缓存
-        clearStorage() {
-            uni.showModal({
-                title: '清除缓存',
-                content: '请谨慎操作',
-                showCancel: true,
-                success: ({confirm, cancel}) => {
-                    if (confirm) {
-                        this.token = ''
-                        this.user = ''
-                        uni.clearStorage()
-                        uni.clearStorageSync()
-                        this.$message(this.$refs.toast).success("清除缓存成功")
-                    }
-                }
-            })
-
-        },
-        //用户点击订单类型
-        toOrderType(index) {
-            uni.navigateTo({
-                url: '/pages/order/list?status=' + this.orderTypeLise[index].status
-            })
-        },
-		async getUnlimitedQRCode() {
-			const res = await getUnlimitedQRCodeImg()
-			// 将 arraybuffer 转换为 base64
-			const base64 = uni.arrayBufferToBase64(res);
-			try {
-				const resp = JSON.parse(this.base64ToUtf8(base64))
-				if (resp.code !== 0) {
-					this.$message(this.$refs.toast).error(resp.msg)
-					return false
-				}
-				console.log(resp);
-			} catch (e) {
-
-			}
-			// 拼接成 data URL
-			const imageUrl = 'data:image/png;base64,' + base64;
-			// 将图片 URL 设置到 data 中，供页面显示
-			this.qrCodeImageUrl = imageUrl
-			this.showMiniQCImg = true
-		},
-		base64ToUtf8(base64String) {
-		    const binaryString = atob(base64String);
-		    const binaryLength = binaryString.length;
-		    const bytes = new Uint8Array(binaryLength);
-
-		    for (let i = 0; i < binaryLength; i++) {
-		        bytes[i] = binaryString.charCodeAt(i);
-		    }
-
-		    const decoder = new TextDecoder();
-		    return decoder.decode(bytes);
-		},
-        //用户点击列表项
-        toPage(list_i, li_i) {
-            uni.showToast({title: this.severList[list_i][li_i].name});
+                })
+            }
         }
     }
-}
 </script>
 
-<style lang="scss">
-.header {
-  &.status {
-    padding-top: var(--status-bar-height);
-  }
-
-  background-color: #2979ff;
-  width: 92%;
-  height: 50vw;
-  padding: 0 4%;
-  display: flex;
-  align-items: center;
-
-  .userinfo {
-    width: 90%;
-    display: flex;
-    position: relative;
-    bottom: 16px;
-    align-items: center;
-
-    .login-btn {
-      font-size: 19px;
-      margin: 15px 20px;
-      color: #fff;
-      cursor: pointer;
+<style lang="scss" scoped>
+    /* 头部用户卡片 */
+    .profile-header {
+        background: linear-gradient(135deg, #22A84F 0%, #1A9A45 100%);
+        padding: 48rpx 32rpx 32rpx;
     }
 
-    .face {
-      flex-shrink: 0;
-      width: 18vw;
-      height: 18vw;
-      margin-top: 6px;
-
-      image {
-        width: 100%;
-        height: 100%;
-        border-radius: 100%
-      }
-    }
-
-    .info {
-      flex-flow: wrap;
-      padding-left: 15px;
-
-      .username {
-        width: 100%;
-        color: #fff;
-        font-size: 20px;
-        margin-left: 5px;
-      }
-
-      .integral {
+    .user-card {
         display: flex;
         align-items: center;
-        padding: 0 10px;
-        height: 20px;
-        color: #fff;
-        background-color: rgba(0, 0, 0, 0.1);
-        border-radius: 10px;
-        font-size: 12px;
-        margin-top: 5px;
-      }
-    }
-  }
+        gap: 24rpx;
+        background: #FFFFFF;
+        border-radius: 24rpx;
+        padding: 32rpx;
+        box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.1);
 
-  .setting {
-    flex-shrink: 0;
-    width: 6vw;
-    height: 6vw;
-    position: relative;
-    bottom: 16px;
-
-    image {
-      width: 100%;
-      height: 100%
-    }
-  }
-}
-
-.hover {
-  background-color: #eee
-}
-
-.orders {
-  background-color: #2979ff;
-  width: 92%;
-  height: 11vw;
-  padding: 0 4%;
-  margin-bottom: calc(20vw + 20px);
-  display: flex;
-  align-items: flex-start;
-  border-radius: 0 0 100% 100%;
-  margin-top: -1px;
-
-  .box {
-    width: 98%;
-    padding: 0 1%;
-    height: 34vw;
-    background-color: #fefefe;
-    border-radius: 12px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-    position: relative;
-    top: -35px;
-
-    //display: flex;
-    //align-items: center;
-    //justify-content: center;
-    .title {
-      margin: 12px 24px;
-    }
-
-    .label {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-flow: wrap;
-      width: 100%;
-      height: 16vw;
-      color: #666666;
-      font-size: 13px;
-
-      .icon {
-        position: relative;
-        width: 40px;
-        height: 40px;
-        margin: 0 1vw;
-
-        .icon-img {
-          width: 40px;
-          height: 40px;
+        &.not-login {
+            .login-tip {
+                color: #999999;
+            }
         }
+    }
 
-        .badge {
-          position: absolute;
-          width: 4vw;
-          height: 4vw;
-          background-color: #ec6d2c;
-          top: 0vw;
-          right: 0vw;
-          border-radius: 100%;
-          font-size: 10px;
-          color: #fff;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          z-index: 10;
-        }
+    .user-avatar {
+        width: 120rpx;
+        height: 120rpx;
+        border-radius: 60rpx;
+        overflow: hidden;
+        flex-shrink: 0;
 
         image {
-          width: 7vw;
-          height: 7vw;
-          z-index: 9;
+            width: 100%;
+            height: 100%;
         }
-      }
-    }
-  }
-}
-
-.list {
-  width: 92%;
-  margin: 0 auto;
-  border-radius: 14px;
-  //border-bottom: solid 13px #f1f1f1;
-  background: #fff;
-  position: relative;
-  top: -35px;
-
-  .li {
-    width: 92%;
-    height: 50px;
-    padding: 0 4%;
-    border-bottom: solid 1px #e7e7e7;
-    display: flex;
-    align-items: center;
-
-    &.noborder {
-      border-bottom: 0
     }
 
-    .icon {
-      flex-shrink: 0;
-      width: 25px;
-      height: 25px;
-
-      image {
-        width: 25px;
-        height: 25px
-      }
+    .user-info {
+        flex: 1;
     }
 
-    .text {
-      padding-left: 10px;
-      width: 100%;
-      color: #666
+    .user-name {
+        font-size: 36rpx;
+        font-weight: 600;
+        color: #1A1A1A;
+        display: block;
+        margin-bottom: 16rpx;
     }
 
-    .to {
-      flex-shrink: 0;
-      width: 20px;
-      height: 20px
+    .user-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12rpx;
     }
-  }
-}
+
+    .tag {
+        background: #E8F8EC;
+        color: #22A84F;
+        font-size: 22rpx;
+        padding: 6rpx 16rpx;
+        border-radius: 20rpx;
+
+        &.warn {
+            background: #FEF3E2;
+            color: #F97316;
+        }
+
+        &.point {
+            background: #FEF3E2;
+            color: #F97316;
+        }
+    }
+
+    /* 月结信息 */
+    .monthly-info {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 48rpx;
+        margin-top: 24rpx;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 16rpx;
+        padding: 20rpx;
+    }
+
+    .monthly-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8rpx;
+
+        .label {
+            font-size: 24rpx;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .value {
+            font-size: 32rpx;
+            font-weight: 600;
+            color: #FFFFFF;
+
+            &.primary {
+                color: #FFD700;
+            }
+        }
+    }
+
+    .divider {
+        width: 1rpx;
+        height: 48rpx;
+        background: rgba(255, 255, 255, 0.3);
+    }
+
+    /* 订单区块 */
+    .order-section {
+        margin: -40rpx 24rpx 24rpx;
+        background: #FFFFFF;
+        border-radius: 24rpx;
+        box-shadow: 0 4rpx 24rpx rgba(0, 0, 0, 0.08);
+        padding: 32rpx;
+    }
+
+    .section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 28rpx;
+    }
+
+    .section-title {
+        font-size: 32rpx;
+        font-weight: 600;
+        color: #1A1A1A;
+    }
+
+    .more-btn {
+        display: flex;
+        align-items: center;
+        gap: 4rpx;
+        font-size: 26rpx;
+        color: #999999;
+    }
+
+    .order-tabs {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .order-tab {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12rpx;
+    }
+
+    .tab-icon {
+        position: relative;
+        width: 80rpx;
+        height: 80rpx;
+        background: #F5F7F4;
+        border-radius: 20rpx;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .badge {
+        position: absolute;
+        top: -8rpx;
+        right: -8rpx;
+        min-width: 32rpx;
+        height: 32rpx;
+        background: #EF4444;
+        border-radius: 16rpx;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 6rpx;
+
+        text {
+            font-size: 20rpx;
+            color: #FFFFFF;
+        }
+    }
+
+    .tab-name {
+        font-size: 24rpx;
+        color: #666666;
+    }
+
+    /* 菜单区块 */
+    .menu-section {
+        margin: 0 24rpx 24rpx;
+        background: #FFFFFF;
+        border-radius: 24rpx;
+        box-shadow: 0 4rpx 24rpx rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+    }
+
+    .menu-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 32rpx;
+        border-bottom: 1rpx solid #EEEEEE;
+
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+
+    .menu-left {
+        display: flex;
+        align-items: center;
+        gap: 16rpx;
+    }
+
+    .menu-name {
+        font-size: 28rpx;
+        color: #1A1A1A;
+    }
+
+    /* 退出按钮 */
+    .logout-btn {
+        margin: 40rpx 24rpx;
+        height: 96rpx;
+        background: #FFFFFF;
+        border-radius: 48rpx;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4rpx 24rpx rgba(0, 0, 0, 0.08);
+
+        text {
+            font-size: 30rpx;
+            color: #EF4444;
+        }
+    }
 </style>

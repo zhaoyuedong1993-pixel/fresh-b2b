@@ -1,525 +1,548 @@
+<!--
+ * 优诚配运 - 订单列表组件
+ * 设计规范：自然清新
+-->
 <template>
-    <view>
-        <scroll-view   scroll-y="true"
-                     :style="{ height: scrollViewHeight + 'px'}" refresher-enabled="true" :refresher-threshold="70"
-                     :refresher-triggered="triggered" @refresherrefresh="onRefresh" @scrolltolower="scrollTolower"
-                     :scroll-anchoring="true">
-            <!-- 商品列表 -->
-            <view v-if="list.length > 0">
-                <view class="order" v-for="(order, index) in list" :key="index" @click="toOrderDetails(order.ID)">
-                    <view class="order-status">
-                        <text v-if="order.delivery && order.delivery.scheduledTime && order.delivery.scheduledTime.charAt(0) !== '0'">预计送达: {{ order.delivery.scheduledTime | parseDate }}</text>
-                        <view v-else>{{ order.CreatedAt | parseDate }}</view>
-                        <view>
-                            <!-- 判断订单是否取消 -->
-                            <text v-if="order.statusCancel === 1">已取消</text>
-                            <text v-else-if="order.statusCancel === 2">后台取消</text>
-                            <text v-else-if="order.statusCancel === 3">超时取消</text>
-                            <text v-else>
-                                <!-- 判断是否是售后单 -->
-                                <text v-if="order.return && order.return.ID !== 0">
-                                    <text v-if="order.return.refundStatus === 1">退款等待到账</text>
-                                    <text v-else-if="order.return.refundStatus === -1">拒绝售后</text>
-                                    <text v-else-if="order.return.refundStatus === 0">等待审核</text>
-                                    <text v-else-if="order.return.refundStatus === 1 && order.return.refundStatus === 2">售后完成</text>
-                                    <text v-else-if="order.return.refundStatus === 1">审核通过</text>
-                                </text>
-                                <!-- 普通订单 -->
-                                <text v-else>
-                                    <text v-if="order.status === 0">等待支付</text>
-                                    <text v-else-if="order.status === 1">备货中</text>
-                                    <text v-else-if="order.status === 2">已发货</text>
-                                    <text v-else-if="order.status === 3">已完成</text>
-                                </text>
-                            </text>
-                        </view>
-                    </view>
-                    <!-- 订单内容 -->
-                    <view v-if="order.details && order.details.length > 1" class="goods-list">
-                        <view class="list-box" v-for="(item, index) in order.details" :key="index">
-                            <image v-if="index <= 3 && !item.goodsImage" class="box-goods-img" src="/static/nopicture.jpg"  ></image>
-                            <image v-else-if="index <= 3 " class="box-goods-img" :src="item.goodsImage"  ></image>
-                            <view v-if="index === 4" class="box-goods-ellipsis">
-                                ...
-                            </view>
-                        </view>
-                    </view>
-                    <view class="single-goods" v-else-if="order.details && order.details.length === 1">
-                      <image v-if="order.details[0].goodsImage" class="single-goods-img" :src="order.details[0].goodsImage"></image>
-                        <image v-else class="single-goods-img" src="/static/nopicture.jpg"></image>
-                        <view class="single-goods-info">
-                            <view class="single-goods-title">
-                                <view class="king-ellipsis2 king-black">{{ order.details[0].goodsName }}</view>
-                                <view class="single-goods-price">
-                                    <text>
-	                                    <text v-if="order.goodsArea === 0">¥</text> {{ order.total }}
-	                                    <text v-if="order.goodsArea === 1" style="margin-left: 3px">积分</text>
-                                    </text>
-                                </view>
-                            </view>
-                            <view class="king-font12 king-black6">
-                                <text >单价：
-	                                <text v-if="order.goodsArea === 0">¥</text>{{ order.details[0].price }}
-	                                <text v-if="order.goodsArea === 1" style="margin-left: 3px">积分</text>
-                                </text>
-                            </view>
-                            <view class="king-font12 king-black6">
-                                <text>规格：{{ order.details[0].specKeyName }}</text>
-                                <text class="king-ml-10">数量：{{ order.details[0].num }}</text>
-                            </view>
-                        </view>
-                    </view>
-                    <view class="order-bottom">
-                        <text>共 {{ order.num }} 件商品</text>
-						<text class="king-ml-10">订单 ¥{{ order.total }}</text>
-                        <text class="king-ml-10" v-if="order.status !== 0">
-							<text v-if="order.settlementType === 0">
-								<text>实付</text>
-								<text class="order-bottom-price">
-									<text v-if="order.goodsArea === 0">¥</text>{{ order.finish }}</text>
-									<text v-if="order.goodsArea === 1" style="margin-left: 3px">积分</text>
-								</text>
-							</text>
-							<text style="color:#e8b60c;" v-if="order.settlementType === 1">月结未结清</text>
-							<text class="king-ml-10 king-green" v-else-if="order.settlementType === 2">已结清</text>
-						</text>
-                    </view>
-                    <view class="order-btn">
-                        <view class="btn" v-if="order.statusCancel === 0 && order.status === 0" @tap.stop="showCancelOrderDailog(order.ID)">取消订单</view>
-                        <view class="btn" v-if="order.statusCancel > 0 || order.status === 3" @tap.stop="showDeleteOrderDailog(order.ID)">删除订单</view>
-<!--                        <view class="btn" v-if="order.statusCancel === 0 && order.status === 2" @tap.stop="showConfirmOrderDailog(order.ID)">确认收货</view>-->
-                        <view class="btn btn-pay" v-if="order.status === 0 && order.statusCancel === 0" @tap.stop="goPay(order.ID)">立即下单</view>
-                    </view>
-                </view>
-                <view class="king-py-40" @click="scrollTolower">
-                    <u-loadmore :status="loadMore" loading-text="努力加载中，请喝杯茶" loadmore-text="上拉加载更多" nomore-text="实在是没有了"/>
-                </view>
-            </view>
-            <u-empty v-else :style="{ height: scrollViewHeight / 1.6 + 'px' }" width="220" height="220" textSize="16"
-                     text="暂无订单" mode="data" icon="http://cdn.uviewui.com/uview/empty/data.png" />
-            <u-toast style="z-index:9998;" ref="toast"></u-toast>
-        </scroll-view>
+	<view class="order-list-component">
+		<scroll-view scroll-y="true" :style="{ height: scrollViewHeight + 'px' }" refresher-enabled="true"
+			:refresher-threshold="70" :refresher-triggered="triggered" @refresherrefresh="onRefresh"
+			@scrolltolower="scrollTolower" :scroll-anchoring="true">
+			<view class="order-items" v-if="list.length > 0">
+				<view class="order-card" v-for="(order, index) in list" :key="index" @click="toOrderDetail(order.ID)">
+					<!-- 订单头部 -->
+					<view class="order-header">
+						<view class="header-left">
+							<text class="order-sn">订单号：{{ order.orderSn || order.order_sn }}</text>
+							<text class="order-time">{{ formatDate(order.createdAt || order.created_at) }}</text>
+						</view>
+						<view class="order-status" :class="'status-' + order.status">
+							{{ getStatusText(order) }}
+						</view>
+					</view>
 
-        <u-modal :show="showCancelOrder" title="取消订单" @confirm="toCancelOrder"
-                 @cancel="() => showCancelOrder = false"
-                 @close="() => showCancelOrder = false"
-                 :showCancelButton="true"
-                 :closeOnClickOverlay="true">
-            <text class="king-center">
-                取消订单操作不可恢复,请谨慎操作！
-            </text>
-        </u-modal>
-        <u-modal :show="showConfirmOrder" title="确认收货" @confirm="toConfirmOrder"
-                 @cancel="() => showConfirmOrder = false"
-                 @close="() => showConfirmOrder = false"
-                 :showCancelButton="true"
-                 :closeOnClickOverlay="true"
-                 confirmText="确认收货">
-            <text class="king-center">
-                请您确认货物是否完整！
-            </text>
-        </u-modal>
-        <u-modal :show="showDeleteOrder" title="删除订单" @confirm="toDeleteOrder"
-                 @cancel="() => showDeleteOrder = false"
-                 @close="() => showDeleteOrder = false"
-                 :showCancelButton="true"
-                 :closeOnClickOverlay="true"
-                 confirmText="删除">
-            <text class="king-center">
-                此操作不可撤销，请谨慎操作！
-            </text>
-        </u-modal>
-        <u-modal :show="showPhoneDialog" showCancelButton closeOnClickOverlay @confirm="callPhone"
-                 @cancel="() => showPhoneDialog = false" @close="close" confirmText="拨号">
-            <view>联系电话：{{ relationPhone }}</view>
-        </u-modal>
-        <u-toast ref="toast" style="z-index: 9999"></u-toast>
-    </view>
+					<!-- 商品展示 -->
+					<view class="order-goods">
+						<!-- 多商品展示 -->
+						<view class="goods-grid" v-if="order.details && order.details.length > 1">
+							<view class="goods-thumbs">
+								<image v-for="(item, idx) in order.details.slice(0, 4)" :key="idx"
+									:src="item.goodsImage || '/static/nopicture.jpg'" mode="aspectFill"
+									class="thumb-img"></image>
+								<view class="thumb-more" v-if="order.details.length > 4">
+									+{{ order.details.length - 4 }}
+								</view>
+							</view>
+						</view>
+
+						<!-- 单商品展示 -->
+						<view class="goods-single" v-else-if="order.details && order.details.length === 1">
+							<image class="single-img" :src="order.details[0].goodsImage || '/static/nopicture.jpg'"
+								mode="aspectFill"></image>
+							<view class="single-info">
+								<text class="goods-name">{{ order.details[0].goodsName }}</text>
+								<view class="goods-spec">
+									<text>单价：
+										<text class="price">¥{{ order.details[0].price }}</text>
+									</text>
+									<text class="num">x{{ order.details[0].num }}</text>
+								</view>
+							</view>
+						</view>
+					</view>
+
+					<!-- 订单底部 -->
+					<view class="order-footer">
+						<view class="footer-left">
+							<text class="goods-count">共 {{ order.num }} 件商品</text>
+							<view class="order-amount">
+								<text class="amount-label" v-if="order.status !== 0">实付</text>
+								<text class="amount-value">
+									<text class="symbol" v-if="order.goodsArea === 0">¥</text>
+									<text class="symbol" v-else>积分 </text>
+									{{ formatAmount(order.status !== 0 ? order.finish : order.total) }}
+								</text>
+							</view>
+						</view>
+						<view class="footer-right">
+							<view class="settlement-tag" :class="'settle-' + order.settlementType" v-if="order.status !== 0">
+								{{ getSettlementText(order) }}
+							</view>
+						</view>
+					</view>
+
+					<!-- 操作按钮 -->
+					<view class="order-actions" v-if="order.statusCancel === 0">
+						<view class="action-btn outline" v-if="order.status === 0" @click.stop="cancelOrder(order.ID)">
+							取消订单
+						</view>
+						<view class="action-btn outline" v-if="order.status === 2" @click.stop="confirmOrder(order.ID)">
+							确认收货
+						</view>
+						<view class="action-btn danger" v-if="order.status === 3 || order.status === 4"
+							@click.stop="deleteOrder(order.ID)">
+							删除订单
+						</view>
+						<view class="action-btn primary" v-if="order.status === 0" @click.stop="payOrder(order.ID)">
+							立即付款
+						</view>
+					</view>
+				</view>
+
+				<view class="load-more">
+					<u-loadmore :status="loadMore" nomore-text="没有更多订单了" />
+				</view>
+			</view>
+
+			<!-- 空状态 -->
+			<view class="empty-order" v-else>
+				<view class="empty-icon">
+					<u-icon name="order" size="100" color="#CCCCCC"></u-icon>
+				</view>
+				<view class="empty-text">暂无相关订单</view>
+			</view>
+		</scroll-view>
+
+		<!-- 操作弹窗 -->
+		<u-modal :show="showModal" :title="modalTitle" :showCancelButton="true" @confirm="confirmAction" @cancel="closeModal"
+			@close="closeModal">
+			<view class="modal-content">
+				<text>{{ modalContent }}</text>
+			</view>
+		</u-modal>
+
+		<u-toast ref="toast" style="z-index: 9999"></u-toast>
+	</view>
 </template>
 
 <script>
-import config from '@/config/config.js'
-import {getOrderList, confirmOrder, cancelOrder, orderPay, getOrderStatus, deleteOrder} from '@/api/order'
-import UButton from "../../uni_modules/uview-ui/components/u-button/u-button";
-export default {
-    name: "orderList",
-    components: {UButton},
-    props: {
-        status: { // 订单状态 null:全部 0:未支付 1:备货中 2:已发货 3:已完成 10售后
-            type: String,
-            default: 'null'
-        }
-    },
-    data() {
-        return {
-            list: [],
-            scrollViewHeight: 0,
-            page: {
-                page: 1,
-                pageSize: 10,
-                total: 0,
-                isMore: true
-            },
-            triggered: false, // 下拉刷新状态
-            loadMore: 'loadmore', // 上拉加载状态
-            showConfirmOrder:false,
-            showDeleteOrder:false,
-            showCancelOrder:false,
-            currentOperateOrderId: 0, // 当前操作的订单ID
-            showPhoneDialog: false, // 拨号
-            relationPhone: "", // 联系人电话
-        }
+	import config from '@/config/config.js'
+	import { getOrderList, confirmOrder, cancelOrder, deleteOrder as deleteOrderApi, orderPay } from '@/api/order.js'
 
-    },
-    mounted() {
-        // 设置商品列表高度为页面高度
-        uni.getSystemInfo({
-            success: (res) => {
-                const windowHeight = res.windowHeight;
-                this.scrollViewHeight = windowHeight - 50;
-            },
-        });
-        this.getOrderListData(0)
-        this.relationPhone = config.phone
-    },
-    methods: {
-        // 订单提交
-        async goPay(orderId) {
-            const res = await orderPay({
-                ID: orderId
-            }, this.$refs.toast)
-            if (res.code !== 0) {
-                return false
-            }
-            if (!res.data.pay) {
-                this.$message(this.$refs.toast).error("交易失败，请重试")
-                return false
-            }
-			//直接提交订单，不支付
-			else
-			this.$message(this.$refs.toast).success("正在跳转商家联系方式").then(() => {
-                uni.redirectTo({
-                    url: '/pages/my/my'
-                })
-            })
+	export default {
+		name: 'orderList',
+		data() {
+			return {
+				list: [],
+				scrollViewHeight: 600,
+				page: { page: 1, pageSize: 10, total: 0, isMore: true },
+				loadMore: 'loadmore',
+				showModal: false,
+				modalTitle: '',
+				modalContent: '',
+				currentAction: '',
+				currentOrderId: 0
+			}
+		},
+		props: {
+			status: { type: [String, Number], default: null }
+		},
+		computed: {
+			triggered() { return false }
+		},
+		mounted() {
+			uni.getSystemInfo({
+				success: (res) => {
+					this.scrollViewHeight = res.windowHeight - 90
+				}
+			})
+			this.getOrderListData(0)
+		},
+		methods: {
+			async getOrderListData(type = 0) {
+				if (type === 0) {
+					this.page.page = 1
+					this.page.isMore = true
+					this.loadMore = 'loadmore'
+				}
 
-            // this.showPhoneDialog = true
-            this.toPay(res.data.pay, res.data.order)
-        },
-		// 关闭支付功能
-        // 发起微信支付
-        toPay(pay, order) {
-            this.$message(this.$refs.toast).loading('正在支付中...')
-            const payment = {
-                provider: 'wxpay', // 服务提供商，通过 uni.getProvider 获取。
-                timeStamp: pay.timestamp,
-                nonceStr: pay.nonceStr,
-                orderInfo: pay.order,
-                package: 'prepay_id=' + pay.prePayId,
-                signType: pay.signType,
-                paySign: pay.paySign,
-                success: res => {
-                    console.log('success', res)
-                    this.$message(this.$refs.toast).hide()
-                    this.paySuccess(order.ID)
-                },
-                fail: res => {
-                    console.log('fail', res)
-                    this.$message(this.$refs.toast).hide()
-                    if (res.errMsg === 'requestPayment:fail cancel') {
-                        this.$message(this.$refs.toast).error("取消支付")
-                        return false
-                    }
-                    this.$message(this.$refs.toast).error("支付失败")
-                }
-            }
-            console.log('payment', payment)
-            uni.requestPayment(payment)
-        },
-        // 支付成功回调
-        paySuccess(orderId) {
-            this.$message(this.$refs.toast).loading('正在获取支付结果...')
-            let count = 0
-            let errCount = 0
-            const statusInterval = setInterval(async () => {
-                const res = await getOrderStatus(orderId);
-                if (res.code !== 0) {
-                    errCount ++
-                    // 只允许重试 30 次 30秒
-                    if (errCount > 30) {
-                        clearInterval(statusInterval); // 清除定时器
-                        this.$message(this.$refs.toast).hide()
-                        this.$message(this.$refs.toast).error("获取交易结果超时，请稍后查看")
-                    }
-                    return false;
-                }
-                count++
-                if (count > 30) {
-                    clearInterval(statusInterval); // 清除定时器
-                    this.$message(this.$refs.toast).hide()
-                    this.$message(this.$refs.toast).error("获取交易结果超时，请稍后查看")
-                    return false;
-                }
-                if (res.data.status === 1) {
-                    clearInterval(statusInterval); // 清除定时器
-                    this.$message(this.$refs.toast).hide()
-                    // 进行其他操作
-                    this.$message(this.$refs.toast).success("支付成功").then(() => {
-                        this.getOrderListData(0)
-                    })
-                }
-            }, 1000);
-        },
-        // type = 1加载 其他为刷新
-        async getOrderListData(type) {
-            const data = {}
-            if (this.status !== 'null') {
-                data.status = parseInt(this.status)
-            }
-            if (type == 0) {
-                this.page.page = 1
-                this.page.isMore = true
-                this.loadMore = 'loadmore'
-            }
-            data.page = this.page.page
-            data.pageSize = this.page.pageSize
-            let res = {}
-            if (type == 1) { // 加载
-                res = await getOrderList(data, false, this.$refs.toast)
-            } else {
-                res = await getOrderList(data, true, this.$refs.toast)
-            }
-            if (res.code !== 0) {
-                return false
-            }
-            this.page.page++
+				const data = { page: this.page.page, pageSize: this.page.pageSize }
+				if (this.status !== null && this.status !== 'null') {
+					data.status = parseInt(this.status)
+				}
 
-            res.data.list.forEach((item) => {
-                if (!item.details) {
-                    return false
-                }
-                item.details.forEach((dItem, index) => {
-                    if (dItem.goodsImage && dItem.goodsImage.slice(0, 4) !== 'http') {
-                        item.details[index].goodsImage = config.baseUrl + "/" + dItem.goodsImage
-                    }
-                })
-            })
-            // 进行赋值并计算是否还有下一页
-            this.page.total = res.data.total
-            // 如果没有更多数据，则将isMore设置为false
-            if ((this.page.page - 1) * this.page.pageSize >= this.page.total) {
-                console.log("没有更多了");
-                this.page.isMore = false
-                this.loadMore = 'nomore'
-            }
-            if (type == 1) {
-                this.list = [...this.list, ...res.data.list]
-            } else {
-                this.list = res.data.list
-            }
-            return true
-        },
-        // type = 1热门 2 上新
-        async onRefresh() {
-            this.triggered = true;
-            const b = await this.getOrderListData(0)
-            if (b) {
-                this.$message(this.$refs.toast).success('刷新成功')
-            } else {
-                this.$message(this.$refs.toast).error('刷新失败')
-            }
-            this.triggered = false;
-        },
-        async scrollTolower(e) {
-            // 如果是在加载中就不执行或没有更多时
-            if (this.loadMore == 'loading' || !this.page.isMore) {
-                return
-            }
-            // 设置状态为加载中
-            this.loadMore = 'loading'
-            await this.getOrderListData(1)
-            // 如果还有更多
-            if (this.page.isMore) {
-                this.loadMore = 'loadmore'
-            } else {
-                this.loadMore = 'nomore'
-            }
-        },
-        toOrderDetails(id) {
-            uni.navigateTo({
-                url: `/pages/order/detail?id=${id}`
-            })
-        },
-        showCancelOrderDailog(id) {
-            this.showCancelOrder = true
-            this.currentOperateOrderId = id
-        },
-        showDeleteOrderDailog(id) {
-            this.showDeleteOrder = true
-            this.currentOperateOrderId = id
-        },
-        showConfirmOrderDailog(id) {
-            this.showConfirmOrder = true
-            this.currentOperateOrderId = id
-        },
-        // 取消订单
-        async toCancelOrder() {
-            const res = await cancelOrder({
-                ID: this.currentOperateOrderId
-            }, this.$refs.toast)
-            if (res.code !== 0) {
-                this.showCancelOrder = false
-                return false
-            }
-            this.showCancelOrder = false
-            await this.$message(this.$refs.toast).success('取消订单成功')
-            await this.getOrderListData(0)
-        },
-        // 确认收货
-        async toConfirmOrder() {
-            const res = await confirmOrder({
-                ID: this.currentOperateOrderId
-            }, this.$refs.toast)
-            if (res.code !== 0) {
-                this.showConfirmOrder = false
-                return false
-            }
-            this.showConfirmOrder = false
-            await this.$message(this.$refs.toast).success('确认收货成功')
-            // 跳转到已完成 tab
-            uni.reLaunch({
-                url: '/pages/order/list?status=3'
-            })
-        },
-        // 删除订单
-        async toDeleteOrder() {
-            const res = await deleteOrder({
-                ID: this.currentOperateOrderId
-            }, this.$refs.toast)
-            if (res.code !== 0) {
-                this.showDeleteOrder = false
-                return false
-            }
-            this.showDeleteOrder = false
-            await this.$message(this.$refs.toast).success('删除订单成功')
-            await this.getOrderListData(0)
-        },
-    }
-}
-</script>
+				const res = await getOrderList(data, type === 0)
+				if (res.code !== 0) return false
+
+				const list = res.data?.list || []
+				list.forEach(item => {
+					if (item.details) {
+						item.details.forEach((d, i) => {
+							if (d.goodsImage && d.goodsImage.slice(0, 4) !== 'http') {
+								item.details[i].goodsImage = config.baseUrl + '/' + d.goodsImage
+							}
+						})
+					}
+				})
+
+				this.page.total = res.data?.total || 0
+				this.page.isMore = this.page.page * this.page.pageSize < this.page.total
+				this.loadMore = this.page.isMore ? 'loadmore' : 'nomore'
+
+				if (type === 0) {
+					this.list = list
+				} else {
+					this.list = [...this.list, ...list]
+				}
+
+				this.page.page++
+				return true
+			},
+			async onRefresh() {
+				const b = await this.getOrderListData(0)
+				this.$message(this.$refs.toast).success(b ? '刷新成功' : '刷新失败')
+			},
+			async scrollTolower() {
+				if (this.loadMore === 'loading' || !this.page.isMore) return
+				this.loadMore = 'loading'
+				await this.getOrderListData(1)
+				this.loadMore = this.page.isMore ? 'loadmore' : 'nomore'
+			},
+			getStatusText(order) {
+				if (order.statusCancel > 0) {
+					const map = { 1: '已取消', 2: '后台取消', 3: '超时取消' }
+					return map[order.statusCancel] || '已取消'
+				}
+				const map = { 0: '待付款', 1: '备货中', 2: '配送中', 3: '已完成' }
+				return map[order.status] || '未知'
+			},
+			getSettlementText(order) {
+				const map = { 0: '实付', 1: '月结未结', 2: '已结清' }
+				return map[order.settlementType] || ''
+			},
+			formatAmount(amount) {
+				return (Number(amount) || 0).toFixed(2)
+			},
+			formatDate(dateStr) {
+				if (!dateStr) return '-'
+				const d = new Date(dateStr)
+				return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+			},
+			toOrderDetail(id) {
+				uni.navigateTo({ url: `/pages/order/detail?id=${id}` })
+			},
+			cancelOrder(id) {
+				this.modalTitle = '取消订单'
+				this.modalContent = '确定要取消该订单吗？'
+				this.currentAction = 'cancel'
+				this.currentOrderId = id
+				this.showModal = true
+			},
+			confirmOrder(id) {
+				this.modalTitle = '确认收货'
+				this.modalContent = '请确认货物是否完整！'
+				this.currentAction = 'confirm'
+				this.currentOrderId = id
+				this.showModal = true
+			},
+			deleteOrder(id) {
+				this.modalTitle = '删除订单'
+				this.modalContent = '确定要删除该订单吗？'
+				this.currentAction = 'delete'
+				this.currentOrderId = id
+				this.showModal = true
+			},
+			async confirmAction() {
+				try {
+					let res
+					switch (this.currentAction) {
+						case 'cancel':
+							res = await cancelOrder({ ID: this.currentOrderId })
+							break
+						case 'confirm':
+							res = await confirmOrder({ ID: this.currentOrderId })
+							break
+						case 'delete':
+							res = await deleteOrderApi({ ID: this.currentOrderId })
+							break
+					}
+					if (res.code === 0) {
+						this.$message(this.$refs.toast).success('操作成功')
+						this.getOrderListData(0)
+					} else {
+						this.$message(this.$refs.toast).error(res.msg || '操作失败')
+					}
+				} catch (e) {
+					this.$message(this.$refs.toast).error('操作失败')
+				}
+				this.closeModal()
+			},
+			closeModal() {
+				this.showModal = false
+				this.currentAction = ''
+				this.currentOrderId = 0
+			},
+			async payOrder(id) {
+				const res = await orderPay({ ID: id })
+				if (res.code === 0) {
+					this.$message(this.$refs.toast).success('订单已提交')
+					this.getOrderListData(0)
+				}
+			}
+		}
+	}
+	</script>
 
 <style lang="scss" scoped>
+	.order-list-component {
+		width: 100%;
+		height: 100%;
+	}
 
-.order {
-  margin: 10px 10px;
-  background-color: #fff;
-  padding: 8px 10px;
-  border-radius: 10px;
+	.order-items {
+		padding: 20rpx;
+	}
 
-  .order-status {
-    display: flex;
-    justify-content: space-between;
-    margin: 5px 0 10px 0;
-    font-size: 14px;
-    color: #4d4d4d;
-  }
-  .goods-list {
-    display: flex;
-    background: #ededed;
-    padding: 15px 10px;
-    border-radius: 6px;
+	.order-card {
+		background: #FFFFFF;
+		border-radius: 20rpx;
+		padding: 24rpx;
+		margin-bottom: 20rpx;
+		box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.06);
+	}
 
-    .list-box {
-      width: 20%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      .box-goods-img {
-        width: 60px;
-        height: 60px;
-        border-radius: 10px;
-      }
-      .box-goods-ellipsis {
-        font-size: 18px;
-        color: #333333;
-      }
-    }
-  }
+	.order-header {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		margin-bottom: 20rpx;
+	}
 
-  .single-goods {
-    display: flex;
-    background: #ededed;
-    padding: 15px 10px;
-    border-radius: 6px;
+	.header-left {
+		display: flex;
+		flex-direction: column;
+		gap: 6rpx;
+	}
 
-    .single-goods-img {
-      width: 65px;
-      height: 65px;
-      border-radius: 10px;
-      flex-shrink: 0;
-    }
+	.order-sn {
+		font-size: 26rpx;
+		color: #1A1A1A;
+	}
 
-    .single-goods-info {
-      margin-left: 8px;
-      width: 100%;
+	.order-time {
+		font-size: 22rpx;
+		color: #999999;
+	}
 
-      .single-goods-title {
-        font-size: 14px;
-        display: flex;
-        justify-content: space-between;
+	.order-status {
+		font-size: 26rpx;
+		font-weight: 600;
 
-        .single-goods-price {
-          width: 80px;
-          flex-shrink: 0;
-          text-align: right;
-        }
-      }
-    }
+		&.status-0 { color: #F97316; }
+		&.status-1 { color: #22A84F; }
+		&.status-2 { color: #3B82F6; }
+		&.status-3 { color: #666666; }
+	}
 
-  }
+	.order-goods {
+		margin-bottom: 20rpx;
+	}
 
-  .order-bottom {
-    margin-top: 5px;
-    padding: 5px 0;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    font-size: 15px;
-    color: #4d4d4d;
+	.goods-grid {
+		overflow: hidden;
+	}
 
-    .order-bottom-price {
-      font-size: 16px;
-      color: #000;
-      margin-left: 3px;
-    }
-  }
+	.goods-thumbs {
+		display: flex;
+		gap: 8rpx;
+		flex-wrap: wrap;
+	}
 
-  .order-btn {
-    display: flex;
-    justify-content: flex-end;
-    padding: 6px 0;
+	.thumb-img {
+		width: 140rpx;
+		height: 140rpx;
+		border-radius: 12rpx;
+		background: #F5F7F4;
+	}
 
-    .btn {
-      padding: 5px 12px;
-      border-radius: 20px;
-      border: 1px solid #d5d4d4;
-      font-size: 14px;
-      margin-left: 6px;
-    }
-    .btn-pay {
-      background-color: #3c9cff;
-      color: #FFFFFF;
-    }
-  }
+	.thumb-more {
+		width: 140rpx;
+		height: 140rpx;
+		border-radius: 12rpx;
+		background: #F5F7F4;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 28rpx;
+		color: #999999;
+	}
 
-}
+	.goods-single {
+		display: flex;
+		gap: 16rpx;
+	}
 
+	.single-img {
+		width: 160rpx;
+		height: 160rpx;
+		border-radius: 16rpx;
+		background: #F5F7F4;
+		flex-shrink: 0;
+	}
 
-.item-single {
-  margin: 5px 10px;
-  padding: 8px;
-  background-color: #fff;
-  width: 100%;
-  height: 100px;
-}
+	.single-info {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+
+	.goods-name {
+		font-size: 28rpx;
+		color: #1A1A1A;
+		line-height: 1.4;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+
+	.goods-spec {
+		display: flex;
+		align-items: center;
+		gap: 16rpx;
+		font-size: 24rpx;
+		color: #666666;
+
+		.price {
+			color: #F97316;
+			font-weight: 600;
+		}
+
+		.num {
+			color: #999999;
+		}
+	}
+
+	.order-footer {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding-top: 20rpx;
+		border-top: 1rpx solid #F0F0F0;
+	}
+
+	.footer-left {
+		display: flex;
+		align-items: center;
+		gap: 20rpx;
+	}
+
+	.goods-count {
+		font-size: 24rpx;
+		color: #999999;
+	}
+
+	.order-amount {
+		display: flex;
+		align-items: baseline;
+		gap: 4rpx;
+	}
+
+	.amount-label {
+		font-size: 24rpx;
+		color: #666666;
+	}
+
+	.amount-value {
+		font-size: 28rpx;
+		font-weight: 600;
+		color: #F97316;
+	}
+
+	.symbol {
+		font-size: 22rpx;
+	}
+
+	.settlement-tag {
+		font-size: 22rpx;
+		padding: 6rpx 16rpx;
+		border-radius: 20rpx;
+
+		&.settle-0 {
+			background: #E8F8EC;
+			color: #22A84F;
+		}
+
+		&.settle-1 {
+			background: #FEF3E2;
+			color: #F97316;
+		}
+
+		&.settle-2 {
+			background: #F5F7F4;
+			color: #666666;
+		}
+	}
+
+	.order-actions {
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+		gap: 16rpx;
+		margin-top: 20rpx;
+		padding-top: 20rpx;
+		border-top: 1rpx solid #F0F0F0;
+	}
+
+	.action-btn {
+		height: 60rpx;
+		padding: 0 28rpx;
+		border-radius: 30rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 26rpx;
+		font-weight: 500;
+
+		&.outline {
+			border: 1rpx solid #DDDDDD;
+			color: #666666;
+			background: transparent;
+		}
+
+		&.primary {
+			background: linear-gradient(135deg, #22A84F 0%, #1A9A45 100%);
+			color: #FFFFFF;
+			box-shadow: 0 4rpx 16rpx rgba(34, 168, 79, 0.3);
+		}
+
+		&.danger {
+			background: #FEE2E2;
+			color: #EF4444;
+		}
+	}
+
+	.load-more {
+		padding: 20rpx 0;
+	}
+
+	.empty-order {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding-top: 160rpx;
+		gap: 20rpx;
+	}
+
+	.empty-icon {
+		width: 180rpx;
+		height: 180rpx;
+		background: #F5F7F4;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.empty-text {
+		font-size: 28rpx;
+		color: #999999;
+	}
+
+	.modal-content {
+		text-align: center;
+		padding: 20rpx;
+		font-size: 28rpx;
+		color: #666666;
+	}
 </style>

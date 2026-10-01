@@ -1,117 +1,102 @@
 <!--
- * @Author: dalefeng
- * @Date: 2023-03-23 15:52:23
- * @LastEditors: dalefeng
- * @LastEditTime: 2023-04-23 14:22:39
+ * 优诚配运 - 首页
+ * 设计规范：自然清新
 -->
 <template>
 	<pageWrapper>
-		<u-sticky class="king-bg-white">
-			<view class="king-p-5 king-bg-white" style="height: 35px;">
-				<!--				<u-search search-icon="scan" disabled :show-action="false" placeholder="请输入商品名称" @click="searchClick">-->
-				<u-search search-icon="search" disabled :show-action="false" placeholder="请输入商品名称" @click="searchClick">
-				</u-search>
+		<!-- 顶部搜索区 -->
+		<view class="home-header">
+			<view class="search-bar" @click="searchClick">
+				<u-icon name="search" color="#999999" size="32rpx"></u-icon>
+				<text class="search-placeholder">搜索商品</text>
 			</view>
-		</u-sticky>
-		<!-- 轮播图 -->
-		<view class="king-p-5">
-			<u-swiper :list="banner" keyName="imgUrl" indicator indicatorMode="line" :height="160" circular
-				bgColor="#ffffff" @click="clickBanner"></u-swiper>
 		</view>
-		<!-- 首页分类 -->
-		<view class="king-bg-white king-mx-10 king-radius10 king-pb-5 king-pt-10" style="min-height: 80px">
-			<u-grid :border="false" col="4">
-				<u-grid-item v-for="c in category" :key="c.ID" @click="toGoodsByCategory(c.ID)">
-					<u--image width="45" height="45" :src="c.imgUrl" shape="circle"></u--image>
-					<text class="grid-text king-my-5">{{ c.title }}</text>
-				</u-grid-item>
-			</u-grid>
-		</view>
-		<view class="king-mx-10 king-my-5 king-radius10">
-			<!-- 导航栏目 -->
-			<u-sticky offset-top="50">
-				<view class="king-bg-white king-radius10" style="height: 40px;">
-					<u-row customStyle="height: 28px">
-						<u-col span="6">
-							<view class="goods-tabs" @click="changeGoodsTabs(0)">
-								<text>热销商品</text>
-								<u-transition :show="goodsTabsId == 0" mode="fade-right" duration="200">
-									<view style="margin: 0 auto;">
-										<view class="goods-tabs-active"></view>
-									</view>
-								</u-transition>
-							</view>
-						</u-col>
-						<u-col span="6">
-							<view class="goods-tabs" @click="changeGoodsTabs(1)">
-								<text>新品上市</text>
-								<u-transition :show="goodsTabsId == 1" mode="fade" duration="200">
-									<view style="margin: 0 auto;">
-										<text class="goods-tabs-active"></text>
-									</view>
-								</u-transition>
-							</view>
-						</u-col>
-					</u-row>
+
+		<!-- 页面内容 -->
+		<scroll-view scroll-y class="home-scroll" :style="{ height: scrollHeight + 'px' }" refresher-enabled
+			:refresher-triggered="isRefreshing" @refresherrefresh="onRefresh" @scrolltolower="onScrollLower"
+			:scroll-anchoring="true">
+			<!-- 轮播图 -->
+			<view class="banner-wrap">
+				<u-swiper :list="banner" keyName="imgUrl" indicator indicatorMode="line" :height="320" circular
+					bgColor="transparent" :autoplay="true" :interval="3000" @click="clickBanner" radius="16rpx">
+				</u-swiper>
+			</view>
+
+			<!-- 分类网格 -->
+			<view class="category-card">
+				<view class="category-grid">
+					<view class="category-item" v-for="c in category" :key="c.ID" @click="toGoodsByCategory(c.ID)">
+						<view class="category-icon-wrap">
+							<u--image width="96rpx" height="96rpx" :src="c.imgUrl" shape="circle"></u--image>
+						</view>
+						<text class="category-title">{{ c.title }}</text>
+					</view>
 				</view>
-			</u-sticky>
-		</view>
-		<!-- 商品列表 -->
-		<view class="king-bg-white king-mx-10 king-mb-10 king-radius10">
-			<!-- 列表 -->
-			<view>
-				<swiper :style="{ height: swiperHeight + 'px' }" :current="goodsTabsId" @change="onChangeGoodsTabs">
-					<!-- 热销商品  -->
+			</view>
+
+			<!-- 商品 Tab -->
+			<view class="goods-tabs-wrap">
+				<view class="goods-tabs">
+					<view class="tab-item" :class="{ active: goodsTabsId === 0 }" @click="changeGoodsTabs(0)">
+						<text class="tab-text">热销商品</text>
+						<view class="tab-indicator" v-if="goodsTabsId === 0"></view>
+					</view>
+					<view class="tab-item" :class="{ active: goodsTabsId === 1 }" @click="changeGoodsTabs(1)">
+						<text class="tab-text">新品上市</text>
+						<view class="tab-indicator" v-if="goodsTabsId === 1"></view>
+					</view>
+				</view>
+			</view>
+
+			<!-- 商品列表 -->
+			<view class="goods-list-wrap">
+				<swiper :current="goodsTabsId" @change="onChangeGoodsTabs" :style="{ height: listSwiperHeight + 'px' }">
+					<!-- 热销商品 -->
 					<swiper-item>
-						<scroll-view :scroll-top="hotScrollTop" scroll-y="true" @scroll="hotScrollTopHandle"
-							:style="{ height: swiperHeight + 'px' }" refresher-enabled="true" :refresher-threshold="70"
-							:refresher-triggered="hotTriggered" @refresherrefresh="onRefresh"
-							@scrolltolower="hotScrollTolower" :scroll-anchoring="true">
-							<!-- 商品列表 -->
-							<GoodsList :lists="goodsHotArr" price-type="￥" @onGoods="toGoodsInfo" :is-audit="isAudit">
-							</GoodsList>
-							<view class="king-py-40" @click="hotScrollTolower">
-								<u-loadmore :status="hotLoadMore" loading-text="努力加载中，请喝杯茶" loadmore-text="上拉加载更多"
-									nomore-text="实在是没有了" />
-							</view>
-						</scroll-view>
+						<GoodsList :lists="goodsHotArr" price-type="¥" @onGoods="toGoodsInfo" :is-audit="isAudit"></GoodsList>
+						<view class="load-more" v-if="goodsHotArr.length > 0">
+							<u-loadmore :status="hotLoadMore" loading-text="加载中..." loadmore-text="上拉加载更多" nomore-text="没有更多了" />
+						</view>
+						<view class="empty-tip" v-if="goodsHotArr.length === 0 && !isLoading">
+							<u-empty text="暂无热销商品" :icon="emptyIcon"></u-empty>
+						</view>
 					</swiper-item>
-					<!-- 新品上市  -->
+					<!-- 新品上市 -->
 					<swiper-item>
-						<scroll-view :scroll-top="newScrollTop" scroll-y="true" @scroll="newScrollTopHandle"
-							:style="{ height: swiperHeight + 'px' }" refresher-enabled="true" :refresher-threshold="70"
-							:refresher-triggered="newTriggered" @refresherrefresh="onRefresh"
-							@scrolltolower="newScrollTolower" :scroll-anchoring="true">
-							<!-- 商品列表 -->
-							<GoodsList :lists="goodsNewArr" price-type="￥" :is-audit="isAudit"></GoodsList>
-							<view class="king-py-40" @click="newScrollTolower">
-								<u-loadmore :status="newLoadMore" loading-text="努力加载中，请喝杯茶" loadmore-text="上拉加载更多"
-									nomore-text="实在是没有了" />
-							</view>
-						</scroll-view>
+						<GoodsList :lists="goodsNewArr" price-type="¥" :is-audit="isAudit"></GoodsList>
+						<view class="load-more" v-if="goodsNewArr.length > 0">
+							<u-loadmore :status="newLoadMore" loading-text="加载中..." loadmore-text="上拉加载更多" nomore-text="没有更多了" />
+						</view>
+						<view class="empty-tip" v-if="goodsNewArr.length === 0 && !isLoading">
+							<u-empty text="暂无新品" :icon="emptyIcon"></u-empty>
+						</view>
 					</swiper-item>
 				</swiper>
 			</view>
-		</view>
+		</scroll-view>
+
+		<!-- 登录悬浮 -->
 		<loginSuspend :show="loginSuspendShow" @success="loginSuccess"></loginSuspend>
+
+		<!-- 底部导航 -->
 		<Tabbar :tabsId="0" />
 
+		<!-- 未结算提醒弹窗 -->
 		<u-modal :show="showSettlmentUnpaid" showCancelButton closeOnClickOverlay @confirm="callPhone"
-			@cancel="() => showSettlmentUnpaid = false" @close="close" confirmText="联系商家" cancelText="稍后处理" title="未结算订单提醒">
-			<view>
-				<view class="main-message">您有{{preOrderStatus.month}}月未结算的订单需要处理</view>
-				<view class="details">
-					<view>共有 <text class="highlight"> {{ preOrderStatus.monthUnpaid }} </text> 个订单未结算</view>
-					<view>结算金额为 <text class="highlight"> {{ preOrderStatus.settlementUnpaid }} </text> 元</view>
+			@cancel="showSettlmentUnpaid = false" @close="showSettlmentUnpaid = false" confirmText="联系商家"
+			cancelText="稍后处理" title="未结算订单提醒">
+			<view class="modal-content">
+				<view class="modal-main">您有{{ preOrderStatus.month }}月未结算的订单需要处理</view>
+				<view class="modal-info">
+					<view class="info-row">共有 <text class="highlight">{{ preOrderStatus.monthUnpaid }}</text> 个订单未结算</view>
+					<view class="info-row">结算金额 <text class="highlight">¥{{ preOrderStatus.settlementUnpaid }}</text></view>
 				</view>
-				<view class="contact-info">
-					<view>为确保您的正常使用，请尽快处理</view>
-					<view>如需帮助，请联系商家：<text class="phone-number">{{ relationPhone }}</text></view>
-				</view>
+				<view class="modal-tip">为确保您的正常使用，请尽快处理</view>
 			</view>
 		</u-modal>
-		<u-toast style="z-index:9998;" ref="toast"></u-toast>
 
+		<u-toast style="z-index:9998;" ref="toast"></u-toast>
 	</pageWrapper>
 </template>
 
@@ -120,210 +105,153 @@
 	import loginSuspend from '@/components/loginPop/loginSuspend.vue'
 	import GoodsList from '@/components/goodsList/goodsList.vue'
 	import config from '@/config/config.js'
-	import {
-		getBannerList
-	} from '@/api/banner.js'
-	import {
-		getHomeCategoryList
-	} from '@/api/category.js'
-	import {
-		getGoodsPageList
-	} from '@/api/goods.js'
-	import {
-		getToken,
-		getUser,
-		setUser,
-		getFirstEntry,
-		setRole,
-		setSettlmentInfo,
-	} from '@/store/storage.js'
-	import {
-		getUserAuditStatus,
-		getUserInfo
-	} from "@/api/user";
-	import {
-		getOrderStatusCount
-	} from "@/api/order";
-	import {
-		parseDateStr
-	} from "@/utils/date";
+	import { getBannerList } from '@/api/banner.js'
+	import { getHomeCategoryList } from '@/api/category.js'
+	import { getGoodsPageList } from '@/api/goods.js'
+	import { getToken, getUser, setUser, setRole, setSettlmentInfo } from '@/store/storage.js'
+	import { getUserAuditStatus, getUserInfo } from "@/api/user";
+	import { getOrderStatusCount } from "@/api/order";
+	import { parseDateStr } from "@/utils/date";
 
 	export default {
-		components: {
-			Tabbar,
-			GoodsList,
-			loginSuspend
-		},
+		components: { Tabbar, GoodsList, loginSuspend },
 		data() {
 			return {
 				isAudit: false,
-				applyTime: "",
-				loginSuspendShow: false, // 是否显示底部登录
+				isRefreshing: false,
+				isLoading: false,
+				loginSuspendShow: false,
+				showSettlmentUnpaid: false,
 				relationPhone: '',
-				showSettlmentUnpaid: false, // 显示区结算弹窗
-				goodsTabsId: 0, // 商品标签切换
-				swiperHeight: 1000, // 商品栏目整体高度 页面大小
-				hotScrollTop: 0,
-				newScrollTop: 0,
-				hotTriggered: false, // 下拉刷新状态
-				newTriggered: false, // 下拉刷新状态
-				hotLoadMore: 'loadmore', // 上拉加载状态
-				newLoadMore: 'loadmore', // 上拉加载状态
-				hotPage: {
-					page: 1,
-					pageSize: 12,
-					total: 0, // 总条数
-					isMore: true // 是否还有更多
-				},
-				newPage: {
-					page: 1,
-					pageSize: 12,
-					total: 0, // 总条数
-					isMore: true // 是否还有更多
-				},
+				goodsTabsId: 0,
+				scrollHeight: 1000,
+				listSwiperHeight: 600,
+				hotLoadMore: 'loadmore',
+				newLoadMore: 'loadmore',
+				hotPage: { page: 1, pageSize: 12, total: 0, isMore: true },
+				newPage: { page: 1, pageSize: 12, total: 0, isMore: true },
 				banner: [],
 				category: [],
 				goodsHotArr: [],
 				goodsNewArr: [],
-				preOrderStatus: {}, // 订单统计及订单数
+				preOrderStatus: {},
+				emptyIcon: 'http://cdn.uviewui.com/uview/empty/data.png'
 			}
 		},
 		onLoad() {
 			let user = getUser()
 			if (user) {
-				let entry = getFirstEntry()
 				if (user.auditStatus === 1) {
 					this.isAudit = true
 				} else {
 					getUserAuditStatus().then(res => {
-						this.applyTime = res.data.applyTime
-						if (res.data.auditStatus === 1) {
+						if (res.data?.auditStatus === 1) {
 							this.isAudit = true
 							user.auditStatus = 1
 							setUser(user)
-						} else if (!entry) {
-							uni.navigateTo({
-								url: "/pages/my/memberInfo"
-							});
 						}
 					})
 				}
 			}
 			this.relationPhone = config.phone
-			this.freshing = false;
-			this.getBanner();
-			this.getHomeCategory();
+			this.getBanner()
+			this.getHomeCategory()
 			this.getGoodsListData(0)
 			this.getGoodsListData(1)
-			// 如果不是登录状态
+
 			const t = getToken()
 			if (!t) {
 				this.loginSuspendShow = true
 				return
 			}
 
-			this.getUserInfo()
+			this.getUserInfoData()
 			const date = new Date()
 			date.setMonth(date.getMonth() - 1)
 			this.getOrderStatusCountInfo(date)
-
+		},
+		onShow() {
+			const t = getToken()
+			if (t && this.loginSuspendShow) {
+				this.loginSuspendShow = false
+				this.getUserInfoData()
+			}
 		},
 		mounted() {
-			// 设置商品列表高度为页面高度
 			uni.getSystemInfo({
 				success: (res) => {
-					const windowHeight = res.windowHeight;
-					this.swiperHeight = windowHeight - 155;
-				},
-			});
+					this.scrollHeight = res.windowHeight - 120
+					this.listSwiperHeight = res.windowHeight - 380
+				}
+			})
 		},
 		methods: {
-			// 获取用户信息
-			async getUserInfo() {
-				this.token = getToken()
-				//如果登录了，则获取用户信息
-				if (this.token) {
-					const res = await getUserInfo()
-					if (res.code === 0) {
-						setUser(res.data.userInfo)
-						setRole(res.data.userInfo.authority)
-					}
+			async getUserInfoData() {
+				const t = getToken()
+				if (!t) return
+				const res = await getUserInfo()
+				if (res.code === 0) {
+					setUser(res.data.userInfo)
+					setRole(res.data.userInfo.authority)
 				}
 			},
-			// 获取结算状态
 			getOrderStatusCountInfo(date) {
 				const settlementMonth = parseDateStr(date.toString())
-				getOrderStatusCount({
-					settlementMonth: settlementMonth
-				}).then((res) => {
-					if (res.data.monthUnpaid > 0) {
+				getOrderStatusCount({ settlementMonth }).then((res) => {
+					if (res.data?.monthUnpaid > 0) {
 						setSettlmentInfo(res.data)
 						this.preOrderStatus = res.data
 						this.showSettlmentUnpaid = true
 					}
 				})
 			},
-			//分享好友
 			onShareAppMessage() {
 				return {
-					title: '启运冻品', // 分享标题
-					path: '/pages/index/index', // 分享路径，注意要写正确的页面路径
-					imageUrl: '/static/qiyun_logo.png', // 分享图片的本地路径
+					title: '优诚配运 - 新鲜食材配送',
+					path: '/pages/index/index',
+					imageUrl: '/static/logo.png'
 				}
 			},
-			//分享到朋友圈
 			onShareTimeline() {
 				return {
-					title: '启运冻品',
-					link: '/pages/index/index',
-					imageUrl: '/static/qiyun_logo.png',
+					title: '优诚配运 - 新鲜食材配送',
+					imageUrl: '/static/logo.png'
 				}
 			},
-			// 搜索框点击跳转到搜索页面
 			searchClick() {
-				console.log('跳转')
-				uni.navigateTo({
-					url: '/pages/search/search'
-				})
+				uni.navigateTo({ url: '/pages/search/search' })
 			},
-			// 获取轮播图
 			getBanner() {
 				getBannerList().then(res => {
+					if (res.code !== 0) return
 					res.data.list.forEach(item => {
-						if (item.imgUrl.slice(0, 4) !== 'http') {
+						if (item.imgUrl && item.imgUrl.slice(0, 4) !== 'http') {
 							item.imgUrl = config.baseUrl + "/" + item.imgUrl
 						}
 					})
-					this.banner = res.data.list;
+					this.banner = res.data.list || []
 				})
 			},
-			// 获取首页分类
 			getHomeCategory() {
 				getHomeCategoryList().then(res => {
+					if (res.code !== 0) return
 					res.data.list.forEach(item => {
-						if (item.imgUrl.slice(0, 4) !== 'http') {
+						if (item.imgUrl && item.imgUrl.slice(0, 4) !== 'http') {
 							item.imgUrl = config.baseUrl + "/" + item.imgUrl
 						}
 					})
-					this.category = res.data.list
-					console.log('category', this.category);
+					this.category = res.data.list || []
 				})
 			},
-			// 切换标签页
-			onChangeGoodsTabs(e) {
-				this.goodsTabsId = e.detail.current
-			},
-			// 点击切换标签页
 			changeGoodsTabs(id) {
 				this.goodsTabsId = id
 			},
-			// 获取商品列表
-			// type = 1加载 其他为刷新
-			async getGoodsListData(tabId, type) {
-				const data = {
-					goodsArea: 0
-				}
-				if (type == 0) {
+			onChangeGoodsTabs(e) {
+				this.goodsTabsId = e.detail.current
+			},
+			async getGoodsListData(tabId, append = false) {
+				const data = { goodsArea: 0 }
+				if (!append) {
 					this.hotPage.page = 1
 					this.newPage.page = 1
 					this.hotPage.isMore = true
@@ -331,213 +259,260 @@
 					this.hotLoadMore = 'loadmore'
 					this.newLoadMore = 'loadmore'
 				}
-				if (tabId == 0) {
+				if (tabId === 0) {
 					data.isHot = 1
 					data.page = this.hotPage.page
 					data.pageSize = this.hotPage.pageSize
-					this.hotPage.page++
-				} else if (tabId == 1) {
+				} else if (tabId === 1) {
 					data.isNew = 1
 					data.page = this.newPage.page
 					data.pageSize = this.newPage.pageSize
-					this.newPage.page++
-				} else {
-					return false
-				}
+				} else return
+
+				this.isLoading = true
 				const res = await getGoodsPageList(data)
-				if (res.code !== 0) {
-					return false
-				}
-				res.data.list.forEach(item => {
-					if (item.images[0] && item.images[0].url.slice(0, 4) !== 'http') {
+				this.isLoading = false
+				if (res.code !== 0) return
+
+				res.data.list?.forEach(item => {
+					if (item.images?.[0] && item.images[0].url?.slice(0, 4) !== 'http') {
 						item.images[0].url = config.baseUrl + "/" + item.images[0].url
 					}
 				})
-				console.log(res);
-				// 进行赋值并计算是否还有下一页
-				if (tabId == 0) { // 热门商品
-					this.hotPage.total = res.data.total
-					// 如果没有更多数据，则将isMore设置为false
-					if ((this.hotPage.page - 1) * this.hotPage.pageSize >= this.hotPage.total) {
-						console.log("没有更多了");
+
+				if (tabId === 0) {
+					this.hotPage.total = res.data.total || 0
+					if (append) {
+						this.goodsHotArr = [...this.goodsHotArr, ...(res.data.list || [])]
+					} else {
+						this.goodsHotArr = res.data.list || []
+					}
+					if (this.hotPage.page * this.hotPage.pageSize >= this.hotPage.total) {
 						this.hotPage.isMore = false
 						this.hotLoadMore = 'nomore'
 					}
-					if (type == 1) {
-						this.goodsHotArr = [...this.goodsHotArr, ...res.data.list]
+					this.hotPage.page++
+				} else {
+					this.newPage.total = res.data.total || 0
+					if (append) {
+						this.goodsNewArr = [...this.goodsNewArr, ...(res.data.list || [])]
 					} else {
-						this.goodsHotArr = res.data.list
+						this.goodsNewArr = res.data.list || []
 					}
-				} else if (tabId == 1) { // 新品上市
-					this.newPage.total = res.data.total
-					// 如果没有更多数据，则将isMore设置为false
-					console.log('(this.newPage.page - 1) * this.newPage.pageSize >= this.newPage.total', (this.newPage
-						.page - 1) * this.newPage.pageSize, this.newPage.total);
-					if ((this.newPage.page - 1) * this.newPage.pageSize >= this.newPage.total) {
+					if (this.newPage.page * this.newPage.pageSize >= this.newPage.total) {
 						this.newPage.isMore = false
 						this.newLoadMore = 'nomore'
 					}
-					if (type == 1) {
-						this.goodsNewArr = [...this.goodsNewArr, ...res.data.list]
-					} else {
-						this.goodsNewArr = res.data.list
-					}
-				} else {
-					return false
+					this.newPage.page++
 				}
-				return true
 			},
-			// 热门列表滑动距离
-			hotScrollTopHandle(e) {
-				// 会出现抖动
-				//this.hotScrollTop = e.detail.scrollTop.toFixed(0)
-			},
-			// 上新列表滑动距离
-			newScrollTopHandle(e) {
-				//this.newScrollTop = e.detail.scrollTop.toFixed(0)
-			},
-			// 返回列表的顶部
-			toTop() {
-				this.hotScrollTop = 0
-				this.newScrollTop = 0
-			},
-			// 下拉刷新
-			// type = 1热门 2 上新
 			async onRefresh() {
-				if (this.goodsTabsId == 0) {
-					this.hotTriggered = true;
-				} else if (this.goodsTabsId == 1) {
-					this.newTriggered = true;
-				} else {
-					return
-				}
-				const b = await this.getGoodsListData(this.goodsTabsId, 0)
-				if (b) {
-					this.$message(this.$refs.toast).success("刷新成功")
-				} else {
-					this.$message(this.$refs.toast).success("刷新失败")
-				}
-				this.hotTriggered = false;
-				this.newTriggered = false;
+				this.isRefreshing = true
+				await this.getGoodsListData(this.goodsTabsId, false)
+				this.isRefreshing = false
+				this.$message(this.$refs.toast).success("刷新成功")
 			},
-			async hotScrollTolower(e) {
-				// 如果是在加载中就不执行或没有更多时
-				if (this.hotLoadMore == 'loading' || !this.hotPage.isMore) {
-					return
-				}
-				// 设置状态为加载中
-				this.hotLoadMore = 'loading'
-				await this.getGoodsListData(this.goodsTabsId, 1)
-				// 如果还有更多
-				if (this.hotPage.isMore) {
-					this.hotLoadMore = 'loadmore'
+			async onScrollLower() {
+				if (this.goodsTabsId === 0) {
+					if (this.hotLoadMore === 'loading' || !this.hotPage.isMore) return
+					this.hotLoadMore = 'loading'
+					await this.getGoodsListData(0, true)
+					this.hotLoadMore = this.hotPage.isMore ? 'loadmore' : 'nomore'
 				} else {
-					this.hotLoadMore = 'nomore'
+					if (this.newLoadMore === 'loading' || !this.newPage.isMore) return
+					this.newLoadMore = 'loading'
+					await this.getGoodsListData(1, true)
+					this.newLoadMore = this.newPage.isMore ? 'loadmore' : 'nomore'
 				}
 			},
-			async newScrollTolower(e) {
-				// 如果是在加载中就不执行或没有更多时
-				if (this.newLoadMore == 'loading' || !this.newPage.isMore) {
-					return
-				}
-				// 设置状态为加载中
-				this.newLoadMore = 'loading'
-				await this.getGoodsListData(this.goodsTabsId, 1)
-				// 如果还有更多
-				if (this.newPage.isMore) {
-					this.newLoadMore = 'loadmore'
-				} else {
-					this.newLoadMore = 'nomore'
-				}
-			},
-			// 跳转商品列表
 			toGoodsByCategory(categoryId) {
-				uni.navigateTo({
-					url: `/pages/goods/goods?categoryId=` + categoryId
-				})
+				uni.navigateTo({ url: `/pages/goods/goods?categoryId=${categoryId}` })
 			},
-			// 跳转商品详情
 			toGoodsInfo(goods) {
-				uni.navigateTo({
-					url: `/pages/goods/goodsInfo?id=` + goods.ID
-				})
+				uni.navigateTo({ url: `/pages/goods/goodsInfo?id=${goods.ID}` })
 			},
-			// 登陆成功
 			loginSuccess() {
 				this.loginSuspendShow = false
+				this.getUserInfoData()
 			},
-			// 轮播图跳转
 			clickBanner(index) {
-				let b = this.banner[index]
-				if (b.type === 1) {
-					uni.navigateTo({
-						url: b.toPath
-					})
+				const b = this.banner[index]
+				if (b?.type === 1 && b.toPath) {
+					uni.navigateTo({ url: b.toPath })
 				}
 			},
-			// 拨打电话
 			callPhone() {
-				console.log("callPhone " + this.relationPhone);
-			    uni.makePhoneCall({
-			        phoneNumber: this.relationPhone,
-			        success: (result) => {
-			        },
-			        fail: (error) => {
-			        }
-			    })
-			},
-		},
+				uni.makePhoneCall({ phoneNumber: this.relationPhone })
+			}
+		}
 	}
 </script>
 
-<style lang="scss">
-	.goods-tabs {
-		margin: 0 auto;
+<style lang="scss" scoped>
+	/* 顶部搜索区 */
+	.home-header {
+		padding: 16rpx 24rpx 12rpx;
+		background: linear-gradient(135deg, #22A84F 0%, #1A9A45 100%);
+	}
+
+	.search-bar {
+		display: flex;
+		align-items: center;
+		height: 72rpx;
+		background: #FFFFFF;
+		border-radius: 36rpx;
+		padding: 0 28rpx;
+		box-shadow: 0 4rpx 16rpx rgba(34, 168, 79, 0.2);
+	}
+
+	.search-placeholder {
+		margin-left: 12rpx;
+		font-size: 26rpx;
+		color: #999999;
+	}
+
+	/* 页面滚动区 */
+	.home-scroll {
+		background: #F5F7F4;
+	}
+
+	/* 轮播图 */
+	.banner-wrap {
+		padding: 20rpx 24rpx 0;
+	}
+
+	/* 分类网格 */
+	.category-card {
+		margin: 20rpx 24rpx;
+		background: #FFFFFF;
+		border-radius: 20rpx;
+		padding: 28rpx 16rpx;
+		box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+	}
+
+	.category-grid {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 16rpx;
+	}
+
+	.category-item {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 12rpx;
+	}
+
+	.category-icon-wrap {
+		width: 96rpx;
+		height: 96rpx;
+		background: #F5F7F4;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		overflow: hidden;
+	}
+
+	.category-title {
+		font-size: 24rpx;
+		color: #1A1A1A;
 		text-align: center;
-		height: 16px;
-		background: #ffffff;
-
-		.goods-tabs-active {
-			width: 66px;
-			border-bottom: 4px solid #2979ff;
-			padding-bottom: 4px;
-			display: block;
-		}
 	}
-	
+
+	/* 商品 Tab */
+	.goods-tabs-wrap {
+		padding: 0 24rpx;
+	}
+
+	.goods-tabs {
+		display: flex;
+		background: #FFFFFF;
+		border-radius: 16rpx;
+		padding: 0 8rpx;
+		box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+	}
+
+	.tab-item {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding: 24rpx 0 16rpx;
+		position: relative;
+	}
+
+	.tab-text {
+		font-size: 28rpx;
+		font-weight: 500;
+		color: #999999;
+		transition: all 0.2s;
+	}
+
+	.tab-item.active .tab-text {
+		color: #22A84F;
+		font-weight: 600;
+	}
+
+	.tab-indicator {
+		position: absolute;
+		bottom: 0;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 48rpx;
+		height: 6rpx;
+		background: linear-gradient(90deg, #22A84F, #1A9A45);
+		border-radius: 3rpx;
+	}
+
+	/* 商品列表 */
+	.goods-list-wrap {
+		padding: 20rpx 24rpx;
+	}
+
+	.load-more {
+		padding: 20rpx 0;
+	}
+
+	.empty-tip {
+		padding: 60rpx 0;
+	}
+
+	/* 弹窗内容 */
 	.modal-content {
-	    padding: 20px;
-	    text-align: center;
-	}
-	
-	.warning-icon {
-	    font-size: 40px;
-	    margin-bottom: 10px;
-	}
-	
-	.main-message {
-	    font-size: 18px;
-	    font-weight: bold;
-	    margin-bottom: 15px;
-	}
-	
-	.details {
-	    margin-bottom: 15px;
-	}
-	
-	.highlight {
-	    color: #ff6600;
-	    font-weight: bold;
-		margin: 0 4px;
-	}
-	
-	.contact-info {
-	    font-size: 14px;
-	}
-	
-	.phone-number {
-	    font-weight: bold;
-	    margin-top: 5px;
+		padding: 32rpx;
 	}
 
+	.modal-main {
+		font-size: 32rpx;
+		font-weight: 600;
+		color: #1A1A1A;
+		text-align: center;
+		margin-bottom: 28rpx;
+	}
+
+	.modal-info {
+		background: #F5F7F4;
+		border-radius: 12rpx;
+		padding: 24rpx;
+		margin-bottom: 24rpx;
+	}
+
+	.info-row {
+		font-size: 28rpx;
+		color: #666666;
+		line-height: 1.8;
+	}
+
+	.highlight {
+		color: #22A84F;
+		font-weight: 600;
+		margin: 0 6rpx;
+	}
+
+	.modal-tip {
+		font-size: 24rpx;
+		color: #999999;
+		text-align: center;
+	}
 </style>
