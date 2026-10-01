@@ -5,3 +5,8 @@
 /fresh-shop-uniapp/.idea/
 /fresh-shop-uniapp/unpackage/
 /.idea/
+
+# Binary builds
+fresh-shop/server/server
+fresh-shop/server/main
+fresh-shop/server/server.log
