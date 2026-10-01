@@ -18,13 +18,15 @@
 		<view class="login-form">
 			<view class="form-item">
 				<view class="form-label">
-					<u-icon name="account" size="20" color="#4CAF50"></u-icon>
-					<text>用户名</text>
+					<u-icon name="phone" size="20" color="#4CAF50"></u-icon>
+					<text>手机号</text>
 				</view>
 				<input
 					class="form-input"
-					v-model="username"
-					placeholder="请输入用户名"
+					v-model="phone"
+					type="number"
+					maxlength="11"
+					placeholder="请输入手机号"
 					placeholder-class="placeholder"
 				/>
 			</view>
@@ -46,25 +48,34 @@
 			<button class="login-btn" :loading="loading" @click="handleLogin">
 				<text v-if="!loading">登录</text>
 			</button>
+
+			<view class="register-link" @click="goRegister">
+				还没有账号？<text class="link">立即注册</text>
+			</view>
 		</view>
 	</view>
 </template>
 
 <script>
-import request from '@/utils/request.js'
+import { loginByPhone } from '@/api/login.js'
+import { setToken, setExpires, setUser, setOpenId } from '@/store/storage.js'
 
 export default {
 	data() {
 		return {
-			username: '',
+			phone: '',
 			password: '',
 			loading: false
 		}
 	},
 	methods: {
 		async handleLogin() {
-			if (!this.username) {
-				uni.showToast({ title: '请输入用户名', icon: 'none' })
+			if (!this.phone) {
+				uni.showToast({ title: '请输入手机号', icon: 'none' })
+				return
+			}
+			if (!/^1[3-9]\d{9}$/.test(this.phone)) {
+				uni.showToast({ title: '请输入合法手机号', icon: 'none' })
 				return
 			}
 			if (!this.password) {
@@ -75,30 +86,22 @@ export default {
 			this.loading = true
 
 			try {
-				const res = await request({
-					url: '/base/login',
-					method: 'POST',
-					data: {
-						username: this.username,
-						password: this.password
-					}
+				const res = await loginByPhone({
+					phone: this.phone,
+					password: this.password
 				})
 
 				if (res.code === 0) {
-					// 保存登录信息
-					uni.setStorageSync('token', res.data.token)
-					uni.setStorageSync('userInfo', res.data.user)
-
-					// 更新 Vuex 状态
-					this.$store.commit('login', res.data.user)
+					setToken(res.data.token)
+					setExpires(res.data.expiresAt)
+					setUser(res.data.user)
+					setOpenId(res.data.user.openId || '')
 
 					uni.showToast({ title: '登录成功', icon: 'success' })
 
-					// 跳转到首页
+					// 登录成功，跳转到首页
 					setTimeout(() => {
-						uni.switchTab({
-							url: '/pages/index/index'
-						})
+						uni.reLaunch({ url: '/pages/index/index' })
 					}, 1500)
 				} else {
 					uni.showToast({ title: res.msg || '登录失败', icon: 'none' })
@@ -108,6 +111,11 @@ export default {
 			} finally {
 				this.loading = false
 			}
+		},
+		goRegister() {
+			uni.redirectTo({
+				url: '/pages/login/register'
+			})
 		}
 	}
 }
@@ -205,5 +213,16 @@ export default {
 
 .login-btn::after {
 	border: none;
+}
+
+.register-link {
+	text-align: center;
+	margin-top: 40rpx;
+	font-size: 28rpx;
+	color: #666;
+}
+
+.link {
+	color: #4CAF50;
 }
 </style>

@@ -6,14 +6,6 @@
  */
 
 export default {
-    // H5 使用代理请求, 正式环境请修改 manifest.json => h5 的请求 url
-    // #ifdef H5
-    // baseUrl: '/api',
-    // #endif
-    // 其他使用 url
-    // #ifndef H5
-    baseUrl: 'http://localhost:48888',
-    // baseUrl: 'https://qiyundongpin.com/goapi',
-    // #endif
+    baseUrl: '/api',
     phone: 13527326320
 }

@@ -8,7 +8,7 @@
             <view v-if="list.length > 0">
                 <view class="order" v-for="(order, index) in list" :key="index" @click="toOrderDetails(order.ID)">
                     <view class="order-status">
-                        <text v-if="order.delivery && order.delivery.scheduledTime.charAt(0) !== '0'">预计送达: {{ order.delivery.scheduledTime | parseDate }}</text>
+                        <text v-if="order.delivery && order.delivery.scheduledTime && order.delivery.scheduledTime.charAt(0) !== '0'">预计送达: {{ order.delivery.scheduledTime | parseDate }}</text>
                         <view v-else>{{ order.CreatedAt | parseDate }}</view>
                         <view>
                             <!-- 判断订单是否取消 -->
@@ -17,12 +17,12 @@
                             <text v-else-if="order.statusCancel === 3">超时取消</text>
                             <text v-else>
                                 <!-- 判断是否是售后单 -->
-                                <text v-if="order.return.ID !== 0">
+                                <text v-if="order.return && order.return.ID !== 0">
                                     <text v-if="order.return.refundStatus === 1">退款等待到账</text>
-                                    <text v-else-if="order.return === -1">拒绝售后</text>
-                                    <text v-else-if="order.return === 0">等待审核</text>
-                                    <text v-else-if="order.return === 1 && order.return.refundStatus === 2">售后完成</text>
-                                    <text v-else-if="order.return === 1">审核通过</text>
+                                    <text v-else-if="order.return.refundStatus === -1">拒绝售后</text>
+                                    <text v-else-if="order.return.refundStatus === 0">等待审核</text>
+                                    <text v-else-if="order.return.refundStatus === 1 && order.return.refundStatus === 2">售后完成</text>
+                                    <text v-else-if="order.return.refundStatus === 1">审核通过</text>
                                 </text>
                                 <!-- 普通订单 -->
                                 <text v-else>
@@ -386,7 +386,10 @@ export default {
             }
             this.showConfirmOrder = false
             await this.$message(this.$refs.toast).success('确认收货成功')
-            await this.getOrderListData(0)
+            // 跳转到已完成 tab
+            uni.reLaunch({
+                url: '/pages/order/list?status=3'
+            })
         },
         // 删除订单
         async toDeleteOrder() {

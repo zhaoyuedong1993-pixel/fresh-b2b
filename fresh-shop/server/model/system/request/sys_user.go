@@ -6,17 +6,30 @@ import (
 	"time"
 )
 
-// Register User register structure
+// Register User register structure (管理端新增用户)
 type Register struct {
-	Username     string `json:"userName" file:"用户名"`
-	Password     string `json:"passWord" file:"密码"`
-	NickName     string `json:"nickName" file:"昵称"`
-	HeaderImg    string `json:"headerImg" file:"头像链接"`
-	AuthorityId  uint   `json:"authorityId" swaggertype:"string" file:"int 角色id"`
-	Enable       int    `json:"enable" swaggertype:"string" file:"int 是否启用"`
-	AuthorityIds []uint `json:"authorityIds" swaggertype:"string" file:"[]uint 角色id"`
-	Phone        string `json:"phone" file:"电话号码"`
-	Email        string `json:"email" file:"电子邮箱"`
+	Username            string `json:"userName" file:"用户名"` // 留空，后端自动设为手机号
+	Password            string `json:"passWord" file:"密码"`
+	NickName            string `json:"nickName" file:"昵称" binding:"required"`
+	HeaderImg           string `json:"headerImg" file:"头像链接"`
+	AuthorityId         uint   `json:"authorityId" swaggertype:"string" file:"int 角色id"`
+	Enable              int    `json:"enable" swaggertype:"string" file:"int 是否启用"`
+	AuthorityIds        []uint `json:"authorityIds" swaggertype:"string" file:"[]uint 角色id"`
+	Phone               string `json:"phone" file:"电话号码(必填)" binding:"required"`
+	Email               string `json:"email" file:"电子邮箱"`
+	CompanyId           uint   `json:"companyId" gorm:"column:company_id" file:"所属公司ID"`
+}
+
+// 小程序注册请求
+type RegisterReq struct {
+	Phone       string `json:"phone" binding:"required"`           // 手机号(必填)
+	CompanyName string `json:"companyName" binding:"required"`     // 公司名称(必填)
+}
+
+// LoginByPhoneReq 小程序手机号+密码登录
+type LoginByPhoneReq struct {
+	Phone    string `json:"phone" binding:"required"`    // 手机号
+	Password string `json:"password" binding:"required"` // 密码
 }
 
 // User wechat structure

@@ -175,17 +175,22 @@ func (orderService *OrderService) CreateOrder(order shop.Order, clientIP string)
 	} else { // 普通商品
 		order.GoodsArea = utils.Pointer(0)
 	}
-	if user.AuthorityId == 1001 {
-		// 月结
-		order.Status = utils.Pointer(1)         // 已付款状态
-		order.SettlementType = utils.Pointer(1) // 月结未付款
-		order.Payment = utils.Pointer(5)        // 线下支付
-	} else {
-		// 零售客户默认使用微信支付
-		order.Status = utils.Pointer(0) // 未付款状态
-		order.Payment = utils.Pointer(2)
-		order.SettlementType = utils.Pointer(0) // 零售
-	}
+		// 根据公司类型判断结算方式：月结公司走月结流程，零售公司走零售流程
+		isMonthlyCompany := false
+		var company sysModel.Company
+		if err := global.DB.Where("id = ?", order.CompanyID).First(&company).Error; err == nil && company.CompanyType == "monthly" {
+			isMonthlyCompany = true
+		}
+		if isMonthlyCompany {
+			order.Status = utils.Pointer(1)         // 已付款状态
+			order.SettlementType = utils.Pointer(1) // 月结未付款
+			order.Payment = utils.Pointer(5)        // 线下支付
+		} else {
+			// 零售客户默认使用微信支付
+			order.Status = utils.Pointer(0) // 未付款状态
+			order.Payment = utils.Pointer(2)
+			order.SettlementType = utils.Pointer(0) // 零售
+		}
 	order.ShipmentName = addressName
 	order.ShipmentMobile = address.Mobile
 	order.ShipmentAddress = address.Address + address.Title + address.Detail
@@ -409,15 +414,17 @@ func (orderService *OrderService) GetOrder(id uint) (order shop.Order, err error
 
 // FindUserOrderStatus 获取用户订单中数量
 // Author [dalefeng](https://github.com/dalefeng)
-func (orderService *OrderService) FindUserOrderStatus(userId uint, settlementMonth time.Time) (resp shopResp.OrderStatusCountResponse, err error) {
+func (orderService *OrderService) FindUserOrderStatus(userId uint, companyId uint, settlementMonth time.Time) (resp shopResp.OrderStatusCountResponse, err error) {
 	err = global.DB.Debug().
 		Table("shop_order").
 		Select("COUNT(CASE WHEN status = 0 and status_cancel = 0 THEN 1 ELSE null END ) as unpaid,COUNT(CASE WHEN status = 1 and status_cancel = 0 and status_refund = 0 THEN 1 ELSE null END ) as delivered,COUNT(CASE WHEN status = 2 and status_cancel = 0 and status_refund = 0 THEN 1 ELSE null END ) as shipped,COUNT(CASE WHEN status = 3 and status_cancel = 0 and status_refund = 0 THEN 1 ELSE null END) as success").
 		Where("user_id = ?", userId).
+		Where("company_id = ?", companyId).
 		Where("deleted_at is null").
 		Scan(&resp).Error
 	info := shopReq.OrderSearch{}
 	info.UserId = utils.Pointer(int(userId))
+	info.CompanyID = companyId
 	if settlementMonth.IsZero() {
 		info.SettlementMonth = utils.Pointer(time.Now()) // 当前月
 	} else {
@@ -562,6 +569,9 @@ sum(case settlement_type when 2 then total else 0 end) as settlement_paid
 	if info.UserId != nil {
 		db = db.Where("user_id = ?", info.UserId)
 	}
+	if info.CompanyID != 0 {
+		db = db.Where("company_id = ?", info.CompanyID)
+	}
 
 	if info.SettlementMonth != nil {
 		// 获取当前月份的第一天
@@ -610,10 +620,12 @@ sum(case settlement_type when 2 then total else 0 end) as settlement_paid
 
 // ConfirmOrder 确认订单
 func (orderService *OrderService) ConfirmOrder(orderId uint) error {
-	return global.DB.Table("shop_order").Where("id = ?", orderId).Update("order_status", 1).Error
+	return global.DB.Table("shop_order").Where("id = ?", orderId).Updates(map[string]interface{}{
+		"status": 3, "receive_time": time.Now(),
+	}).Error
 }
 
 // UpdateOrderStatus 更新订单状态
 func (orderService *OrderService) UpdateOrderStatus(orderId uint, status int) error {
-	return global.DB.Table("shop_order").Where("id = ?", orderId).Update("order_status", status).Error
+	return global.DB.Table("shop_order").Where("id = ?", orderId).Update("status", status).Error
 }

@@ -12,7 +12,7 @@ type BillApi struct{}
 
 var billService = &business.BillService{}
 
-// GetBillList 获取账单列表
+// GetBillList 获取账单列表（按月聚合）
 // GET /api/business/bill/list?page=1&pageSize=10
 func (api *BillApi) GetBillList(c *gin.Context) {
 	var req struct {
@@ -37,13 +37,35 @@ func (api *BillApi) GetBillList(c *gin.Context) {
 	}, c)
 }
 
-// GenerateBill 生成账单
-// POST /api/business/bill/generate
-// Body: { "year": 2026, "month": 9 }
-func (api *BillApi) GenerateBill(c *gin.Context) {
+// GetBillDetail 获取账单详情
+// GET /api/business/bill/detail?period=2026-09
+func (api *BillApi) GetBillDetail(c *gin.Context) {
+	period := c.Query("period")
+	if period == "" {
+		response.FailWithMessage("请提供账期", c)
+		return
+	}
+
+	companyId := middleware.GetCompanyID(c)
+	if companyId == 0 {
+		response.FailWithMessage("无法获取公司信息", c)
+		return
+	}
+
+	bill, err := billService.GetBillDetailByPeriod(companyId, period)
+	if err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+	response.OkWithData(bill, c)
+}
+
+// UpdateBillStatus 更新账单状态
+// PUT /api/business/bill/status
+func (api *BillApi) UpdateBillStatus(c *gin.Context) {
 	var req struct {
-		Year  int `json:"year" binding:"required"`
-		Month int `json:"month" binding:"required"`
+		Period string `json:"period" binding:"required"`
+		Status int    `json:"status" binding:"required"`
 	}
 	if err := c.ShouldBindJSON(&req); err != nil {
 		response.FailWithMessage(err.Error(), c)
@@ -56,49 +78,7 @@ func (api *BillApi) GenerateBill(c *gin.Context) {
 		return
 	}
 
-	if err := billService.GenerateBill(companyId, req.Year, req.Month); err != nil {
-		response.FailWithMessage(err.Error(), c)
-		return
-	}
-	response.OkWithMessage("账单生成成功", c)
-}
-
-// GetBillDetail 获取账单详情
-// GET /api/business/bill/:id
-func (api *BillApi) GetBillDetail(c *gin.Context) {
-	var req struct {
-		ID uint `uri:"id" binding:"required"`
-	}
-	if err := c.ShouldBindUri(&req); err != nil {
-		response.FailWithMessage(err.Error(), c)
-		return
-	}
-
-	bill, err := billService.GetBillDetail(req.ID)
-	if err != nil {
-		response.FailWithMessage(err.Error(), c)
-		return
-	}
-	response.OkWithData(bill, c)
-}
-
-// UpdateBillStatus 更新账单状态
-// PUT /api/business/bill/:id/status
-func (api *BillApi) UpdateBillStatus(c *gin.Context) {
-	var req struct {
-		ID     uint `uri:"id" binding:"required"`
-		Status int  `json:"status" binding:"required"`
-	}
-	if err := c.ShouldBindUri(&req); err != nil {
-		response.FailWithMessage(err.Error(), c)
-		return
-	}
-	if err := c.ShouldBindJSON(&req); err != nil {
-		response.FailWithMessage(err.Error(), c)
-		return
-	}
-
-	if err := billService.UpdateBillStatus(req.ID, req.Status); err != nil {
+	if err := billService.UpdateBillStatusByPeriod(companyId, req.Period, req.Status); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}

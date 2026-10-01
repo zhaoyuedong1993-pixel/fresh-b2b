@@ -22,23 +22,43 @@ import { setToken, setUser } from '@/store/storage.js'
  * @returns {Promise} Promise 对象
  * @param toastRefs
  */
+// 获取API地址（动态）
+function getApiUrl() {
+    // #ifdef H5
+    return 'http://' + location.hostname + ':48888'
+    // #endif
+    // #ifndef H5
+    return 'http://192.168.1.12:48888'
+    // #endif
+}
+
 const request = (options, toastRefs) => {
 	options.method = options.method || 'GET'
-	options.loading = options.loading === undefined ? false : options.loading // 默认不显示 loading
-	//options.showError = options.showError === undefined ? true : options.showError
-	options.toLogin = options.toLogin === undefined ? false : options.toLogin // 默认不跳转到登录页
-	// <u-toast ref="toast" style="z-index: 9999"></u-toast>  需要在 request data 中传递 toastRefs = this.$refs.toast
-	toastRefs = toastRefs === undefined ? null : toastRefs // toastRefs
+	options.loading = options.loading === undefined ? false : options.loading
+	options.toLogin = options.toLogin === undefined ? false : options.toLogin
+	toastRefs = toastRefs === undefined ? null : toastRefs
 	if (options.loading) {
 		toast.message(toastRefs).loading('加载中...')
 	}
-	// 添加请求头
 	options.header = Object.assign({
 		'content-type': 'application/json',
 		'x-token': uni.getStorageSync('token')
 	}, options.header)
 
 	options.url = config.baseUrl + options.url
+
+	// 处理 params 参数，手动添加到 URL
+	if (options.params) {
+		const params = options.params
+		const queryParts = []
+		for (const key in params) {
+			queryParts.push(key + '=' + encodeURIComponent(params[key]))
+		}
+		if (queryParts.length > 0) {
+			options.url += '?' + queryParts.join('&')
+		}
+		delete options.params
+	}
 
 	// 发起请求
 	return new Promise((resolve, reject) => {
@@ -74,16 +94,15 @@ const request = (options, toastRefs) => {
 								setToken('')
 								setUser(null)
 								resolve(res.data)
-								break
+								return
 							} else {
 								toast.message(toastRefs).error(res.data.msg)
 								resolve(res.data)
-								break
+								return
 							}
-
 						}
 						resolve(res.data)
-						break
+						return
 					case 401:
 						if (options.toLogin) {
 							console.log(res.data.msg)
@@ -91,21 +110,18 @@ const request = (options, toastRefs) => {
 							uni.reLaunch({
 								url: '/pages/my/my'
 							})
-						} else {
-							reject(res.data)
 						}
-						break
+						reject(res.data)
+						return
 					case 500:
 						toast.message(toastRefs).error('服务器异常，请稍后重试！')
 						reject(res.data)
-						break
+						return
 					default:
 						toast.message(toastRefs).error('请求失败，请稍后重试！')
 						reject(res.data)
+						return
 				}
-
-				//console.log(`uni.request ${options.url} success`, res);
-				resolve(res.data)
 			},
 			fail: (err) => {
 				// 隐藏加载动画

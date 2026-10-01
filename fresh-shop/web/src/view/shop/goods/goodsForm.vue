@@ -182,7 +182,6 @@
         </el-tabs>
         <el-form-item>
           <el-button type="primary" @click="save">保存</el-button>
-          <el-button type="danger" @click="back">返回</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -191,7 +190,7 @@
 
 <script>
 export default {
-  name: 'Goods',
+  name: 'GoodsForm',
 }
 </script>
 
@@ -204,7 +203,6 @@ import {
 
 // 自动获取字典
 import { getDictFunc } from '@/utils/format'
-import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { ref, reactive } from 'vue'
 import { CircleClose } from '@element-plus/icons-vue'
@@ -213,8 +211,14 @@ import { getBrandListAll } from '@/api/brand'
 import Editor from '@/components/quillEditor/editor.vue'
 import ImageList from '@/components/upload/imageList.vue'
 
-const route = useRoute()
-const router = useRouter()
+const emit = defineEmits(['close', 'refresh'])
+const props = defineProps({
+  id: {
+    type: [Number, String],
+    default: 0
+  }
+})
+
 const tabsIndex = ref('1')
 const id = ref(0)
 
@@ -335,7 +339,7 @@ const tableData = ref([])
 
 // 初始化方法
 const init = async() => {
-  const queryId = route.query.id
+  const queryId = props.id
   // 建议通过url传参获取目标数据ID 调用 find方法进行查询数据操作 从而决定本页面是create还是update 以下为id作为url参数示例
   if (queryId && queryId !== '新增商品') {
     id.value = queryId
@@ -655,11 +659,8 @@ const save = async() => {
         type: 'success',
         message: '操作成功',
       })
-      if (type.value === 'update') {
-        await init()
-      } else {
-        router.push({ name: 'goods' })
-      }
+      emit('refresh')
+      emit('close')
     }
   })
 }
@@ -667,11 +668,6 @@ const save = async() => {
 // 接收子组件更新字段信息
 const handleUpdateDetail = (val) => {
   goodsDesc.value.details = val
-}
-
-// 返回按钮
-const back = () => {
-  router.go(-1)
 }
 
 </script>

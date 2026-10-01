@@ -36,6 +36,11 @@
 						  未结金额：{{ orderStatusCount ? orderStatusCount.settlementUnpaid : 0 }} 元
 						</view>
 					</view>
+					<view class="king-flex" v-if="company">
+						<view class="integral">
+						  公司：{{ company.name }}
+						</view>
+					</view>
                 </view>
             </view>
             <view class="setting">
@@ -133,6 +138,7 @@ import Tabbar from '@/components/tabbar/tabbar.vue'
 import loginPop from '@/components/loginPop/loginPop.vue'
 import {getUserInfo, setSelfInfo, getUnlimitedQRCodeImg} from "@/api/user";
 import {getOrderStatusCount} from "@/api/order";
+import {getCompanyById} from "@/api/login";
 import {getUser, getToken, setUser, setToken, setOpenId, getRole, setRole, setSettlmentInfo} from '@/store/storage.js'
 import {parseDateStr} from "@/utils/date";
 import config from '@/config/config.js'
@@ -151,6 +157,7 @@ export default {
             //#endif
             user: {},
 			role: {},
+			company: null, // 公司信息
 	        point: 0, // 积分余额
             orderStatusCount: {},
             token: '',
@@ -206,6 +213,21 @@ export default {
 	            this.point = res.data.point
                 setUser(this.user)
 				setRole(this.role)
+
+				// 获取公司信息
+				console.log('user.companyId:', this.user.companyId)
+				if (this.user.companyId) {
+					console.log('开始请求公司信息, id:', this.user.companyId)
+					const companyRes = await getCompanyById(this.user.companyId)
+					console.log('companyRes:', JSON.stringify(companyRes))
+					if (companyRes.code === 0) {
+						this.company = companyRes.data
+					} else {
+						console.log('获取公司失败:', companyRes.msg)
+					}
+				} else {
+					console.log('没有companyId，无法获取公司信息')
+				}
 
 				// 先获取上月未结，在获取本月
 				const date = new Date()

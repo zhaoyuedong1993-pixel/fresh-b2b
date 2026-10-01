@@ -203,8 +203,8 @@ zap:
   log-in-console: true
 
 wechat:
-  appid: ''
-  secret: ''
+  appid: 'wx18a89d129fed4164'
+  secret: 'fa83fdc07d14b845e14ecfabd0cc9602'
   randomPassword: 'baHssVVfhZQc9yh' # 微信注册的用户初始密码
 
 wechatPay:

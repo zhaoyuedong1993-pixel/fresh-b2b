@@ -54,7 +54,9 @@ func (userService *UserService) LoginWx(req request.LoginReq) (user *system.SysU
 			Enable:      1,
 			Phone:       d.PhoneNumber,
 			OpenId:      req.OpenId,
-			AuditStatus: user.AuditStatus,
+			AuditStatus: 0, // 新注册用户，auditStatus=0 表示需要填写信息
+			LoginTime:   time.Now(),
+			ApplyTime:   time.Now(),
 		}
 		regUser, err := userService.Register(u)
 		user = &regUser
@@ -110,12 +112,24 @@ func (userService *UserService) Register(u system.SysUser) (userInter system.Sys
 	// 否则 附加uuid 密码hash加密 注册
 	u.Password = utils.BcryptHash(u.Password)
 	u.UUID = uuid.NewV4()
+	u.LoginTime = time.Now()
+	u.ApplyTime = time.Now()
 
 	// 生成对应币种账户信息
 	// 开启事务
 	err = global.DB.Transaction(func(tx *gorm.DB) error {
 		// 创建用户
 		err = tx.Create(&u).Error
+		global.SugarLog.Infof("注册用户 --- 创建用户结果: err=%v, u.ID=%d, u.Username=%s", err, u.ID, u.Username)
+		if err != nil {
+			return err
+		}
+		// GORM 创建后需要重新查询获取自增 ID
+		err = tx.Where("username = ?", u.Username).Select("id").First(&u).Error
+		global.SugarLog.Infof("注册用户 --- 查询用户结果: err=%v, u.ID=%d", err, u.ID)
+		if err != nil {
+			return err
+		}
 		var groupData []account.Account
 		// 生成对应币种账户信息
 		for _, group := range groupList {
@@ -185,6 +199,24 @@ func (userService *UserService) LoginByPhone(u *system.SysUser) (userInter *syst
 		global.DB.Save(&user)
 	}
 	return &user, err
+}
+
+// LoginByPhonePassword 小程序手机号+密码登录
+func (userService *UserService) LoginByPhonePassword(phone, password string) (userInter *system.SysUser, err error) {
+	var user system.SysUser
+	err = global.DB.Where("username = ?", phone).Preload("Authorities").Preload("Authority").First(&user).Error
+	if err != nil {
+		return nil, errors.New("用户不存在")
+	}
+	// 验证密码
+	if ok := utils.BcryptCheck(password, user.Password); !ok {
+		return nil, errors.New("密码错误")
+	}
+	MenuServiceApp.UserAuthorityDefaultRouter(&user)
+	// 设置登录 IP 和 登录时间
+	user.LoginTime = time.Now()
+	global.DB.Save(&user)
+	return &user, nil
 }
 
 //@author: [dalefeng](https://github.com/dalefeng)

@@ -1,6 +1,7 @@
 package system
 
 import (
+	"fmt"
 	loginReq "fresh-shop/server/model/wechat/request"
 	"fresh-shop/server/service/common"
 	"strconv"
@@ -117,6 +118,27 @@ func (b *BaseApi) LoginWx(c *gin.Context) {
 	return
 }
 
+// LoginByPhone 小程序手机号+密码登录
+func (b *BaseApi) LoginByPhone(c *gin.Context) {
+	var req systemReq.LoginByPhoneReq
+	err := c.ShouldBindJSON(&req)
+	if err != nil {
+		response.FailWithMessage("手机号和密码不能为空", c)
+		return
+	}
+	user, err := userService.LoginByPhonePassword(req.Phone, req.Password)
+	if err != nil {
+		response.FailWithMessage("手机号或密码错误", c)
+		return
+	}
+	if user.Enable != 1 {
+		response.FailWithMessage("账号已被禁用", c)
+		return
+	}
+	b.TokenNext(c, *user)
+	return
+}
+
 // TokenNext 登录以后签发jwt
 func (b *BaseApi) TokenNext(c *gin.Context, user system.SysUser) {
 	j := &utils.JWT{SigningKey: []byte(global.Config.JWT.SigningKey)} // 唯一签名
@@ -128,6 +150,7 @@ func (b *BaseApi) TokenNext(c *gin.Context, user system.SysUser) {
 		AuthorityId: user.AuthorityId,
 		OpenId:      user.OpenId,
 		AuditStatus: user.AuditStatus,
+		CompanyID:   user.CompanyId,
 	})
 	token, err := j.CreateToken(claims)
 	if err != nil {
@@ -196,13 +219,39 @@ func (b *BaseApi) Register(c *gin.Context) {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
+	// 手机号必填，username强制设为手机号
+	if r.Phone == "" {
+		response.FailWithMessage("手机号不能为空", c)
+		return
+	}
+	// 密码必填（前端已校验，这里防御性检查）
+	if r.Password == "" {
+		response.FailWithMessage("密码不能为空", c)
+		return
+	}
+	// 自动生成 username = 手机号
+	r.Username = r.Phone
 	var authorities []system.SysAuthority
 	for _, v := range r.AuthorityIds {
 		authorities = append(authorities, system.SysAuthority{
 			AuthorityId: v,
 		})
 	}
-	user := &system.SysUser{Username: r.Username, NickName: r.NickName, Password: r.Password, HeaderImg: r.HeaderImg, AuthorityId: r.AuthorityId, Authorities: authorities, Enable: r.Enable, Phone: r.Phone, Email: r.Email}
+	user := &system.SysUser{
+		Username:    r.Username,
+		NickName:    r.NickName,
+		Password:    r.Password,
+		HeaderImg:   r.HeaderImg,
+		AuthorityId: r.AuthorityId,
+		Authorities: authorities,
+		Enable:      r.Enable,
+		Phone:       r.Phone,
+		Email:       r.Email,
+		AuditStatus: 1, // 管理端新增直接通过审核
+		LoginTime:   time.Now(),
+		ApplyTime:   time.Now(),
+		CompanyId:   r.CompanyId,
+	}
 	userReturn, err := userService.Register(*user)
 	if err != nil {
 		global.Log.Error("注册失败!", zap.Error(err))
@@ -210,6 +259,148 @@ func (b *BaseApi) Register(c *gin.Context) {
 		return
 	}
 	response.OkWithDetailed(systemRes.SysUserResponse{User: userReturn}, "注册成功", c)
+}
+
+// RegisterMiniprogram 小程序注册
+func (b *BaseApi) RegisterMiniprogram(c *gin.Context) {
+	var req systemReq.RegisterReq
+	err := c.ShouldBindJSON(&req)
+	if err != nil {
+		response.FailWithMessage("手机号和公司名称不能为空", c)
+		return
+	}
+	if req.Phone == "" {
+		response.FailWithMessage("手机号不能为空", c)
+		return
+	}
+	if req.CompanyName == "" {
+		response.FailWithMessage("公司名称不能为空", c)
+		return
+	}
+	// 自动生成密码
+	password := fmt.Sprintf("%s%d", "Qy", time.Now().Unix()%100000)
+	var authorities []system.SysAuthority
+	authorities = append(authorities, system.SysAuthority{
+		AuthorityId: 1000,
+	})
+	user := &system.SysUser{
+		Username:            req.Phone,
+		NickName:            "客户" + req.Phone[len(req.Phone)-4:],
+		Password:            password,
+		AuthorityId:        1000,
+		Authorities:        authorities,
+		Enable:             1,
+		Phone:              req.Phone,
+		OriginCustomerName: req.CompanyName,
+		AuditStatus:        0, // 待审批
+		LoginTime:          time.Now(),
+		ApplyTime:          time.Now(),
+	}
+	userReturn, err := userService.Register(*user)
+	if err != nil {
+		global.Log.Error("注册失败!", zap.Error(err))
+		response.FailWithDetailed(systemRes.SysUserResponse{User: userReturn}, err.Error(), c)
+		return
+	}
+	response.OkWithDetailed(systemRes.SysUserResponse{User: userReturn}, "注册成功，请等待审核", c)
+}
+
+// RegisterCompany 小程序申请入驻平台
+func (b *BaseApi) RegisterCompany(c *gin.Context) {
+	var req systemReq.CompanyRegisterReq
+	err := c.ShouldBindJSON(&req)
+	if err != nil {
+		response.FailWithMessage("参数错误", c)
+		return
+	}
+	if req.Phone == "" || req.Name == "" {
+		response.FailWithMessage("手机号和公司名称不能为空", c)
+		return
+	}
+
+	// 自动生成密码
+	password := fmt.Sprintf("%s%d", "Qy", time.Now().Unix()%100000)
+	user := &system.SysUser{
+		Username:        req.Phone,
+		NickName:        "客户" + req.Phone[len(req.Phone)-4:],
+		Password:        password,
+		AuthorityId:     1000,
+		Enable:          1,
+		Phone:           req.Phone,
+		AuditStatus:     0, // 待审核
+		LoginTime:       time.Now(),
+		ApplyTime:       time.Now(),
+	}
+	_, err = userService.Register(*user)
+	if err != nil {
+		global.Log.Error("申请入驻失败!", zap.Error(err))
+		response.FailWithMessage("申请入驻失败", c)
+		return
+	}
+	response.OkWithMessage("申请已提交，请等待平台审核", c)
+}
+
+// GetCompanyByInviteCode 通过邀请码获取公司信息
+func (b *BaseApi) GetCompanyByInviteCode(c *gin.Context) {
+	code := c.Query("code")
+	if code == "" {
+		response.FailWithMessage("邀请码不能为空", c)
+		return
+	}
+
+	var company system.Company
+	if err := global.DB.Where("invitation_code = ?", code).First(&company).Error; err != nil {
+		response.FailWithMessage("邀请码无效", c)
+		return
+	}
+	response.OkWithDetailed(gin.H{
+		"name":    company.Name,
+		"phone":  company.Phone,
+		"contact": company.Contact,
+	}, "获取成功", c)
+}
+
+// JoinCompany 小程序申请加入公司
+func (b *BaseApi) JoinCompany(c *gin.Context) {
+	var req systemReq.CompanyJoinReq
+	err := c.ShouldBindJSON(&req)
+	if err != nil {
+		response.FailWithMessage("参数错误", c)
+		return
+	}
+	if req.InvitationCode == "" || req.Phone == "" {
+		response.FailWithMessage("邀请码和手机号不能为空", c)
+		return
+	}
+
+	// 查找公司
+	var company system.Company
+	if err := global.DB.Where("invitation_code = ?", req.InvitationCode).First(&company).Error; err != nil {
+		response.FailWithMessage("邀请码无效", c)
+		return
+	}
+
+	// 自动生成密码
+	password := fmt.Sprintf("%s%d", "Qy", time.Now().Unix()%100000)
+	user := &system.SysUser{
+		Username:        req.Phone,
+		NickName:        "客户" + req.Phone[len(req.Phone)-4:],
+		Password:        password,
+		AuthorityId:     1000,
+		Enable:          1,
+		Phone:           req.Phone,
+		CompanyId:       company.ID,
+		AuditStatus:     0, // 待审批
+		LoginTime:       time.Now(),
+		ApplyTime:       time.Now(),
+	}
+	_, err = userService.Register(*user)
+	if err != nil {
+		global.Log.Error("申请加入公司失败!", zap.Error(err))
+		response.FailWithMessage("申请加入公司失败", c)
+		return
+	}
+	response.OkWithMessage("申请已提交，请等待管理员审核", c)
 }
 
 // ChangePassword

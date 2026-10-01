@@ -1,9 +1,9 @@
 import request from "@/utils/request"
 
-// 获取账单列表
+// 获取账单列表（按月聚合）
 export const getBillList = (data) => {
     return request({
-        url: `/business/bill/list`,
+        url: `/order/bill/list`,
         method: 'GET',
         loading: true,
         toLogin: true,
@@ -12,11 +12,12 @@ export const getBillList = (data) => {
 }
 
 // 获取账单详情
-export const getBillDetail = (id) => {
+export const getBillDetail = (data) => {
     return request({
-        url: `/business/bill/${id}`,
+        url: `/order/bill/detail`,
         method: 'GET',
         loading: true,
-        toLogin: true
+        toLogin: true,
+        data
     })
 }

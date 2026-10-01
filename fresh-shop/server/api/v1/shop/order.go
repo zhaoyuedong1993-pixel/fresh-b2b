@@ -2,6 +2,7 @@ package shop
 
 import (
 	"fresh-shop/server/global"
+	"fresh-shop/server/middleware"
 	"fresh-shop/server/model/common/request"
 	"fresh-shop/server/model/common/response"
 	"fresh-shop/server/model/shop"
@@ -40,6 +41,8 @@ func (orderApi *OrderApi) CreateOrder(c *gin.Context) {
 	}
 	userId := utils.GetUserID(c)
 	order.UserId = utils.Pointer(int(userId))
+	companyId := middleware.GetCompanyID(c)
+	order.CompanyID = companyId
 	if orderResp, err := orderService.CreateOrder(order, c.ClientIP()); err != nil {
 		global.Log.Error("创建失败!", zap.Error(err))
 		response.FailWithMessage(err.Error(), c)
@@ -244,7 +247,8 @@ func (orderApi *OrderApi) FindUserOrderStatus(c *gin.Context) {
 		}
 	}
 	userId := utils.GetUserID(c)
-	if reorder, err := orderService.FindUserOrderStatus(userId, settlementMonth); err != nil {
+	companyId := middleware.GetCompanyID(c)
+	if reorder, err := orderService.FindUserOrderStatus(userId, companyId, settlementMonth); err != nil {
 		global.Log.Error("查询失败!", zap.Error(err))
 		response.FailWithMessage("查询失败", c)
 	} else {
@@ -296,6 +300,8 @@ func (orderApi *OrderApi) GetOrderList(c *gin.Context) {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
+	// 注入公司ID，按租户隔离
+	pageInfo.CompanyID = middleware.GetCompanyID(c)
 	if list, total, err := orderService.GetOrderInfoList(pageInfo); err != nil {
 		global.Log.Error("获取失败!", zap.Error(err))
 		response.FailWithMessage(err.Error(), c)

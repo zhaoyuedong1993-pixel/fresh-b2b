@@ -518,7 +518,15 @@ const handleCurrentChange = (val) => {
 const getTableData = async() => {
   searchInfo.value.goodsArea = route.currentRoute.value.query.goodsArea
   searchInfo.value.settlementType = route.currentRoute.value.query.settlementType
-  const table = await getOrderList({ page: page.value, pageSize: pageSize.value, ...searchInfo.value })
+  const params = { page: page.value, pageSize: pageSize.value }
+  for (const key in searchInfo.value) {
+    const v = searchInfo.value[key]
+    if (v !== undefined && v !== null && v !== '') {
+      if (String(v) === '0' && (key === 'settlementType' || key === 'goodsArea')) continue
+      params[key] = v
+    }
+  }
+  const table = await getOrderList(params)
   if (table.code === 0) {
     tableData.value = table.data.list
     total.value = table.data.total

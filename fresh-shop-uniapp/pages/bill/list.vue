@@ -30,7 +30,7 @@
 
         <!-- 空状态 -->
         <view class="empty" v-else>
-            <image class="empty-icon" src="../../../static/nopicture.jpg" mode="aspectFit"></image>
+            <image class="empty-icon" src="../../static/nopicture.jpg" mode="aspectFit"></image>
             <view class="empty-text">暂无账单记录</view>
         </view>
 
@@ -58,12 +58,6 @@ export default {
     onLoad() {
         this.loadBillList()
     },
-    onReachBottom() {
-        if (this.hasMore && !this.loading) {
-            this.page++
-            this.loadBillList(true)
-        }
-    },
     methods: {
         async loadBillList(append = false) {
             const token = getToken()
@@ -78,15 +72,20 @@ export default {
                     page: this.page,
                     pageSize: this.pageSize
                 })
+                console.log('账单接口返回:', JSON.stringify(res))
 
                 if (res.code === 0) {
                     const list = res.data.list || []
+                    console.log('list长度:', list.length)
                     if (append) {
                         this.billList = [...this.billList, ...list]
                     } else {
                         this.billList = list
                     }
+                    console.log('billList:', JSON.stringify(this.billList))
                     this.hasMore = list.length >= this.pageSize
+                } else {
+                    console.log('接口错误:', res.msg)
                 }
             } catch (e) {
                 console.error(e)
@@ -97,12 +96,12 @@ export default {
         },
 
         formatAmount(amount) {
-            return (amount || 0).toFixed(2)
+            return (Number(amount) || 0).toFixed(2)
         },
 
         goDetail(item) {
             uni.navigateTo({
-                url: `/pages/bill/detail?id=${item.id}&period=${item.period}`
+                url: `/pages/bill/detail?period=${item.period}`
             })
         }
     }

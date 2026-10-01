@@ -53,64 +53,10 @@
         <el-table-column align="left" label="用户信息" min-width="220" prop="userName" style="line-height: 10px">
           <template #default="scope">
             <div class="table-multi-line">
-              <span class="">用户名：{{ scope.row.userName }}</span><br>
-              <span>用户昵称：{{ scope.row.nickName }}</span><br>
-              <span>手机号：{{ scope.row.phone ? scope.row.phone : '无' }}</span><br>
-              <span>邀请码：{{ scope.row.invitationCode }}</span><br>
+              <span>用户名称：{{ scope.row.nickName }}</span><br>
+              <span>手机号：{{ scope.row.phone || '无' }}</span><br>
+              <span>邀请码：{{ scope.row.invitationCode || '无' }}</span><br>
             </div>
-          </template>
-        </el-table-column>
-        <el-table-column align="left" label="会员信息" min-width="220" prop="userName" style="line-height: 10px">
-          <template #default="scope">
-            <div class="table-multi-line">
-              <div v-if="scope.row.auditStatus === 3">
-                状态：<span
-                  :class="getStatusColorClass(scope.row.auditStatus)"
-              >{{ filterDict(scope.row.auditStatus, auditStatusOptions) }}</span><br>
-                <span>原始联系人名称：{{ scope.row.originContactName ? scope.row.originContactName : '无' }}</span><br>
-                <span>原始客户名称：{{ scope.row.originCustomerName ? scope.row.originCustomerName : '无' }}</span><br>
-                修改联系人名称：<span
-                  style="color: #039BE5"
-                >{{ scope.row.changeContactName ? scope.row.changeContactName : '无' }}</span><br>
-                修改客户名称：<span
-                  style="color: #039BE5"
-                >{{ scope.row.changeCustomerName ? scope.row.changeCustomerName : '无' }}</span><br>
-                <span v-if="scope.row.auditRemark">审核备注：{{ scope.row.auditRemark ? scope.row.auditRemark : '无' }}</span><br>
-              </div>
-              <!--       默认状态       -->
-              <div v-else>
-                <span>联系人名称：{{ scope.row.originContactName ? scope.row.originContactName : '无' }}</span><br>
-                <span>客户名称：{{ scope.row.originCustomerName ? scope.row.originCustomerName : '无' }}</span><br>
-                状态：<span
-                  :class="getStatusColorClass(scope.row.auditStatus)"
-                >{{ filterDict(scope.row.auditStatus, auditStatusOptions) }}</span><br>
-                <span v-if="scope.row.auditRemark">审核备注：{{ scope.row.auditRemark ? scope.row.auditRemark : '无' }}</span><br>
-              </div>
-            </div>
-          </template>
-        </el-table-column>
-        <!--        <el-table-column align="left" label="账户信息" min-width="130" prop="point" sortable="custom">-->
-        <!--          <template #default="scope">-->
-        <!--            <div class="table-multi-line">-->
-        <!--              <div v-for="ac in scope.row.account" :key="ac.ID">-->
-        <!--                <span>{{ ac.group.nameCn }}：{{ ac.amount }}</span>-->
-        <!--              </div>-->
-        <!--            </div>-->
-        <!--          </template>-->
-        <!--        </el-table-column>-->
-        <el-table-column align="left" label="客户类型" min-width="200">
-          <template #default="scope">
-            <el-cascader
-              v-model="scope.row.authorityIds"
-              :options="authOptions"
-              :show-all-levels="false"
-              collapse-tags
-              :props="{ multiple: userStore.role.authorityId === 888, checkStrictly: true,label:'authorityName',value:'authorityId',disabled:'disabled',emitPath:false}"
-              :clearable="false"
-              :disabled="userStore.role.authorityId !== 888 && ( scope.row.ID === 5 || scope.row.ID === 1)"
-              @visible-change="(flag)=>{changeAuthority(scope.row,flag,0)}"
-              @remove-tag="(removeAuth)=>{changeAuthority(scope.row,false,removeAuth)}"
-            />
           </template>
         </el-table-column>
         <el-table-column align="left" label="状态" min-width="80">
@@ -170,65 +116,26 @@
     <el-dialog
       v-model="addUserDialog"
       class="user-dialog"
-      title="用户"
+      :title="dialogFlag === 'add' ? '新增用户' : '编辑用户'"
       :show-close="false"
       :close-on-press-escape="false"
       :close-on-click-modal="false"
     >
       <div style="height:60vh;overflow:auto;padding:0 12px;">
         <el-form ref="userForm" :rules="rules" :model="userInfo" label-width="80px">
-          <el-form-item v-if="dialogFlag === 'add'" label="用户名" prop="userName">
-            <el-input v-model="userInfo.userName" />
+          <el-form-item label="手机号" prop="phone">
+            <el-input v-model="userInfo.phone" placeholder="登录账号（手机号）" />
           </el-form-item>
           <el-form-item v-if="dialogFlag === 'add'" label="密码" prop="password">
-            <el-input v-model="userInfo.password" />
+            <el-input v-model="userInfo.password" placeholder="登录密码" show-password />
           </el-form-item>
           <el-form-item label="昵称" prop="nickName">
-            <el-input v-model="userInfo.nickName" />
+            <el-input v-model="userInfo.nickName" placeholder="用户名称/昵称" />
           </el-form-item>
-          <el-form-item label="手机号" prop="phone">
-            <el-input v-model="userInfo.phone" />
-          </el-form-item>
-          <el-form-item label="联系人名称" prop="originContactName">
-            <el-input v-model="userInfo.originContactName" />
-          </el-form-item>
-          <el-form-item label="客户名称" prop="originCustomerName">
-            <el-input v-model="userInfo.originCustomerName" />
-          </el-form-item>
-          <el-form-item label="客户类型" prop="authorityName">
-            <div>{{ userInfo.authority.authorityName }}</div>
-          </el-form-item>
-          <el-form-item v-if="userInfo.auditStatus === 3" label="修改联系人名称" prop="changeContactName">
-            <el-input v-model="userInfo.changeContactName" />
-          </el-form-item>
-          <el-form-item v-if="userInfo.auditStatus === 3" label="修改客户名称" prop="changeCustomerName">
-            <el-input v-model="userInfo.changeCustomerName" />
-          </el-form-item>
-          <el-form-item label="审核状态:" prop="auditStatus">
-            <el-select v-model="userInfo.auditStatus" filterable placeholder="Select">
-              <el-option
-                v-for="item in auditStatusOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
+          <el-form-item v-if="userStore.role.authorityId === 888" label="所属公司" prop="companyId">
+            <el-select v-model="userInfo.companyId" placeholder="选择所属公司" clearable filterable>
+              <el-option v-for="c in companyList" :key="c.id" :label="c.name" :value="c.id" />
             </el-select>
-          </el-form-item>
-          <el-form-item label="审核备注" prop="auditRemark">
-            <el-input v-model="userInfo.auditRemark" placeholder="审核备注" />
-          </el-form-item>
-          <!--          <el-form-item label="邮箱" prop="email">
-            <el-input v-model="userInfo.email" />
-          </el-form-item>-->
-          <el-form-item v-if="userStore.role.authorityId === 888" label="用户角色" prop="authorityId">
-            <el-cascader
-              v-model="userInfo.authorityIds"
-              style="width:100%"
-              :options="authOptions"
-              :show-all-levels="false"
-              :props="{ multiple:true,checkStrictly: true,label:'authorityName',value:'authorityId',disabled:'disabled',emitPath:false}"
-              :clearable="false"
-            />
           </el-form-item>
           <el-form-item label="启用" prop="disabled">
             <el-switch
@@ -250,7 +157,6 @@
             </div>
           </el-form-item>
         </el-form>
-
       </div>
 
       <template #footer>
@@ -280,6 +186,7 @@ import {
 } from '@/api/user'
 
 import { getAuthorityList } from '@/api/authority'
+import { getCompanyList } from '@/api/company'
 import CustomPic from '@/components/customPic/index.vue'
 import ChooseImg from '@/components/chooseImg/index.vue'
 import { setUserInfo, resetPassword } from '@/api/user.js'
@@ -425,10 +332,18 @@ const openHeaderChange = () => {
 
 const authOptions = ref([])
 const auditStatusOptions = ref([])
+const companyList = ref([])
 const setOptions = async(authData) => {
   authOptions.value = []
   setAuthorityOptions(authData, authOptions.value)
   auditStatusOptions.value = await getDictFunc('auditStatus')
+  // 加载公司列表（超管用）
+  if (userStore.role.authorityId === 888) {
+    const res = await getCompanyList({ page: 1, pageSize: 999 })
+    if (res.code === 0) {
+      companyList.value = res.data.list || []
+    }
+  }
 }
 
 const deleteUserFunc = async(row) => {
@@ -442,32 +357,21 @@ const deleteUserFunc = async(row) => {
 
 // 弹窗相关
 const userInfo = ref({
-  username: '',
   password: '',
   nickName: '',
   headerImg: '',
-  authorityId: '',
-  originContactName: '',
-  originCustomerName: '',
-  changeCustomerName: '',
-  changeContactName: '',
-  auditStatus: 0,
-  auditRemark: '',
-  authorityIds: [1000],
+  phone: '',
+  companyId: '',
   enable: 1,
 })
 
 const rules = ref({
-  userName: [
-    { message: '请输入用户名, 不填则随机生成', trigger: 'blur' },
-    { min: 5, message: '最低5位字符', trigger: 'blur' },
-  ],
   password: [
-    { required: true, message: '请输入用户密码', trigger: 'blur' },
-    { min: 6, message: '最低6位字符', trigger: 'blur' },
+    { required: true, message: '请输入密码', trigger: 'blur' },
+    { min: 6, message: '密码至少6位', trigger: 'blur' },
   ],
   nickName: [
-    { required: true, message: '请输入用户昵称', trigger: 'blur' },
+    { required: true, message: '请输入用户名称', trigger: 'blur' },
   ],
   phone: [
     {
@@ -476,16 +380,6 @@ const rules = ref({
       message: '请输入合法手机号',
       trigger: 'blur',
     },
-  ],
-  email: [
-    {
-      pattern: /^([0-9A-Za-z\-_.]+)@([0-9a-z]+\.[a-z]{2,3}(\.[a-z]{2})?)$/g,
-      message: '请输入正确的邮箱',
-      trigger: 'blur',
-    },
-  ],
-  authorityId: [
-    { required: true, message: '请选择用户角色', trigger: 'blur' },
   ],
 })
 const userForm = ref(null)

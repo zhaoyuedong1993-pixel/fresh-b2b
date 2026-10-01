@@ -32,6 +32,10 @@ func (orderDeliveryService *OrderDeliveryService) CreateOrderDelivery(orderDeliv
 		if txErr := tx.Save(&order).Error; txErr != nil {
 			return txErr
 		}
+		// 过滤零值时间，避免 MySQL datetime 报错
+		if orderDelivery.ScheduledTime != nil && orderDelivery.ScheduledTime.IsZero() {
+			orderDelivery.ScheduledTime = nil
+		}
 		err = tx.Create(&orderDelivery).Error
 		if err != nil {
 			return err
@@ -92,7 +96,13 @@ func (orderDeliveryService *OrderDeliveryService) UpdateOrderDelivery(orderDeliv
 				return txErr
 			}
 		}
-		err = tx.Save(&orderDelivery).Error
+		if orderDelivery.ReceiptTime != nil && orderDelivery.ReceiptTime.IsZero() {
+			orderDelivery.ReceiptTime = nil
+		}
+		if orderDelivery.ScheduledTime != nil && orderDelivery.ScheduledTime.IsZero() {
+			orderDelivery.ScheduledTime = nil
+		}
+		err = tx.Model(&orderDelivery).Select("order_id", "scheduled_time", "deliver_name", "delivery_id", "deliver_mobile", "receipt_time", "created_at", "updated_at").Updates(&orderDelivery).Error
 		if err != nil {
 			return err
 		}

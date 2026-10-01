@@ -13,6 +13,11 @@ func (s *BaseRouter) InitBaseRouter(Router *gin.RouterGroup) (R gin.IRoutes) {
 	{
 		baseRouter.POST("login", baseApi.Login)
 		baseRouter.POST("loginWx", baseApi.LoginWx)
+		baseRouter.POST("loginByPhone", baseApi.LoginByPhone)
+		baseRouter.POST("register", baseApi.RegisterMiniprogram)
+		baseRouter.POST("registerCompany", baseApi.RegisterCompany)
+		baseRouter.POST("joinCompany", baseApi.JoinCompany)
+		baseRouter.GET("getCompanyByInviteCode", baseApi.GetCompanyByInviteCode)
 		baseRouter.POST("captcha", baseApi.Captcha)
 	}
 	return baseRouter

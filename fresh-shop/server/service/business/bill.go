@@ -1,7 +1,6 @@
 package business
 
 import (
-	"fmt"
 	"time"
 
 	"fresh-shop/server/global"
@@ -10,55 +9,11 @@ import (
 // BillService 账单服务
 type BillService struct{}
 
-// GenerateBill 生成月度账单
-func (s *BillService) GenerateBill(companyId uint, year, month int) error {
-	period := fmt.Sprintf("%d-%02d", year, month)
-
-	// 检查是否已存在
-	var count int64
-	global.DB.Table("shop_bill").
-		Where("company_id = ? AND period = ?", companyId, period).
-		Count(&count)
-	if count > 0 {
-		return nil // 已存在，跳过
-	}
-
-	// 统计该账期的已完成订单
-	var result struct {
-		Count int
-		Total float64
-	}
-
-	startDate := fmt.Sprintf("%d-%02d-01", year, month)
-	endDate := time.Date(year, time.Month(month+1), 1, 0, 0, 0, 0, time.UTC)
-
-	global.DB.Table("shop_order").
-		Select("COUNT(*) as count, COALESCE(SUM(`total`), 0) as total").
-		Where("company_id = ? AND order_status = 2 AND created_at >= ? AND created_at < ?",
-			companyId, startDate, endDate).
-		Scan(&result)
-
-	// 生成账单编号
-	billNo := fmt.Sprintf("BILL%s%02d", period, companyId)
-
-	// 创建账单
-	bill := map[string]interface{}{
-		"company_id":   companyId,
-		"bill_no":      billNo,
-		"period":       period,
-		"order_count":  result.Count,
-		"total_amount": result.Total,
-		"status":       0,
-	}
-
-	return global.DB.Table("shop_bill").Create(&bill).Error
-}
-
-// GetBillList 获取账单列表
+// GetBillList 获取月度账单列表（按月聚合已完成订单）
 func (s *BillService) GetBillList(companyId uint, page, pageSize int) ([]map[string]interface{}, int64) {
 	var total int64
-	global.DB.Table("shop_bill").
-		Where("company_id = ?", companyId).
+	global.DB.Table("shop_order").
+		Where("company_id = ? AND status IN (2,3) AND status_cancel = 0 AND status_refund = 0", companyId).
 		Count(&total)
 
 	if page < 1 {
@@ -69,40 +24,72 @@ func (s *BillService) GetBillList(companyId uint, page, pageSize int) ([]map[str
 	}
 
 	var list []map[string]interface{}
-	global.DB.Table("shop_bill").
-		Where("company_id = ?", companyId).
-		Order("created_at DESC").
-		Offset((page - 1) * pageSize).
+	offset := (page - 1) * pageSize
+	global.DB.Table("shop_order").
+		Select(`DATE_FORMAT(created_at, '%Y-%m') as period,
+			COUNT(*) as order_count,
+			COALESCE(SUM(total), 0) as total_amount,
+			MIN(settlement_type) as settlement_type`).
+		Where("company_id = ? AND status IN (2,3) AND status_cancel = 0 AND status_refund = 0", companyId).
+		Group("DATE_FORMAT(created_at, '%Y-%m')").
+		Order("period DESC").
+		Offset(offset).
 		Limit(pageSize).
-		Find(&list)
+		Scan(&list)
 
 	return list, total
 }
 
-// GetBillDetail 获取账单详情
-func (s *BillService) GetBillDetail(billId uint) (map[string]interface{}, error) {
-	var bill map[string]interface{}
-	if err := global.DB.Table("shop_bill").Where("id = ?", billId).First(&bill).Error; err != nil {
+// GetBillDetailByPeriod 根据账期获取账单详情
+func (s *BillService) GetBillDetailByPeriod(companyId uint, period string) (map[string]interface{}, error) {
+	startDate := period + "-01"
+	t, err := time.Parse("2006-01-02", startDate)
+	if err != nil {
 		return nil, err
 	}
+	endDate := t.AddDate(0, 1, 0).Format("2006-01-02")
 
-	// 获取关联订单
-	var orders []map[string]interface{}
-	period := bill["period"].(string)
+	// 统计
+	var result struct {
+		Count          int
+		Total          float64
+		SettlementType int
+	}
 	global.DB.Table("shop_order").
-		Select("id, order_sn, total, order_status, created_at").
-		Where("company_id = ? AND DATE_FORMAT(created_at, '%Y-%m') = ?",
-			bill["company_id"], period).
+		Select("COUNT(*) as count, COALESCE(SUM(total), 0) as total, MIN(settlement_type) as settlement_type").
+		Where("company_id = ? AND status IN (2,3) AND status_cancel = 0 AND status_refund = 0 AND created_at >= ? AND created_at < ?",
+			companyId, startDate, endDate).
+		Scan(&result)
+
+	// 订单明细
+	var orders []map[string]interface{}
+	global.DB.Table("shop_order").
+		Select("id, order_sn, total, status, created_at, shipment_name, shipment_mobile").
+		Where("company_id = ? AND status IN (2,3) AND status_cancel = 0 AND status_refund = 0 AND created_at >= ? AND created_at < ?",
+			companyId, startDate, endDate).
 		Order("created_at DESC").
 		Find(&orders)
 
-	bill["orders"] = orders
-	return bill, nil
+	return map[string]interface{}{
+		"period":        period,
+		"order_count":   result.Count,
+		"total_amount":  result.Total,
+		"settlement_type": result.SettlementType,
+		"status":        0, // 0=未结算 1=已结算
+		"orders":        orders,
+	}, nil
 }
 
-// UpdateBillStatus 更新账单状态
-func (s *BillService) UpdateBillStatus(billId uint, status int) error {
-	return global.DB.Table("shop_bill").
-		Where("id = ?", billId).
-		Update("status", status).Error
+// UpdateBillStatusByPeriod 按账期更新结算状态
+func (s *BillService) UpdateBillStatusByPeriod(companyId uint, period string, status int) error {
+	startDate := period + "-01"
+	t, err := time.Parse("2006-01-02", startDate)
+	if err != nil {
+		return err
+	}
+	endDate := t.AddDate(0, 1, 0).Format("2006-01-02")
+	return global.DB.Table("shop_order").
+		Where("company_id = ? AND status IN (2,3) AND created_at >= ? AND created_at < ?",
+			companyId, startDate, endDate).
+		Update("settlement_type", status+1).Error // 1=月结未结 2=月结已结
 }

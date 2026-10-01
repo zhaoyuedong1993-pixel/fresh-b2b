@@ -1,6 +1,7 @@
 <template>
 	<pageWrapper>
-		<view class="select-address">
+		<!-- 未受邀用户显示地址选择 -->
+		<view class="select-address" v-if="user && user.auditStatus === 0">
 			<view class="address" v-if="shipmentType === '0'" @click="addressShow">
 				<view class="icon">
 					<u-icon name="map" color="#2979ff" size="36"></u-icon>
@@ -121,6 +122,7 @@
 		getToken,
 		getRole,
 		getSettlmentInfo,
+		getUser,
 	} from '@/store/storage.js'
 	import {
 		getDefaultAddressInfo
@@ -145,6 +147,7 @@
 			return {
 				token: '',
 				role: {},
+				user: {},
 				list: [],
 				pointGoodsId: 0,
 				addressId: 0, // 用户地址ID
@@ -179,13 +182,18 @@
 				this.$message(this.$refs.toast).error("客户类型异常，请联系管理员")
 			}
 			this.preSettlmentInfo = getSettlmentInfo()
-			if (this.preSettlmentInfo.monthUnpaid > 0) {
+			if (this.preSettlmentInfo && this.preSettlmentInfo.monthUnpaid > 0) {
 				this.showSettlmentUnpaid = true
 			}
 			console.log('pointGoodsId', this.pointGoodsId)
 		},
 		mounted() {
 			this.token = getToken()
+			this.user = getUser()
+			// 受邀用户默认自提
+			if (this.user && this.user.auditStatus === 1) {
+				this.shipmentType = '1'
+			}
 			if (!this.token) {
 				this.$message(this.$refs.toast).error("请请先登录").then(() => {
 					uni.redirectTo({
@@ -214,43 +222,52 @@
 			},
 			// 订单提交
 			async submit() {
-				const data = {
-					remarks: this.remark,
-					addressId: this.addressId,
-					shipmentType: parseInt(this.shipmentType)
-				}
-				if (this.pointGoodsId) {
-					data.pointGoodsId = this.pointGoodsId
-				}
-				const res = await createOrder(data, this.$refs.toast)
-				if (res.code !== 0) {
-					this.showPointPay = false
-					return false
-				}
-				// 如果是积分商品
-				if (this.pointGoodsId > 0) {
-					this.showPointPay = false
-					await this.$message(this.$refs.toast).success("兑换成功")
+				try {
+					// 检查用户审核状态
+					const user = getUser()
+					if (user && user.auditStatus === 0) {
+						this.$message(this.$refs.toast).error("您的账号正在审核中，暂无法下单")
+						return
+					}
+					const data = {
+						remarks: this.remark,
+						addressId: this.addressId,
+						shipmentType: parseInt(this.shipmentType)
+					}
+					if (this.pointGoodsId) {
+						data.pointGoodsId = this.pointGoodsId
+					}
+					const res = await createOrder(data, this.$refs.toast)
+					console.log('createOrder返回:', JSON.stringify(res))
+					if (res.code !== 0) {
+						console.error('创建订单失败:', res.msg)
+						return
+					}
+					// 如果是积分商品
+					if (this.pointGoodsId > 0) {
+						this.showPointPay = false
+						await this.$message(this.$refs.toast).success("兑换成功")
+						uni.redirectTo({
+							url: '/pages/order/detail?id=' + res.data.order.ID
+						})
+						return
+					}
+					// 月结用户直接提交订单，零售用户微信支付
+					// settlementType: 1=月结 0=零售
+					if (res.data.order.settlementType === 1) {
+						await this.$message(this.$refs.toast).success("订单已提交，等待配送")
+					} else {
+						if (!res.data.pay || !res.data.pay.paySign) {
+							console.error('支付信息异常:', res.data.pay)
+						}
+					}
 					uni.redirectTo({
 						url: '/pages/order/detail?id=' + res.data.order.ID
 					})
-					return true
+				} catch (e) {
+					console.error('提交订单异常:', e)
+					await this.$message(this.$refs.toast).error("提交失败，请重试")
 				}
-
-				// 月结用户直接提交订单，零售用户微信支付
-				if (this.role.authorityId === 1001) {
-					this.$message(this.$refs.toast).success("订单已提交，等待配送")
-				}else {
-					if (!res.data.pay || res.data.pay.paySign === "") {
-						this.$message(this.$refs.toast).error("交易失败，请重试")
-						return false
-					}
-					this.toPay(res.data.pay, res.data.order)
-				}
-				uni.redirectTo({
-					url: '/pages/order/detail?id=' + res.data.order.ID
-				})
-				return true
 			},
 			// 发起微信支付
 			toPay(pay, order) {

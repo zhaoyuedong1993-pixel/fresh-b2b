@@ -17,6 +17,7 @@ type OrderSearch struct {
 	StartCancelTime   *time.Time `json:"startCancelTime" form:"startCancelTime"`
 	EndCancelTime     *time.Time `json:"endCancelTime" form:"endCancelTime"`
 	SettlementMonth   *time.Time `json:"settlementMonth" form:"settlementMonth"`
+	SettlementType    *int       `json:"settlementType" form:"settlementType"`
 	UserPhone         string     `json:"userPhone" form:"userPhone"`
 	request.PageInfo
 }

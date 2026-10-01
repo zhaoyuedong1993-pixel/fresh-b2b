@@ -68,6 +68,7 @@ func Routers() *gin.Engine {
 		systemRouter.InitAuthorityBtnRouterRouter(PrivateGroup)     // 字典详情管理
 		systemRouter.InitSysConfigRouter(PrivateGroup)              // 配置参数管理
 		systemRouter.InitSysConfigPublicRouter(PublicGroup)         //配置公开参数管理
+		systemRouter.InitCompanyRouter(PrivateGroup)               // 公司管理路由
 		exampleRouter.InitFileUploadAndDownloadRouter(PrivateGroup) // 文件上传下载功能路由
 
 	}

@@ -1,34 +1,17 @@
 import service from '@/utils/request'
 
 // @Tags Bill
-// @Summary 获取账单列表
+// @Summary 获取账单列表（按月聚合）
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data query { page: 1, pageSize: 10 } true "分页参数"
 // @Success 200 {string} string "{"success":true,"data":{"list":[],"total":0},"msg":"查询成功"}"
-// @Router /business/bill/list [get]
+// @Router /order/bill/list [get]
 export const getBillList = (params) => {
   return service({
-    url: '/business/bill/list',
+    url: '/order/bill/list',
     method: 'get',
     params
-  })
-}
-
-// @Tags Bill
-// @Summary 生成账单
-// @Security ApiKeyAuth
-// @accept application/json
-// @Produce application/json
-// @Param data body { year: 2026, month: 9 } true "账单年月"
-// @Success 200 {string} string "{"success":true,"data":{},"msg":"账单生成成功"}"
-// @Router /business/bill/generate [post]
-export const generateBill = (data) => {
-  return service({
-    url: '/business/bill/generate',
-    method: 'post',
-    data
   })
 }
 
@@ -38,11 +21,12 @@ export const generateBill = (data) => {
 // @accept application/json
 // @Produce application/json
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"查询成功"}"
-// @Router /business/bill/:id [get]
-export const getBillDetail = (id) => {
+// @Router /order/bill/detail [get]
+export const getBillDetail = (params) => {
   return service({
-    url: `/business/bill/${id}`,
-    method: 'get'
+    url: '/order/bill/detail',
+    method: 'get',
+    params
   })
 }
 
@@ -52,11 +36,11 @@ export const getBillDetail = (id) => {
 // @accept application/json
 // @Produce application/json
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"状态更新成功"}"
-// @Router /business/bill/:id/status [put]
-export const updateBillStatus = (id, status) => {
+// @Router /order/bill/status [put]
+export const updateBillStatus = (data) => {
   return service({
-    url: `/business/bill/${id}/status`,
+    url: '/order/bill/status',
     method: 'put',
-    data: { status }
+    data
   })
 }

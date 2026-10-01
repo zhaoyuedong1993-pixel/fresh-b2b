@@ -71,7 +71,7 @@ export default {
         },
         login(encryptedData, iv) {
             if (!this.sessionKey) {
-                this.$message(this.$refs.toast).warn("请稍后在试试")
+                this.$message(this.$refs.toast).warning("请稍后在试试")
                 return
             }
             wxLogin({
@@ -127,7 +127,11 @@ export default {
             this.$emit("close");
         },
         otherBtnClick() {
-            this.$message(this.$refs.toast).info("开发中, 请使用微信登录")
+            // 跳转到账号密码登录页面
+            uni.navigateTo({
+                url: '/pages/login/login'
+            })
+            this.close()
         }
     }
 }

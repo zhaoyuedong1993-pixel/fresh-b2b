@@ -168,6 +168,11 @@
         </div>
       </template>
     </el-drawer>
+
+    <!-- 商品表单抽屉 -->
+    <el-drawer v-model="isGoodsFormShow" :title="goodsFormTitle" size="80%" destroy-on-close>
+      <component :is="GoodsFormComponent" v-if="isGoodsFormShow" :key="goodsFormKey" :id="goodsFormId" @close="isGoodsFormShow = false" @refresh="loadTableData" />
+    </el-drawer>
   </div>
 </template>
 
@@ -184,6 +189,7 @@ import {
   getGoodsList,
   exportGoods
 } from '@/api/goods'
+import GoodsForm from './goodsForm.vue'
 
 // 全量引入格式化工具 请按需保留
 import { getDictFunc, formatDate, filterDict } from '@/utils/format'
@@ -199,6 +205,13 @@ const specTypeOptions = ref([])
 const whetherOptions = ref([])
 const goodsAreaOptions = ref([])
 const goodsStatusOptions = ref([])
+
+// =========== 商品表单抽屉 ===========
+const isGoodsFormShow = ref(false)
+const goodsFormTitle = ref('新增商品')
+const goodsFormId = ref(0)
+const goodsFormKey = ref(0)
+const GoodsFormComponent = GoodsForm
 
 // =========== 表格控制部分 ===========
 const page = ref(1)
@@ -334,8 +347,15 @@ const deleteGoodsFunc = async(row) => {
 const router = useRouter()
 // 打开商品表单页
 const openGoodsFrom = (id) => {
-  console.log(id)
-  router.push({ name: 'goodsFrom', query: { id: id }})
+  if (id === '新增商品') {
+    goodsFormTitle.value = '新增商品'
+    goodsFormId.value = 0
+  } else {
+    goodsFormTitle.value = '变更商品'
+    goodsFormId.value = id
+  }
+  goodsFormKey.value = Date.now()
+  isGoodsFormShow.value = true
 }
 
 const dialogImageUrl = ref('')
