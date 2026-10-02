@@ -5,7 +5,7 @@
 <template>
 	<view class="cart-component">
 		<!-- 购物车列表 -->
-		<view class="cart-list" v-else>
+		<view class="cart-list" v-if="list.length > 0">
 			<scroll-view scroll-y="true" :style="{ height: height + 'px' }" refresher-enabled="true"
 				:refresher-triggered="triggered" @refresherrefresh="onRefresh" :scroll-anchoring="true">
 				<view class="cart-items">
