@@ -31,16 +31,6 @@
                 :refresher-triggered="isRefreshing" @refresherrefresh="onRefresh">
                 <shopCart :list="list" :isEdit="isEdit" @onRefresh="onRefresh" @delect="delectCart"
                     @update="updateCart" @accounts="accounts" @deleteCart="deleteCartByIndex" />
-                <view class="bottom-safe" v-if="list.length === 0">
-                    <view class="empty-card">
-                        <view class="empty-icon">
-                            <u-icon name="shopping-cart" size="120rpx" color="#CCCCCC"></u-icon>
-                        </view>
-                        <view class="empty-title">购物车是空的</view>
-                        <view class="empty-desc">快去选购心仪商品吧</view>
-                        <view class="empty-btn" @click="goHome">去选购</view>
-                    </view>
-                </view>
             </scroll-view>
         </view>
 
@@ -112,7 +102,7 @@
                 this.isRefreshing = true
                 await this.getCartListData()
                 this.isRefreshing = false
-                this.$message(this.$refs.toast).success('刷新成功')
+                uni.showToast({ title: '刷新成功', icon: 'success' })
             },
             delectCart(e) { },
             accounts(e) { },
@@ -125,7 +115,7 @@
             loginSuccess() {
                 this.hideLogin()
                 this.token = getToken()
-                this.$message(this.$refs.toast).success('登录成功')
+                uni.showToast({ title: '登录成功', icon: 'success' })
                 this.getCartListData()
             },
             goHome() {
@@ -212,9 +202,5 @@
 
     .cart-scroll {
         flex: 1;
-    }
-
-    .bottom-safe {
-        padding: 40rpx 24rpx;
     }
 </style>

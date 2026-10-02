@@ -206,7 +206,7 @@
 			},
 			async updateNum(cart, index, num) {
 				if (num < cart.goods.minCount) {
-					this.$message(this.$refs.toast).error(`商品最低购买${cart.goods.minCount}件`)
+					uni.showToast({ title: `商品最低购买${cart.goods.minCount}件`, icon: 'none' })
 					return
 				}
 				if (num < 1) num = 0
@@ -239,7 +239,7 @@
 				if (res.code !== 0) {
 					this.list.splice(this.currentDeleteIndex, 0, item)
 					this.updateStats()
-					this.$message(this.$refs.toast).error('删除失败')
+					uni.showToast({ title: '删除失败', icon: 'none' })
 				}
 			},
 			accounts() {
