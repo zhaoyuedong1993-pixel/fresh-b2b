@@ -179,7 +179,9 @@
                 this.brandList = res.data
             },
             async loadGoodsList(append = false) {
-                const data = {}
+                const data = {
+                    goodsArea: 0
+                }
                 if (this.currentCategoryId > 0) {
                     data.categoryId = this.currentCategoryId
                 }
@@ -195,10 +197,7 @@
                 data.pageSize = this.page.pageSize
 
                 this.isLoading = true
-                const res = append ? await getGoodsPageList(data) : await this.$refs.toast ?
-                    new Promise(resolve => {
-                        getGoodsPageList(data).then(resolve)
-                    }) : await getGoodsPageList(data)
+                const res = await getGoodsPageList(data)
                 if (res.code !== 0) {
                     this.isLoading = false
                     return

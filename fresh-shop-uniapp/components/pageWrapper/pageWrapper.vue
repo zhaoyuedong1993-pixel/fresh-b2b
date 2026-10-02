@@ -3,7 +3,7 @@
  * 设计规范：自然清新
 -->
 <template>
-	<view :style="{ minHeight: windowHeight + 'px', backgroundColor: bgColor }">
+	<view class="page-wrapper" :style="{ backgroundColor: bgColor }">
 		<slot></slot>
 	</view>
 </template>
@@ -13,7 +13,7 @@
 		name: 'pageWrapper',
 		data() {
 			return {
-				windowHeight: 0
+				screenHeight: 0
 			}
 		},
 		props: {
@@ -29,11 +29,16 @@
 		mounted() {
 			uni.getSystemInfo({
 				success: (res) => {
-					this.windowHeight = res.windowHeight - this.subHeight
+					this.screenHeight = res.windowHeight
 				}
 			})
 		}
 	}
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.page-wrapper {
+	min-height: 100vh;
+	box-sizing: border-box;
+}
+</style>

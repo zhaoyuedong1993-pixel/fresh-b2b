@@ -13,7 +13,7 @@
 		</view>
 
 		<!-- 页面内容 -->
-		<scroll-view scroll-y class="home-scroll" :style="{ height: scrollHeight + 'px' }" refresher-enabled
+		<scroll-view scroll-y class="home-scroll" refresher-enabled
 			:refresher-triggered="isRefreshing" @refresherrefresh="onRefresh" @scrolltolower="onScrollLower"
 			:scroll-anchoring="true">
 			<!-- 轮播图 -->
@@ -50,29 +50,23 @@
 			</view>
 
 			<!-- 商品列表 -->
-			<view class="goods-list-wrap">
-				<swiper :current="goodsTabsId" @change="onChangeGoodsTabs" :style="{ height: listSwiperHeight + 'px' }">
-					<!-- 热销商品 -->
-					<swiper-item>
-						<GoodsList :lists="goodsHotArr" price-type="¥" @onGoods="toGoodsInfo" :is-audit="isAudit"></GoodsList>
-						<view class="load-more" v-if="goodsHotArr.length > 0">
-							<u-loadmore :status="hotLoadMore" loading-text="加载中..." loadmore-text="上拉加载更多" nomore-text="没有更多了" />
-						</view>
-						<view class="empty-tip" v-if="goodsHotArr.length === 0 && !isLoading">
-							<u-empty text="暂无热销商品" :icon="emptyIcon"></u-empty>
-						</view>
-					</swiper-item>
-					<!-- 新品上市 -->
-					<swiper-item>
-						<GoodsList :lists="goodsNewArr" price-type="¥" :is-audit="isAudit"></GoodsList>
-						<view class="load-more" v-if="goodsNewArr.length > 0">
-							<u-loadmore :status="newLoadMore" loading-text="加载中..." loadmore-text="上拉加载更多" nomore-text="没有更多了" />
-						</view>
-						<view class="empty-tip" v-if="goodsNewArr.length === 0 && !isLoading">
-							<u-empty text="暂无新品" :icon="emptyIcon"></u-empty>
-						</view>
-					</swiper-item>
-				</swiper>
+			<view class="goods-list-wrap" v-if="goodsTabsId === 0">
+				<GoodsList :lists="goodsHotArr" price-type="¥" @onGoods="toGoodsInfo" :is-audit="isAudit"></GoodsList>
+				<view class="load-more" v-if="goodsHotArr.length > 0">
+					<u-loadmore :status="hotLoadMore" loading-text="加载中..." loadmore-text="上拉加载更多" nomore-text="没有更多了" />
+				</view>
+				<view class="empty-tip" v-if="goodsHotArr.length === 0 && !isLoading">
+					<u-empty text="暂无热销商品" :icon="emptyIcon"></u-empty>
+				</view>
+			</view>
+			<view class="goods-list-wrap" v-else>
+				<GoodsList :lists="goodsNewArr" price-type="¥" :is-audit="isAudit"></GoodsList>
+				<view class="load-more" v-if="goodsNewArr.length > 0">
+					<u-loadmore :status="newLoadMore" loading-text="加载中..." loadmore-text="上拉加载更多" nomore-text="没有更多了" />
+				</view>
+				<view class="empty-tip" v-if="goodsNewArr.length === 0 && !isLoading">
+					<u-empty text="暂无新品" :icon="emptyIcon"></u-empty>
+				</view>
 			</view>
 		</scroll-view>
 
@@ -124,8 +118,6 @@
 				showSettlmentUnpaid: false,
 				relationPhone: '',
 				goodsTabsId: 0,
-				scrollHeight: 1000,
-				listSwiperHeight: 600,
 				hotLoadMore: 'loadmore',
 				newLoadMore: 'loadmore',
 				hotPage: { page: 1, pageSize: 12, total: 0, isMore: true },
@@ -176,14 +168,6 @@
 				this.loginSuspendShow = false
 				this.getUserInfoData()
 			}
-		},
-		mounted() {
-			uni.getSystemInfo({
-				success: (res) => {
-					this.scrollHeight = res.windowHeight - 120
-					this.listSwiperHeight = res.windowHeight - 380
-				}
-			})
 		},
 		methods: {
 			async getUserInfoData() {
@@ -246,9 +230,6 @@
 			changeGoodsTabs(id) {
 				this.goodsTabsId = id
 			},
-			onChangeGoodsTabs(e) {
-				this.goodsTabsId = e.detail.current
-			},
 			async getGoodsListData(tabId, append = false) {
 				const data = { goodsArea: 0 }
 				if (!append) {
@@ -310,7 +291,7 @@
 				this.isRefreshing = true
 				await this.getGoodsListData(this.goodsTabsId, false)
 				this.isRefreshing = false
-				this.$message(this.$refs.toast).success("刷新成功")
+				uni.showToast({ title: '刷新成功', icon: 'success' })
 			},
 			async onScrollLower() {
 				if (this.goodsTabsId === 0) {
