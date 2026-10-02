@@ -4,15 +4,6 @@
 -->
 <template>
 	<view class="cart-component">
-		<!-- 空购物车 -->
-		<view class="empty-cart" v-if="list.length === 0">
-			<view class="empty-icon">
-				<u-icon name="shopping-cart" size="100" color="#CCCCCC"></u-icon>
-			</view>
-			<view class="empty-text">购物车为空</view>
-			<view class="empty-btn" @click="toHome">去逛逛</view>
-		</view>
-
 		<!-- 购物车列表 -->
 		<view class="cart-list" v-else>
 			<scroll-view scroll-y="true" :style="{ height: height + 'px' }" refresher-enabled="true"
@@ -249,9 +240,6 @@
 			onRefresh() {
 				this.$emit('onRefresh')
 			},
-			toHome() {
-				uni.switchTab({ url: '/pages/index/index' })
-			},
 			toGoodsDetail(id) {
 				uni.navigateTo({ url: `/pages/goods/detail?id=${id}` })
 			}
@@ -263,38 +251,6 @@
 	.cart-component {
 		width: 100%;
 		height: 100%;
-	}
-
-	.empty-cart {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		padding-top: 120rpx;
-		gap: 24rpx;
-	}
-
-	.empty-icon {
-		width: 200rpx;
-		height: 200rpx;
-		background: #F5F7F4;
-		border-radius: 50%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
-
-	.empty-text {
-		font-size: 28rpx;
-		color: #999999;
-	}
-
-	.empty-btn {
-		background: linear-gradient(135deg, #22A84F 0%, #1A9A45 100%);
-		color: #FFFFFF;
-		font-size: 28rpx;
-		padding: 20rpx 60rpx;
-		border-radius: 40rpx;
-		margin-top: 20rpx;
 	}
 
 	.cart-list {

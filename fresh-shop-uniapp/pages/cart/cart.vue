@@ -31,6 +31,16 @@
                 :refresher-triggered="isRefreshing" @refresherrefresh="onRefresh">
                 <shopCart :list="list" :isEdit="isEdit" @onRefresh="onRefresh" @delect="delectCart"
                     @update="updateCart" @accounts="accounts" @deleteCart="deleteCartByIndex" />
+                <view class="bottom-safe" v-if="list.length === 0">
+                    <view class="empty-card">
+                        <view class="empty-icon">
+                            <u-icon name="shopping-cart" size="120rpx" color="#CCCCCC"></u-icon>
+                        </view>
+                        <view class="empty-title">购物车是空的</view>
+                        <view class="empty-desc">快去选购心仪商品吧</view>
+                        <view class="empty-btn" @click="goHome">去选购</view>
+                    </view>
+                </view>
             </scroll-view>
         </view>
 
@@ -202,5 +212,9 @@
 
     .cart-scroll {
         flex: 1;
+    }
+
+    .bottom-safe {
+        padding: 40rpx 24rpx;
     }
 </style>
